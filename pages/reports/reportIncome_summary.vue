@@ -18,7 +18,7 @@
           </v-text-field>
         </v-col>
         <v-col cols="12" sm="12" md="6" class="text-center">
-          <div>ຄົ້ນຫາວັນທີ ເດືອນ ປີ  : {{value}}</div>
+          <div>ຄົ້ນຫາວັນທີ ເດືອນ ປີ  : <span style="color:red">{{value}}</span></div>
         </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="items"> </v-data-table>

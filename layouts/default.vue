@@ -200,7 +200,7 @@
       <v-toolbar-title style="color: #9155fd">{{ title }}</v-toolbar-title>
       <v-spacer />
       <div v-ripple class="text-center px-3 cursor-pointer">
-        <v-btn text rounded> <span>ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{$cookies.get('name')}}</span></v-btn>
+        <v-btn style="font" text rounded> <span class="btn">ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{$cookies.get('name')}}</span></v-btn>
       </div>
       <div v-ripple class="text-center px-3 cursor-pointer">
         <v-btn text rounded @click="signOut">
@@ -352,6 +352,9 @@ export default {
 }
 .bgcolor {
   background-color: #eff3f6;
+}
+.btn{
+    text-transform: inherit;
 }
 .appbarcolor {
   background: linear-gradient(

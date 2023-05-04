@@ -1,6 +1,6 @@
 <template >
   <div>
-    <div class="mt-5 mb-3 ml-2 font-weight-bold">ຈັດການຂໍ້ມູນຄົນເຈັບ</div>
+    <div class="mt-3 mb-3 ml-2 font-weight-bold mb-6">ຈັດການຂໍ້ມູນຄົນເຈັບ</div>
     <v-card>
       <!-- search button------------------------------- -->
       <v-row class="d-flex align-center col-12">
@@ -50,7 +50,7 @@
           <v-tooltip top color="#9155FD">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon color="#9155FD" @click="dialog = !dialog"
+                <v-icon color="#9155FD" @click="showEdit(item)"
                   >mdi-pencil-outline</v-icon
                 >
               </v-btn>
@@ -127,12 +127,13 @@
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
-              value="XOUAYANG"
+              :value="data1.name
+              "
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
-              value="XAYSOMBOUN"
+              :value="data1.address"
               outlined
               dense
               hide-details
@@ -142,7 +143,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              value="02054116066"
+              :value="data1.tel"
               outlined
               dense
               hide-details
@@ -152,7 +153,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              value="04/12/2000"
+              :value="data1.birtday"
               outlined
               dense
               hide-details
@@ -254,6 +255,7 @@ export default {
       dialog: false,
       showAddDialog: false,
       data:{},
+      data1:{},
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
@@ -269,7 +271,10 @@ export default {
       // console.log(data)
       this.data = data
       this.showDailog = true
-
+    },
+    showEdit(data1){
+     this.data1 = data1 
+     this.dialog = true 
     },
    async deletePatient(id) {
       // console.log(id)

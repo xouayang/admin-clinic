@@ -13,7 +13,12 @@ export const actions = {
         this.$cookies.set('name', data1.NAME)
         this.$cookies.set('token', data.data.token)
         this.$router.push('/')
-        this.$toast.success('ເຂົ້າສູ່ລະບົບສຳເລັດ')
+        this.$toast.success('ເຂົ້າສູ່ລະບົບສຳເລັດ', {
+          duration:2000,
+          position:'top-right',
+          iconPack:'mdi',
+          icon:'check'
+        })
       })
   },
 }

@@ -16,11 +16,21 @@ export const actions = {
     await this.$axios
       .post('http://localhost:7000/create-staff', form)
       .then((data) => {
-          this.$toast.success('ລົງທະບຽນສຳເລັດ')
-          this.$router.redirect('login')
+        this.$router.redirect('login')
+          this.$toast.success('ລົງທະບຽນສຳເລັດ', {
+            duration:3000,
+            position:'top-right',
+            iconPack:'mdi',
+            icon:'check'
+          })
       })
       .catch(() => {
-        this.$toast.error('error')
+        this.$toast.error('ກະລຸນາປ້ອນຂໍ້ມູນ?',{
+          duration:3000,
+          position:'top-right',
+          iconPack:'mdi',
+          icon:'close'
+        })
       })
   },
 }

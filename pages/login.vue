@@ -2,8 +2,6 @@
   <v-app class="background">
     <v-main class="d-flex justify-center align-center">
       <v-col cols="10" lg="4" md="6" sm="12" class="mx-auto">
-        <div> tel : 02054116077</div>
-        <div>password: xouaang</div>
         <v-card class="pa-4" elevation="5">
           <div class="d-flex justify-center align-center">
             <div>

@@ -35,21 +35,20 @@
         color="#9155FD"
         :search="searchTerm"
       >
-        <template #[`item.action`]>
+        <!-- v-slot:[`item.action`]="{item}" -->
+        <template v-slot:[`item.action`]="{ item }">
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on" @click="deleteData">
-                <v-icon color="error" @click="showDailog = !showDailog"
-                  >mdi-trash-can-outline</v-icon
-                >
+              <v-btn icon v-bind="attrs" v-on="on" @click="showSupplier(item)">
+                <v-icon color="error">mdi-trash-can-outline</v-icon>
               </v-btn>
             </template>
             <span>ລຶບ</span>
           </v-tooltip>
           <v-tooltip top color="#9155FD">
             <template #activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon color="#9155FD" @click="dialog = !dialog"
+              <v-btn icon v-bind="attrs" v-on="on" @click="showEdit(item)">
+                <v-icon color="#9155FD"
                   >mdi-pencil-outline</v-icon
                 >
               </v-btn>
@@ -73,30 +72,28 @@
         </v-toolbar>
         <v-divider></v-divider>
         <div class="mt-2 col-12">
-          <div class="d-flex align-center justify-space-around text-center">
+          <div class="d-flex align-center justify-space-between text-center">
             <v-card-text class="mb-2"
               >ຊື່ <br />
-              XOUAYANG
+              {{ showData.supplier_name }}
             </v-card-text>
             <v-card-text class="mb-2"
               >ທີ່ຢູ່ <br />
-              XAYSOMBOUN</v-card-text
-            >
+              {{ showData.supplier_address }}
+            </v-card-text>
           </div>
-          <div class="d-flex align-center justify-space-around text-center">
+          <div
+            class="d-flex align-center text-center"
+          >
             <v-card-text class="mb-2"
               >ເບີໂທລະສັບ<br />
-              02054116066
-            </v-card-text>
-            <v-card-text class="mb-2"
-              >ວັນ ເດືອນ ປີ ເກີດ <br />
-              04/12/2000
+              {{ showData.supplier_tel }}
             </v-card-text>
           </div>
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" width="100" @click="showDailog = false">
+          <v-btn color="error" width="100" @click="deleteData(showData.id)">
             <div class="text--white">ລຶບ</div>
           </v-btn>
         </v-card-actions>
@@ -120,7 +117,7 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+             :value="showEditData.supplier_name"
               outlined
               dense
               hide-details="auto"
@@ -130,7 +127,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+             :value="showEditData.supplier_address"
               outlined
               dense
               hide-details
@@ -140,21 +137,11 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+             :value="showEditData.supplier_tel"
               outlined
               dense
               hide-details
               label="ເບີໂທລະສັບ"
-              color="#9155FD"
-            />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              placeholder="XOUAYANG"
-              outlined
-              dense
-              hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
               color="#9155FD"
             />
           </v-col>
@@ -244,34 +231,46 @@
 </template>
 <script>
 export default {
-  name: "Manage_supplier",
+  name: 'Manage_supplier',
   data() {
     return {
-      searchTerm: "",
+      searchTerm: '',
       showDailog: false,
       dialog: false,
       showAddDialog: false,
+      showData: {},
+      showEditData:{},
       headers: [
-        { text: "ລຳດັບ", value: "index" },
-        { text: "ຊື່", value: "supplier_name" },
-        { text: "ເບີໂທລະສັບ", value: "supplier_tel" },
-        { text: "ທີ່ຢູ່", value: "supplier_address" },
-        { text: "Actions", value: "action" },
+        { text: 'ລຳດັບ', value: 'index' },
+        { text: 'ຊື່', value: 'supplier_name' },
+        { text: 'ເບີໂທລະສັບ', value: 'supplier_tel' },
+        { text: 'ທີ່ຢູ່', value: 'supplier_address' },
+        { text: 'Actions', value: 'action' },
       ],
-    };
+    }
   },
-   methods: {
-    deleteData () {
-    alert("HI")
+  methods: {
+    showSupplier(data) {
+      this.showData = data
+      this.showDailog = true
+    },
+    async deleteData(id) {
+      await this.$store.dispatch('supplier/deleteData', id)
+      this.showDailog = false
+      this.$store.dispatch('user/showUser')
+    },
+    showEdit(dataEdit) {
+      this.showEditData  = dataEdit
+      this.dialog = true
     }
   },
   computed: {
     supplier() {
-      return this.$store.state.user.suppliers;
+      return this.$store.state.user.suppliers
     },
   },
   async mounted() {
-    await this.$store.dispatch("user/showUser");
+    await this.$store.dispatch('user/showUser')
   },
-};
+}
 </script>

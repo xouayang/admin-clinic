@@ -16,7 +16,6 @@
           <div class="d-flex justify-center">
             <v-card-title style="color: #9155fd">ລົງທະບຽນ !</v-card-title>
           </div>
-          <v-form>
             <v-card-text>
               <v-text-field
                 v-model="staffData.name"
@@ -105,7 +104,6 @@
                 >
               </div>
             </div>
-          </v-form>
         </v-card>
       </v-col>
     </v-main>
@@ -137,6 +135,6 @@ export default {
 </script>
 <style>
 * {
-  font-family: "Noto Serif Lao", serif;
+  font-family: 'Noto Sans Lao';
 }
 </style>

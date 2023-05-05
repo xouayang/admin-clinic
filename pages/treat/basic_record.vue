@@ -15,6 +15,7 @@
             outlined
             dense
             color="#9155FD"
+            v-model="treat_data.name"
           />
           <v-text-field
             label="ອາການເບື້ອງຕົ້ນ"
@@ -22,6 +23,7 @@
             outlined
             dense
             color="#9155FD"
+            v-model="treat_data.basic"
           />
         </v-col>
         <v-col cols="12" md="6" sm="12">
@@ -31,6 +33,7 @@
             outlined
             dense
             color="#9155FD"
+            v-model="treat_data.tel"
           />
           <v-select
             label="ເລືອກລາຍການກວດ"
@@ -38,7 +41,13 @@
             outlined
             dense
             color="#9155FD"
-            :items="item"
+            :items="[
+              'ກວດລະດັບນໍ້າຕານໃນເລືອດ',
+              'ກວດລະດັບໄຂມັນໃນເລືອ',
+              'ກວດປັດສະວະ',
+              'ກວດຄວາມສົມບູນຂອງເລືອດ',
+            ]"
+            v-model="treat_data.list_check"
           />
         </v-col>
       </v-row>
@@ -50,17 +59,16 @@
         </div>
         <v-row class="col-12 d-flex justify-center">
           <v-col cols="12" md="6" sm="12">
-            <div>ຊື່ ເເລະ ນາມສະກຸນ : XOUAYANG</div>
-            <div class="mt-5">ເບີໂທລະສັບ: 02054116066</div>
+            <div>ຊື່ ເເລະ ນາມສະກຸນ : {{ treat_data.name }}</div>
+            <div class="mt-5">ເບີໂທລະສັບ: {{ treat_data.tel }}</div>
             <div class="mt-5">
               ລາຄາກວດທັງໝົດ: <span style="color: red">200000 LAK</span>
             </div>
           </v-col>
           <v-col cols="12" md="6" sm="12">
-            <div>ຊື່ ເເລະ ນາມສະກຸນ : XOUAYANG</div>
+            <div>ອາການເບື້ອງຕົ້ນ : {{ treat_data.basic }}</div>
             <div class="mt-5">
-              ລາຍການທີ່ເລືອກກວດ : ກວດລະດັບນໍ້າຕານໃນເລືອດ,ກວດລະດັບໄຂມັນໃນເລືອດ,
-              ກວດປັດສະວະ,ກວດຄວາມສົມບູນຂອງເລືອດ
+              ລາຍການທີ່ເລືອກກວດ : {{ treat_data.list_check }}
             </div>
           </v-col>
           <v-col class="d-flex justify-end">
@@ -75,18 +83,24 @@
 </template>
 <script>
 export default {
-  name: "Basic_recordPages",
+  name: 'Basic_recordPages',
   data() {
     return {
       item: [
-        "ກວດລະດັບນໍ້າຕານໃນເລືອດ",
-        "ກວດລະດັບໄຂມັນໃນເລືອດ",
-        "ກວດປັດສະວະ",
-        "ກວດຄວາມສົມບູນຂອງເລືອດ",
+        'ກວດລະດັບນໍ້າຕານໃນເລືອດ',
+        'ກວດລະດັບໄຂມັນໃນເລືອດ',
+        'ກວດປັດສະວະ',
+        'ກວດຄວາມສົມບູນຂອງເລືອດ',
       ],
-    };
+      treat_data: {
+        name: '',
+        basic: '',
+        tel: '',
+        list_check: '',
+      },
+    }
   },
-};
+}
 </script>
 <style>
 </style>

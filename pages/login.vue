@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     onLogin() {
-            this.$store.dispatch("login/signIn", {...this.signInData});
+    this.$store.dispatch("login/signIn", {...this.signInData});
     }
   },
 }

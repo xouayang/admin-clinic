@@ -31,16 +31,16 @@
 
       <v-data-table
         :headers="headers"
-        :items="items"
+        :items="staff.rows"
         :items-per-page="5"
         color="#9155FD"
         :search="searchTerm"
       >
-        <template #[`item.action`]>
+        <template #[`item.action`]="{ item }">
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon color="error" @click="showDailog = !showDailog"
+                <v-icon color="error" @click="showStaff(item)"
                   >mdi-trash-can-outline</v-icon
                 >
               </v-btn>
@@ -50,7 +50,7 @@
           <v-tooltip top color="#9155FD">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon color="#9155FD" @click="dialog = !dialog"
+                <v-icon color="#9155FD" @click="showEdit(item)"
                   >mdi-pencil-outline</v-icon
                 >
               </v-btn>
@@ -58,14 +58,9 @@
             <span>ເເກ້ໄຂ</span>
           </v-tooltip>
         </template>
-        <template #[`item.avatar`]>
-          <v-avatar>
-            <v-img
-              src="https://cdn.vuetifyjs.com/images/john.jpg"
-              alt="John"
-            ></v-img>
-          </v-avatar>
-        </template>
+        <!-- <template slot="item.index" scope="props">
+          {{ props.index + 1 }}
+        </template> -->
       </v-data-table>
     </v-card>
     <v-dialog v-model="showDailog" width="540" activator="parent" persistent>
@@ -82,27 +77,37 @@
           <div class="d-flex align-center justify-space-around text-center">
             <v-card-text class="mb-2"
               >ຊື່ <br />
-              XOUAYANG
+              {{ staffData.name }}
             </v-card-text>
             <v-card-text class="mb-2"
+              >ເພດ <br />
+              {{ staffData.gender }}
+            </v-card-text>
+          </div>
+          <div class="d-flex align-center justify-space-around text-center">
+            <v-card-text class="mb-2"
               >ທີ່ຢູ່ <br />
-              XAYSOMBOUN</v-card-text
+              {{ staffData.address }}
+            </v-card-text>
+            <v-card-text class="mb-2"
+              >ເບີໂທລະສັບ <br />
+              {{ staffData.tel }}</v-card-text
             >
           </div>
           <div class="d-flex align-center justify-space-around text-center">
             <v-card-text class="mb-2"
-              >ເບີໂທລະສັບ<br />
-              02054116066
+              >ຕຳເເໜ່ງ<br />
+              {{ staffData.position }}
             </v-card-text>
             <v-card-text class="mb-2"
-              >ວັນ ເດືອນ ປີ ເກີດ <br />
-              04/12/2000
+              >ສິດທິເຂົ້າເຖິງຂໍ້ມູນ <br />
+              {{ staffData.role }}
             </v-card-text>
           </div>
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" width="100" @click="showDailog = false">
+          <v-btn color="error" width="100" @click="deleteData(staffData.id)">
             <div class="text--white">ລຶບ</div>
           </v-btn>
         </v-card-actions>
@@ -117,7 +122,7 @@
       >
         <v-card>
           <v-toolbar dark color="#9155FD">
-            <div>ເພິ່ມຜູ້ໃຊ້</div>
+            <div>ເເກ້ໄຂຜູ້ໃຊ້</div>
             <v-spacer></v-spacer>
             <v-btn icon dark @click="dialog = false">
               <v-icon>mdi-close</v-icon>
@@ -131,24 +136,18 @@
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
+              v-model="dataEdit.name"
             />
           </v-col>
           <v-col cols="12">
-            <v-text-field
+            <v-select
               outlined
               dense
               hide-details="auto"
-              label="ຕຳເເໜ່ງ"
+              label="ເພດ"
               color="#9155FD"
-            />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              outlined
-              dense
-              hide-details
-              label="ທີ່ຢູ່"
-              color="#9155FD"
+              :items="['ຊາຍ', 'ຍິງ']"
+              v-model="dataEdit.gender"
             />
           </v-col>
           <v-col cols="12">
@@ -158,6 +157,7 @@
               hide-details
               label="ເບີໂທລະສັບ"
               color="#9155FD"
+              v-model="dataEdit.tel"
             />
           </v-col>
           <v-col cols="12">
@@ -165,9 +165,32 @@
               outlined
               dense
               hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
+              label="ທີ່ຢູ່"
               color="#9155FD"
+              v-model="dataEdit.address"
             />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              outlined
+              dense
+              hide-details
+              label="ຕຳເເໜ່ງ"
+              color="#9155FD"
+              v-model="dataEdit.position"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-select
+              outlined
+              dense
+              hide-details="auto"
+              label="ສິດທິ"
+              color="#9155FD"
+              :items="['staff', 'doctor', 'admin']"
+              v-model="dataEdit.role"
+            />
+            <div style="color: red">*ກະລຸນາກຳນົດສິດທິ</div>
           </v-col>
           <v-spacer></v-spacer>
           <div class="d-flex justify-end pa-4">
@@ -175,7 +198,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="dialog = false"
+              @click="updateData(editData.id)"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -193,7 +216,7 @@
           <v-toolbar dark color="#9155FD">
             <div>ເພິ່ມຜູ້ໃຊ້</div>
             <v-spacer></v-spacer>
-            <v-btn icon dark @click="showAddDialog = !showAddDialog">
+            <v-btn icon dark @click="showAddDialog = false">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-toolbar>
@@ -205,6 +228,7 @@
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
+              v-model="dataInput.name"
             />
           </v-col>
           <v-col cols="12">
@@ -212,18 +236,10 @@
               outlined
               dense
               hide-details="auto"
-              label="ຕຳເເໜ່ງ"
+              label="ເພດ"
               color="#9155FD"
-              :items="position"
-            />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              outlined
-              dense
-              hide-details
-              label="ທີ່ຢູ່"
-              color="#9155FD"
+              :items="['ຊາຍ', 'ຍິງ']"
+              v-model="dataInput.gender"
             />
           </v-col>
           <v-col cols="12">
@@ -233,6 +249,7 @@
               hide-details
               label="ເບີໂທລະສັບ"
               color="#9155FD"
+              v-model="dataInput.tel"
             />
           </v-col>
           <v-col cols="12">
@@ -240,20 +257,42 @@
               outlined
               dense
               hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
+              label="ລະຫັດຜ່ານ"
               color="#9155FD"
+              v-model="dataInput.password"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              outlined
+              dense
+              hide-details
+              label="ທີ່ຢູ່"
+              color="#9155FD"
+              v-model="dataInput.address"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              outlined
+              dense
+              hide-details
+              label="ຕຳເເໜ່ງ"
+              color="#9155FD"
+              v-model="dataInput.position"
             />
           </v-col>
           <v-col cols="12">
             <v-select
               outlined
               dense
-              hide-details
-              label="ກຳນົດສິດທິ"
+              hide-details="auto"
+              label="ສິດທິ"
               color="#9155FD"
-              :items="position"
+              :items="['staff', 'doctor', 'admin']"
+              v-model="dataInput.role"
             />
-            <div style="color: red">* ກະລຸນາກຳນົດສິດທິ</div>
+            <div style="color: red">*ກະລຸນາກຳນົດສິດທິ</div>
           </v-col>
           <v-spacer></v-spacer>
           <div class="d-flex justify-end pa-4">
@@ -261,7 +300,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="showAddDialog = false"
+              @click="addData"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -272,44 +311,96 @@
 </template>
 <script>
 export default {
-  name: "SettingPages",
+  name: 'SettingPages',
   data() {
     return {
-      searchTerm: "",
+      searchTerm: '',
       showDailog: false,
       dialog: false,
       showAddDialog: false,
       showPermission: false,
-      position: ["ທ່ານໝໍ", "ພະຍານບານ", "ພະນັກງານ"],
+      staffData: {},
+      editData: {},
+      dataInput: {
+        name: '',
+        gender: '',
+        tel: '',
+        password: '',
+        address: '',
+        position: '',
+        role: '',
+      },
+      dataEdit: {
+        name: '',
+        gender: '',
+        tel: '',
+        password: '',
+        address: '',
+        position: '',
+        role: '',
+      },
       headers: [
-        { text: "ລະຫັດຜູ້ໃຊ້", value: "ລະຫັດຜູ້ໃຊ້" },
-        { text: "ຮູບພາບ", value: "avatar" },
-        { text: "ຊື່", value: "ຊື່" },
-        { text: "ເບີໂທລະສັບ", value: "ເບີໂທລະສັບ" },
-        { text: "ຕຳເເໜ່ງ", value: "ຕຳເເໜ່ງ" },
-        { text: "ທີ່ຢູ່", value: "ທີ່ຢູ່" },
-        { text: "ຈັດການສິດທິ", value: "action" },
+        { text: 'ລະຫັດພະນັກງານ', value: 'employee_id' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ເພດ', value: 'gender' },
+        { text: 'ເບີໂທລະສັບ', value: 'tel' },
+        { text: 'ທີ່ຢູ່', value: 'address' },
+        { text: 'ຕຳເເໜ່ງ', value: 'position' },
+        { text: 'ສິດທິເຂົ້າເຖິງຂໍ້ມູນ', value: 'role' },
+        { text: 'ຈັດການສິດທິ', value: 'action' },
       ],
-      items: [
-        {
-          ລະຫັດຜູ້ໃຊ້: "U001",
-          ຮູບພາບ: "XXXXXXXX",
-          ຊື່: "XOUAYANG",
-          ເບີໂທລະສັບ: "02054116066",
-          ຕຳເເໜ່ງ: "Doctor",
-          ທີ່ຢູ່: "XAYSOMBOUN",
-        },
-        {
-          ລະຫັດຜູ້ໃຊ້: "U002",
-          ຮູບພາບ: "XXXXXXXX",
-          ຊື່: "Dao",
-          ເບີໂທລະສັບ: "02077975212",
-          ຕຳເເໜ່ງ: "Doctor",
-          ທີ່ຢູ່: "XAYSOMBOUN",
-        },
-      ],
-      permission: ["none", "ພະຍາບານ", "ທ່ານໝໍ"],
-    };
+    }
   },
-};
+  methods: {
+    showStaff(data) {
+      this.staffData = data
+      this.showDailog = true
+    },
+    showEdit(data1) {
+      this.editData = data1
+      this.dialog = true
+      if (this.editData) {
+        this.dataEdit.name = this.editData.name
+        this.dataEdit.gender = this.editData.gender
+        this.dataEdit.tel = this.editData.tel
+        this.dataEdit.password = this.editData.password
+        this.dataEdit.address = this.editData.address
+        this.dataEdit.position = this.editData.position
+        this.dataEdit.role = this.editData.role
+      }
+    },
+    async deleteData(id) {
+      await this.$store.dispatch('staff/deleteData', id)
+      this.showDailog = false
+      await this.$store.dispatch('staff/staffInfo')
+    },
+    async addData() {
+      await this.$store.dispatch('staff/postData', { ...this.dataInput })
+      await this.$store.dispatch('staff/staffInfo')
+      this.dataInput.name = ''
+      this.dataInput.gender = ''
+      this.dataInput.tel = ''
+      this.dataInput.password = ''
+      this.dataInput.address = ''
+      this.dataInput.position = ''
+      this.dataInput.role = ''
+      this.showAddDialog = false
+    },
+    async updateData(id) {
+      const ddd = this.dataEdit
+      console.log(this.dataEdit)
+      await this.$store.dispatch('staff/updateData', { ddd, id })
+      await this.$store.dispatch('staff/staffInfo')
+      this.dialog = false
+    },
+  },
+  computed: {
+    staff() {
+      return this.$store.state.staff.dataStaff
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('staff/staffInfo')
+  },
+}
 </script>

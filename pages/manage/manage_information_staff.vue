@@ -1,9 +1,9 @@
 <template >
-      <div>
+  <div>
     <div class="mt-5 mb-3 pb-2 ml-2 font-weight-bold">ຈັດການຂໍ້ມູນພະນັກງານ</div>
     <v-card>
       <!-- search button------------------------------- -->
-      <v-row  class="d-flex align-center col-12">
+      <v-row class="d-flex align-center col-12">
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
@@ -19,8 +19,11 @@
           </v-card-title>
         </v-col>
         <v-col cols="12" md="2" sm="3" class="d-flex justify-end">
-          <v-btn  style="width:100" color="#9155FD" @click="showAddDialog = !showAddDialog"
-            ><span style="color:white">ເພີ່ມຂໍ້ມູນພະນັກງານ</span>
+          <v-btn
+            style="width: 100"
+            color="#9155FD"
+            @click="showAddDialog = !showAddDialog"
+            ><span style="color: white">ເພີ່ມຂໍ້ມູນພະນັກງານ</span>
             <v-icon color="white">mdi-plus-outline</v-icon>
           </v-btn>
         </v-col>
@@ -55,12 +58,12 @@
             <span>ເເກ້ໄຂ</span>
           </v-tooltip>
         </template>
-        <template slot="item.index" scope="props" >
-         {{props.index + 1}}
+        <template slot="item.index" scope="props">
+          {{ props.index + 1 }}
         </template>
       </v-data-table>
     </v-card>
-    
+
     <v-dialog v-model="showDailog" width="540" activator="parent" persistent>
       <v-card>
         <v-toolbar dark color="#9155FD">
@@ -170,7 +173,7 @@
         </v-card>
       </v-dialog>
     </v-row>
-     <v-row>
+    <v-row>
       <v-dialog
         v-model="showAddDialog"
         width="600"
@@ -243,33 +246,32 @@
 </template>
 <script>
 export default {
-  name:"Manage_information_staff",
-   data() {
+  name: 'Manage_information_staff',
+  data() {
     return {
-      searchTerm: "",
+      searchTerm: '',
       showDailog: false,
       dialog: false,
-      showAddDialog : false,
+      showAddDialog: false,
       headers: [
-        { text: "ລະຫັດພະນັກງານ", value: "index" },
-        { text: "ຊື່", value: "name" },
-         { text: "ເພດ", value: "gender" },
-        { text: "ວັນ ເດືອນ ປີ ເກີດ", value: "birtday" },
-        { text: "ເບີໂທລະສັບ", value: "tel" },
-        { text: "ທີ່ຢູ່", value: "address" },
-        { text: "ສະຖານະ", value: "status" },
-        { text: "ຕຳເເໜ່ງ", value: "position" },
-        { text: "Actions", value: "action" },
+        { text: 'ລະຫັດພະນັກງານ', value: 'employee_id' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ເພດ', value: 'gender' },
+        { text: 'ເບີໂທລະສັບ', value: 'tel' },
+        { text: 'ທີ່ຢູ່', value: 'address' },
+        { text: 'ສະຖານະ', value: 'status' },
+        { text: 'ຕຳເເໜ່ງ', value: 'position' },
+        { text: 'Actions', value: 'action' },
       ],
-    };
-  }, 
+    }
+  },
   computed: {
     staff() {
-      return this.$store.state.staff.dataStaff;
+      return this.$store.state.staff.dataStaff
     },
   },
   async mounted() {
-    await this.$store.dispatch("staff/staffInfo");
+    await this.$store.dispatch('staff/staffInfo')
   },
 }
 </script>

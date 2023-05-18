@@ -200,12 +200,16 @@
       <v-toolbar-title style="color: #9155fd">{{ title }}</v-toolbar-title>
       <v-spacer />
       <div v-ripple class="text-center px-3 cursor-pointer">
-         <v-btn style="font" text rounded> 
-          <v-badge  color="success" dot><span class="btn">ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{$cookies.get('name')}}</span></v-badge>
-         </v-btn>
+        <v-btn style="font" text rounded>
+          <v-badge color="success" dot
+            ><span class="btn"
+              >ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{ $cookies.get('name') }}</span
+            ></v-badge
+          >
+        </v-btn>
       </div>
       <div v-ripple class="text-center px-3 cursor-pointer">
-        <v-btn text rounded @click="signOut">
+        <v-btn text rounded @click="showDialog">
           <v-icon color="#9155FD"> mdi-power</v-icon>
           ອອກຈາກລະບົບ
         </v-btn>
@@ -219,6 +223,36 @@
     <v-footer :absolute="!fixed" app class="d-flex justify-center">
       <span>ຄີຣນິກ ດຣ ສະຖຽນ</span>
     </v-footer>
+
+    <v-row>
+      <v-dialog
+        v-model="dialog"
+        width="600"
+        transition="dialog-bottom-transition"
+        persistent
+      >
+        <v-card>
+          <v-toolbar dark color="#9155FD">
+            <div class="text-center">ອອກຈາກລະບົບ!!!</div>
+            <v-spacer></v-spacer>
+            <v-btn icon dark @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <div class="text-center">
+            <v-card-title class="text-center">
+              ທ່ານຕ້ອງການອອກຈາກລະບົບບໍ ?
+            </v-card-title>
+          </div>
+          <v-card-actions class="d-flex justify-end">
+            <v-btn color="error" @click="signOut">
+              <v-icon color="white">mdi-power</v-icon>
+              <span style="color: white"> ອອກຈາກລະບົບ</span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </v-app>
 </template>
 
@@ -226,7 +260,7 @@
 export default {
   name: 'DefaultLayout',
   // middleware: 'onlogin',
-   middleware: 'auth',
+  middleware: 'auth',
   data() {
     return {
       sun: false,
@@ -234,6 +268,7 @@ export default {
       drawer: false,
       fixed: false,
       show: false,
+      dialog: false,
       menuList: [
         {
           icon: 'mdi-doctor',
@@ -337,6 +372,9 @@ export default {
     }
   },
   methods: {
+    showDialog() {
+      this.dialog = true
+    },
     signOut() {
       this.$cookies.remove('token')
       this.$router.push('/login')
@@ -355,8 +393,8 @@ export default {
 .bgcolor {
   background-color: #eff3f6;
 }
-.btn{
-    text-transform: inherit;
+.btn {
+  text-transform: inherit;
 }
 .appbarcolor {
   background: linear-gradient(

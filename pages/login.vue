@@ -87,8 +87,8 @@ export default {
     return {
       hidePassword: false,
       signInData: {
-        tel: '02054116077',
-        password: 'xouaang',
+        tel: '02054116033',
+        password: '123456',
       },
     }
   },

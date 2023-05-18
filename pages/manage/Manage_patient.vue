@@ -104,6 +104,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- edit -->
     <v-row>
       <v-dialog
         v-model="dialog"
@@ -127,8 +128,8 @@
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
-              :value="data1.name
-              "
+              v-model="storePatients.name"
+              
             />
           </v-col>
           <v-col cols="12">
@@ -139,6 +140,7 @@
               hide-details
               label="ທີ່ຢູ່"
               color="#9155FD"
+              v-model="storePatients.address"
             />
           </v-col>
           <v-col cols="12">
@@ -149,6 +151,7 @@
               hide-details
               label="ເບີໂທລະສັບ"
               color="#9155FD"
+              v-model="storePatients.tel"
             />
           </v-col>
           <v-col cols="12">
@@ -159,6 +162,7 @@
               hide-details
               label="ວັນ ເດືອນ ປີ ເກີດ "
               color="#9155FD"
+              v-model="storePatients.birtday"
             />
           </v-col>
           <v-spacer></v-spacer>
@@ -167,7 +171,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="dialog = false"
+              @click="updateData(data1.id)"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -256,6 +260,12 @@ export default {
       showAddDialog: false,
       data:{},
       data1:{},
+      storePatients:{
+       name:'',
+       address:'',
+       tel:'',
+       birtday:''
+      },
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
@@ -274,7 +284,16 @@ export default {
     },
     showEdit(data1){
      this.data1 = data1 
+     if(this.data1) {
+     this.storePatients.name = this.data1.name 
+     this.storePatients.address = this.data1.address
+     this.storePatients.tel = this.data1.tel
+     this.storePatients.birtday = this.data1.birtday
+     }
      this.dialog = true 
+    },
+    updateData(id) {
+     console.log(id)
     },
    async deletePatient(id) {
       // console.log(id)

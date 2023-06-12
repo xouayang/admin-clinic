@@ -34,7 +34,7 @@
           color="#9155FD"
           class="pt-3"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title class="pt-1">{{
                 group.title
@@ -42,8 +42,8 @@
             </v-list-item-content>
           </template>
           <v-list-item
-            v-for="(item, index) in group.nestMenu"
-            :key="index"
+            v-for="(item, i) in group.nestMenu"
+            :key="i"
             :to="item.to"
             router
             exact
@@ -63,7 +63,7 @@
           color="#9155FD"
           class="pt-3"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title class="pt-1">{{
                 group.title
@@ -71,8 +71,8 @@
             </v-list-item-content>
           </template>
           <v-list-item
-            v-for="(item, index) in group.nestList"
-            :key="index"
+            v-for="(item, i) in group.nestList"
+            :key="i"
             :to="item.to"
             router
             exact
@@ -92,14 +92,14 @@
           color="#9155FD"
           class="pt-3"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title>{{ group.title }}</v-list-item-title>
             </v-list-item-content>
           </template>
           <v-list-item
-            v-for="(item, index) in group.nestList1"
-            :key="index"
+            v-for="(item, i) in group.nestList1"
+            :key="i"
             :to="item.to"
             router
             exact
@@ -121,7 +121,7 @@
           color="#9155FD"
           class="pt-3"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title class="pt-1">{{
                 group.title
@@ -129,8 +129,8 @@
             </v-list-item-content>
           </template>
           <v-list-item
-            v-for="(item, index) in group.nestList2"
-            :key="index"
+            v-for="(item, i) in group.nestList2"
+            :key="i"
             :to="item.to"
             router
             exact
@@ -150,7 +150,7 @@
           color="#9155FD"
           class="pt-3"
         >
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title class="pt-1">{{
                 group.title
@@ -158,8 +158,8 @@
             </v-list-item-content>
           </template>
           <v-list-item
-            v-for="(item, index) in group.nestList3"
-            :key="index"
+            v-for="(item, i) in group.nestList3"
+            :key="i"
             :to="item.to"
             router
             exact
@@ -201,11 +201,9 @@
       <v-spacer />
       <div v-ripple class="text-center px-3 cursor-pointer">
         <v-btn style="font" text rounded>
-          <v-badge color="success" dot
-            ><span class="btn"
-              >ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{ $cookies.get('name') }}</span
-            ></v-badge
-          >
+          <v-badge color="success" dot>
+            <span class="btn">ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{ $cookies.get('name') }}</span>
+          </v-badge>
         </v-btn>
       </div>
       <div v-ripple class="text-center px-3 cursor-pointer">
@@ -269,6 +267,7 @@ export default {
       fixed: false,
       show: false,
       dialog: false,
+      dataCheck:'',
       menuList: [
         {
           icon: 'mdi-doctor',
@@ -368,7 +367,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'ຄີຣນິກ ດຣ ສະຖຽນ',
+      title: 'ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ',
     }
   },
   methods: {
@@ -379,8 +378,20 @@ export default {
       this.$cookies.remove('token')
       this.$router.push('/login')
       this.$cookies.remove('name')
+      this.$toast.success('ອອກຈາກລະບົບສຳເລັດ', {
+        duration: 2000,
+        position: 'top-right',
+        iconPack: 'mdi',
+        icon: 'check',
+      })
     },
   },
+  // mounted() {
+  //   const check = this.$cookies.get('role')
+  //   if(check === 'doctor' || check === 'staff'){
+  //      this.dataCheck = check   
+  //   }
+  // },
 }
 </script>
 <style >

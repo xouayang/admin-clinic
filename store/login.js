@@ -13,6 +13,7 @@ export const actions = {
         )
         // console.log(data1)
         this.$cookies.set('name', data1.NAME)
+        this.$cookies.set('role', data1.ROLE)
         this.$cookies.set('token', data.data.token)
         this.$router.push('/')
         this.$toast.success('ເຂົ້າສູ່ລະບົບສຳເລັດ', {

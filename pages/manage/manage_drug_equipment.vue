@@ -7,9 +7,9 @@
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
-              prepend-inner-icon="mdi-magnify"
               v-model="searchTerm"
-              label="ຄົ້ນຫາຕາມຊື່"
+              prepend-inner-icon="mdi-magnify"
+              label="ຄົ້ນຫາ"
               outlined
               hide-details
               dense
@@ -239,7 +239,7 @@
 </template>
 <script>
 export default {
-   name:"manage_drug_equipment" ,
+   name:"ManageDrugEquipment" ,
    data() {
     return {
       searchTerm: "",

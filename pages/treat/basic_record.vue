@@ -10,32 +10,33 @@
       <v-row class="d-flex align-center col-12">
         <v-col cols="12" md="6" sm="12">
           <v-text-field
+            v-model="treat_data.name"
             label="ຊື່ ເເລະ ນາມສະກຸນ"
             prepend-inner-icon="mdi-account-outline"
             outlined
             dense
             color="#9155FD"
-            v-model="treat_data.name"
           />
           <v-text-field
+            v-model="treat_data.basic"
             label="ອາການເບື້ອງຕົ້ນ"
             prepend-inner-icon="mdi-doctor"
             outlined
             dense
             color="#9155FD"
-            v-model="treat_data.basic"
           />
         </v-col>
         <v-col cols="12" md="6" sm="12">
           <v-text-field
+            v-model="treat_data.tel"
             label="ເບີໂທລະສັບ"
             prepend-inner-icon="mdi-phone-outline"
             outlined
             dense
             color="#9155FD"
-            v-model="treat_data.tel"
           />
           <v-select
+            v-model="treat_data.list_check"
             label="ເລືອກລາຍການກວດ"
             multiple
             outlined
@@ -47,7 +48,6 @@
               'ກວດປັດສະວະ',
               'ກວດຄວາມສົມບູນຂອງເລືອດ',
             ]"
-            v-model="treat_data.list_check"
           />
         </v-col>
       </v-row>
@@ -83,7 +83,7 @@
 </template>
 <script>
 export default {
-  name: 'Basic_recordPages',
+  name: 'BasicRecordPages',
   data() {
     return {
       item: [

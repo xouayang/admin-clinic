@@ -9,8 +9,8 @@
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
-              prepend-inner-icon="mdi-magnify"
               v-model="searchTerm"
+              prepend-inner-icon="mdi-magnify"
               label="ຄົ້ນຫາ"
               outlined
               hide-details
@@ -116,22 +116,22 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
+              v-model="editInformation.name"
               outlined
               dense
               hide-details="auto"
               label="ຊື່ລາຍການກວດ"
               color="#9155FD"
-              v-model="editInformation.name"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="editInformation.price"
               outlined
               dense
               hide-details
               label="ລາຄາ"
               color="#9155FD"
-              v-model="editInformation.price"
             />
           </v-col>
           <v-spacer></v-spacer>
@@ -202,7 +202,7 @@
 </template>
 <script>
 export default {
-  name: 'Manage_checklistsPages',
+  name: 'ManageChecklistsPages',
   data() {
     return {
       searchTerm: '',
@@ -221,12 +221,19 @@ export default {
       },
 
       headers: [
-        { text: 'ລະຫັດ', value: 'ລະຫັດ' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ລາຄາ', value: 'price' },
         { text: 'Actions', value: 'action' },
       ],
     }
+  },
+    computed: {
+    showDiseas() {
+      return this.$store.state.disease.dataDisase
+    },
+  },
+    async mounted() {
+    await this.$store.dispatch('disease/getAll')
   },
   methods: {
     async addData() {
@@ -260,14 +267,6 @@ export default {
       await this.$store.dispatch('disease/getAll');
       this.dialog = false;
     },
-  },
-  computed: {
-    showDiseas() {
-      return this.$store.state.disease.dataDisase
-    },
-  },
-  async mounted() {
-    await this.$store.dispatch('disease/getAll')
   },
 }
 </script>

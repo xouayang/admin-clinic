@@ -52,56 +52,56 @@
           <v-form ref="anyName">
             <v-col cols="12">
               <v-text-field
+                v-model="item.id"
                 outlined
                 dense
                 hide-details="auto"
                 label="ລະຫັດນຳເຂົ້າ"
                 color="#9155FD"
                 prepend-inner-icon="mdi-barcode"
-                v-model="item.id"
               />
             </v-col>
             <v-col cols="12">
               <v-text-field
+                v-model="item.name"
                 outlined
                 dense
                 hide-details="auto"
                 label="ຊື່ຢາ"
                 color="#9155FD"
                 prepend-inner-icon="mdi-alpha-m-circle-outline"
-                v-model="item.name"
               />
             </v-col>
             <v-col cols="12">
               <v-select
+                v-model="item.category"
                 outlined
                 dense
                 hide-details
                 label="ປະເພດຢາ"
                 color="#9155FD"
                 prepend-inner-icon="mdi-format-list-bulleted-type"
-                v-model="item.category"
               />
             </v-col>
             <v-col cols="12">
               <v-select
+                v-model="item.unit"
                 outlined
                 dense
                 hide-details
                 label="ຫົວໜ່ວຍ"
                 color="#9155FD"
                 prepend-inner-icon="mdi-hours-24"
-                v-model="item.unit"
               />
             </v-col>
             <v-col cols="12">
               <v-text-field
+                v-model="value"
                 outlined
                 dense
                 hide-details
                 label="ວັນ ເດືອນ ປີ ໝົດອາຍຸ"
                 color="#9155FD"
-                v-model="value"
               >
                 <template #append>
                   <DataPicker v-model="value" />
@@ -123,7 +123,7 @@
 </template>
 <script>
 export default {
-  name: "Import_pages",
+  name: "ImportPages",
   data() {
     return {
       value: null,

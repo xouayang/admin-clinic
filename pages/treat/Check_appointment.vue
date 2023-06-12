@@ -78,7 +78,7 @@
 
 <script>
 export default {
-  name: "Check_appointment",
+  name: "CheckAppointment",
   data() {
     return {
       search:'',
@@ -125,7 +125,7 @@ export default {
       ],
     };
   },
-  methods: {},
   mounted() {},
+  methods: {},
 };
 </script>

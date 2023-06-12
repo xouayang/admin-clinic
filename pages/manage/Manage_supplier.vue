@@ -7,8 +7,8 @@
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
-              prepend-inner-icon="mdi-magnify"
               v-model="searchTerm"
+              prepend-inner-icon="mdi-magnify"
               label="ຄົ້ນຫາຕາມຊື່"
               outlined
               hide-details
@@ -36,7 +36,7 @@
         :search="searchTerm"
       >
         <!-- v-slot:[`item.action`]="{item}" -->
-        <template v-slot:[`item.action`]="{ item }">
+        <template #[`item.action`]="{ item }">
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on" @click="showSupplier(item)">
@@ -231,7 +231,7 @@
 </template>
 <script>
 export default {
-  name: 'Manage_supplier',
+  name: 'ManageSupplier',
   data() {
     return {
       searchTerm: '',
@@ -249,6 +249,14 @@ export default {
       ],
     }
   },
+    computed: {
+    supplier() {
+      return this.$store.state.user.suppliers
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('user/showUser')
+  },
   methods: {
     showSupplier(data) {
       this.showData = data
@@ -263,14 +271,6 @@ export default {
       this.showEditData  = dataEdit
       this.dialog = true
     }
-  },
-  computed: {
-    supplier() {
-      return this.$store.state.user.suppliers
-    },
-  },
-  async mounted() {
-    await this.$store.dispatch('user/showUser')
   },
 }
 </script>

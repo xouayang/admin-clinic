@@ -53,7 +53,7 @@
 </template>
 <script>
 export default {
-  name: "Bill_pages",
+  name: "BillPages",
   data() {
     return {
       title: "ໃບບິນຈ່າຍເງິນ",

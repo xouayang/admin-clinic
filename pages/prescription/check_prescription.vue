@@ -6,9 +6,9 @@
         <v-col cols="12" md="10" sm="12" class="d-flex">
           <v-col cols="12" md="8">
             <v-text-field
+              id="sale"
               name="sale"
               label="ລະຫັດບາໂຄດ"
-              id="sale"
               prepend-inner-icon="mdi-barcode"
               outlined
               dense

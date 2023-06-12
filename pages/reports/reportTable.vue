@@ -89,7 +89,7 @@
   
   <script>
 export default {
-  name: "Report_Pages",
+  name: "ReportPages",
 
   data() {
     return {

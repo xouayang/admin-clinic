@@ -5,12 +5,12 @@
       <v-row class="col-12 d-flex justify-center">
         <v-col cols="12" sm="12" md="6">
           <v-text-field
+            v-model="value"
             clearable
             outlined
             dense
             color="#9155FD"
             label="ວັນ ເດືອນ ປີ"
-            v-model="value"
           >
             <template #append>
               <DataPicker v-model="value" />
@@ -28,7 +28,7 @@
 </template>
 <script>
 export default {
-  name:"ReportDrug_equipment" ,
+  name:"ReportDrugEquipment" ,
   data() {
     return {
         value:'',

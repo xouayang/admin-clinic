@@ -7,8 +7,8 @@
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
-              prepend-inner-icon="mdi-magnify"
               v-model="searchTerm"
+              prepend-inner-icon="mdi-magnify"
               label="ຄົ້ນຫາ"
               outlined
               hide-details
@@ -131,64 +131,64 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
+              v-model="dataEdit.name"
               outlined
               dense
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
-              v-model="dataEdit.name"
             />
           </v-col>
           <v-col cols="12">
             <v-select
+              v-model="dataEdit.gender"
               outlined
               dense
               hide-details="auto"
               label="ເພດ"
               color="#9155FD"
               :items="['ຊາຍ', 'ຍິງ']"
-              v-model="dataEdit.gender"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataEdit.tel"
               outlined
               dense
               hide-details
               label="ເບີໂທລະສັບ"
               color="#9155FD"
-              v-model="dataEdit.tel"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataEdit.address"
               outlined
               dense
               hide-details
               label="ທີ່ຢູ່"
               color="#9155FD"
-              v-model="dataEdit.address"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataEdit.position"
               outlined
               dense
               hide-details
               label="ຕຳເເໜ່ງ"
               color="#9155FD"
-              v-model="dataEdit.position"
             />
           </v-col>
           <v-col cols="12">
             <v-select
+              v-model="dataEdit.role"
               outlined
               dense
               hide-details="auto"
               label="ສິດທິ"
               color="#9155FD"
               :items="['staff', 'doctor', 'admin']"
-              v-model="dataEdit.role"
             />
             <div style="color: red">*ກະລຸນາກຳນົດສິດທິ</div>
           </v-col>
@@ -223,74 +223,74 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
+              v-model="dataInput.name"
               outlined
               dense
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
-              v-model="dataInput.name"
             />
           </v-col>
           <v-col cols="12">
             <v-select
+              v-model="dataInput.gender"
               outlined
               dense
               hide-details="auto"
               label="ເພດ"
               color="#9155FD"
               :items="['ຊາຍ', 'ຍິງ']"
-              v-model="dataInput.gender"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataInput.tel"
               outlined
               dense
               hide-details
               label="ເບີໂທລະສັບ"
               color="#9155FD"
-              v-model="dataInput.tel"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataInput.password"
               outlined
               dense
               hide-details
               label="ລະຫັດຜ່ານ"
               color="#9155FD"
-              v-model="dataInput.password"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataInput.address"
               outlined
               dense
               hide-details
               label="ທີ່ຢູ່"
               color="#9155FD"
-              v-model="dataInput.address"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="dataInput.position"
               outlined
               dense
               hide-details
               label="ຕຳເເໜ່ງ"
               color="#9155FD"
-              v-model="dataInput.position"
             />
           </v-col>
           <v-col cols="12">
             <v-select
+              v-model="dataInput.role"
               outlined
               dense
               hide-details="auto"
               label="ສິດທິ"
               color="#9155FD"
               :items="['staff', 'doctor', 'admin']"
-              v-model="dataInput.role"
             />
             <div style="color: red">*ກະລຸນາກຳນົດສິດທິ</div>
           </v-col>
@@ -351,6 +351,14 @@ export default {
       ],
     }
   },
+    computed: {
+    staff() {
+      return this.$store.state.staff.dataStaff
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('staff/staffInfo')
+  },
   methods: {
     showStaff(data) {
       this.staffData = data
@@ -393,14 +401,6 @@ export default {
       await this.$store.dispatch('staff/staffInfo')
       this.dialog = false
     },
-  },
-  computed: {
-    staff() {
-      return this.$store.state.staff.dataStaff
-    },
-  },
-  async mounted() {
-    await this.$store.dispatch('staff/staffInfo')
   },
 }
 </script>

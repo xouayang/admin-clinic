@@ -5,6 +5,6 @@
 </template>
 <script>
 export default {
-  name:"Manage_appointmentPages"   
+  name:"ManageAppointmentPages"   
 }
 </script>

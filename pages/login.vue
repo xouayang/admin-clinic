@@ -11,7 +11,7 @@
                 alt="logo_clinic"
               />
             </div>
-            <div class="ml-3" style="color: #9155fd">ຄີຣນິກ ດຣ ສະຖຽນ</div>
+            <div class="ml-3" style="color: #9155fd">ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</div>
           </div>
           <div class="d-flex justify-center">
             <v-card-title style="color: #9155fd"
@@ -22,6 +22,7 @@
             <v-card-text>
               <v-text-field
                 v-model="signInData.tel"
+                :rules="[() => !!signInData.tel]"
                 outlined
                 dense
                 append-icon="mdi-phone-outline"
@@ -33,6 +34,7 @@
               />
               <v-text-field
                 v-model="signInData.password"
+                :rules="[() => !!signInData.password]"
                 :type="hidePassword ? 'text' : 'password'"
                 label="ລະຫັດຜ່ານ"
                 outlined

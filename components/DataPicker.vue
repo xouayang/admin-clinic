@@ -1,13 +1,14 @@
 <template>
   <v-menu v-model="menu" offset-y :close-on-content-click="false">
-    <template v-slot:activator="{ on }">
-      <v-icon v-on="on" color="primary">mdi-calendar</v-icon>
+    <template #activator="{ on }">
+      <v-icon color="primary" v-on="on">mdi-calendar</v-icon>
     </template>
     <v-date-picker v-model="picker" @click="menu = false" />
   </v-menu>
 </template>
 <script>
 export default {
+  name:"DataPicker",
   props: {
     value: {
       type: String,

@@ -7,8 +7,8 @@
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
-              prepend-inner-icon="mdi-magnify"
               v-model="searchTerm"
+              prepend-inner-icon="mdi-magnify"
               label="ຄົ້ນຫາ"
               outlined
               hide-details
@@ -36,7 +36,7 @@
         color="#9155FD"
         :search="searchTerm"
       >
-        <template v-slot:[`item.action`]="{item}">
+        <template #[`item.action`]="{ item }">
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
@@ -78,21 +78,21 @@
           <div class="d-flex align-center justify-space-around text-center">
             <v-card-text class="mb-2"
               >ຊື່<br />
-              {{data.name}}
+              {{ data.name }}
             </v-card-text>
             <v-card-text class="mb-2"
               >ທີ່ຢູ່ <br />
-              {{data.address}}</v-card-text
+              {{ data.address }}</v-card-text
             >
           </div>
           <div class="d-flex align-center justify-space-around text-center">
             <v-card-text class="mb-2"
               >ເບີໂທລະສັບ<br />
-              {{data.tel}}
+              {{ data.tel }}
             </v-card-text>
             <v-card-text class="mb-2"
               >ວັນ ເດືອນ ປີ ເກີດ <br />
-              {{data.birtday}}
+              {{ data.birtday }}
             </v-card-text>
           </div>
         </div>
@@ -123,46 +123,45 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
+              v-model="storePatients.name"
               outlined
               dense
               hide-details="auto"
               label="ຊື່"
               color="#9155FD"
-              v-model="storePatients.name"
-              
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="storePatients.address"
               :value="data1.address"
               outlined
               dense
               hide-details
               label="ທີ່ຢູ່"
               color="#9155FD"
-              v-model="storePatients.address"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="storePatients.tel"
               :value="data1.tel"
               outlined
               dense
               hide-details
               label="ເບີໂທລະສັບ"
               color="#9155FD"
-              v-model="storePatients.tel"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="storePatients.birtday"
               :value="data1.birtday"
               outlined
               dense
               hide-details
               label="ວັນ ເດືອນ ປີ ເກີດ "
               color="#9155FD"
-              v-model="storePatients.birtday"
             />
           </v-col>
           <v-spacer></v-spacer>
@@ -258,13 +257,13 @@ export default {
       showDailog: false,
       dialog: false,
       showAddDialog: false,
-      data:{},
-      data1:{},
-      storePatients:{
-       name:'',
-       address:'',
-       tel:'',
-       birtday:''
+      data: {},
+      data1: {},
+      storePatients: {
+        name: '',
+        address: '',
+        tel: '',
+        birtday: '',
       },
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
@@ -276,32 +275,6 @@ export default {
       ],
     }
   },
-  methods: {
-    showPatient(data){
-      // console.log(data)
-      this.data = data
-      this.showDailog = true
-    },
-    showEdit(data1){
-     this.data1 = data1 
-     if(this.data1) {
-     this.storePatients.name = this.data1.name 
-     this.storePatients.address = this.data1.address
-     this.storePatients.tel = this.data1.tel
-     this.storePatients.birtday = this.data1.birtday
-     }
-     this.dialog = true 
-    },
-    updateData(id) {
-     console.log(id)
-    },
-   async deletePatient(id) {
-      // console.log(id)
-     await this.$store.dispatch('patient/deleteData', id)
-     this.showDailog = false
-     this.$store.dispatch('patient/patientInfo')
-    },
-  },
   computed: {
     patient() {
       return this.$store.state.patient.dataPatients
@@ -309,6 +282,32 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('patient/patientInfo')
+  },
+  methods: {
+    showPatient(data) {
+      // console.log(data)
+      this.data = data
+      this.showDailog = true
+    },
+    showEdit(data1) {
+      this.data1 = data1
+      if (this.data1) {
+        this.storePatients.name = this.data1.name
+        this.storePatients.address = this.data1.address
+        this.storePatients.tel = this.data1.tel
+        this.storePatients.birtday = this.data1.birtday
+      }
+      this.dialog = true
+    },
+    updateData(id) {
+      console.log(id)
+    },
+    async deletePatient(id) {
+      // console.log(id)
+      await this.$store.dispatch('patient/deleteData', id)
+      this.showDailog = false
+      this.$store.dispatch('patient/patientInfo')
+    },
   },
 }
 </script>

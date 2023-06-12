@@ -4,7 +4,7 @@
     <v-card>
       <!-- search button------------------------------- -->
       <v-row class="d-flex align-center col-12">
-        <v-col cols="12" md="10" sm="12">
+        <v-col cols="12" md="12" sm="12">
           <v-card-title>
             <v-text-field
               v-model="searchTerm"
@@ -18,7 +18,7 @@
             />
           </v-card-title>
         </v-col>
-        <v-col cols="12" md="2" sm="3" class="d-flex justify-end">
+        <!-- <v-col cols="12" md="2" sm="3" class="d-flex justify-end">
           <v-btn
             style="width: 100"
             color="#9155FD"
@@ -26,7 +26,7 @@
             ><span style="color: white">ເພີ່ມຂໍ້ມູນຄົນເຈັບ</span>
             <v-icon color="white">mdi-plus-outline</v-icon>
           </v-btn>
-        </v-col>
+        </v-col> -->
       </v-row>
 
       <v-data-table
@@ -285,7 +285,6 @@ export default {
   },
   methods: {
     showPatient(data) {
-      // console.log(data)
       this.data = data
       this.showDailog = true
     },
@@ -299,11 +298,13 @@ export default {
       }
       this.dialog = true
     },
-    updateData(id) {
-      console.log(id)
+    async updateData(id) {
+      const data = this.storePatients
+      await this.$store.dispatch('patient/updateData', { data, id })
+      await this.$store.dispatch('patient/patientInfo')
+      this.dialog = false
     },
     async deletePatient(id) {
-      // console.log(id)
       await this.$store.dispatch('patient/deleteData', id)
       this.showDailog = false
       this.$store.dispatch('patient/patientInfo')

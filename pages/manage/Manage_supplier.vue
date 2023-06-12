@@ -9,7 +9,7 @@
             <v-text-field
               v-model="searchTerm"
               prepend-inner-icon="mdi-magnify"
-              label="ຄົ້ນຫາຕາມຊື່"
+              label="ຄົ້ນຫາ"
               outlined
               hide-details
               dense
@@ -35,7 +35,6 @@
         color="#9155FD"
         :search="searchTerm"
       >
-        <!-- v-slot:[`item.action`]="{item}" -->
         <template #[`item.action`]="{ item }">
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
@@ -48,9 +47,7 @@
           <v-tooltip top color="#9155FD">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on" @click="showEdit(item)">
-                <v-icon color="#9155FD"
-                  >mdi-pencil-outline</v-icon
-                >
+                <v-icon color="#9155FD">mdi-pencil-outline</v-icon>
               </v-btn>
             </template>
             <span>ເເກ້ໄຂ</span>
@@ -82,9 +79,7 @@
               {{ showData.supplier_address }}
             </v-card-text>
           </div>
-          <div
-            class="d-flex align-center text-center"
-          >
+          <div class="d-flex align-center text-center">
             <v-card-text class="mb-2"
               >ເບີໂທລະສັບ<br />
               {{ showData.supplier_tel }}
@@ -117,7 +112,7 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
-             :value="showEditData.supplier_name"
+              v-model="supplierUpdate.supplier_name"
               outlined
               dense
               hide-details="auto"
@@ -127,7 +122,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-             :value="showEditData.supplier_address"
+              v-model="supplierUpdate.supplier_address"
               outlined
               dense
               hide-details
@@ -137,7 +132,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-             :value="showEditData.supplier_tel"
+              v-model="supplierUpdate.supplier_tel"
               outlined
               dense
               hide-details
@@ -151,7 +146,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="dialog = false"
+              @click="editData(showEditData.id)"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -176,7 +171,7 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="supplierInfo.supplier_name"
               outlined
               dense
               hide-details="auto"
@@ -186,7 +181,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="supplierInfo.supplier_address"
               outlined
               dense
               hide-details
@@ -196,21 +191,11 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="supplierInfo.supplier_tel"
               outlined
               dense
               hide-details
               label="ເບີໂທລະສັບ"
-              color="#9155FD"
-            />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              placeholder="XOUAYANG"
-              outlined
-              dense
-              hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
               color="#9155FD"
             />
           </v-col>
@@ -220,7 +205,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="showAddDialog = false"
+              @click="addData"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -234,12 +219,22 @@ export default {
   name: 'ManageSupplier',
   data() {
     return {
+      supplierInfo: {
+        supplier_name: '',
+        supplier_tel: '',
+        supplier_address: '',
+      },
+      supplierUpdate: {
+        supplier_name: '',
+        supplier_tel: '',
+        supplier_address: '',
+      },
       searchTerm: '',
       showDailog: false,
       dialog: false,
       showAddDialog: false,
       showData: {},
-      showEditData:{},
+      showEditData: {},
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'supplier_name' },
@@ -249,7 +244,7 @@ export default {
       ],
     }
   },
-    computed: {
+  computed: {
     supplier() {
       return this.$store.state.user.suppliers
     },
@@ -268,9 +263,29 @@ export default {
       this.$store.dispatch('user/showUser')
     },
     showEdit(dataEdit) {
-      this.showEditData  = dataEdit
+      this.showEditData = dataEdit
       this.dialog = true
-    }
+      if (this.supplierInfo) {
+        this.supplierUpdate.supplier_name = this.showEditData.supplier_name
+        this.supplierUpdate.supplier_address =
+          this.showEditData.supplier_address
+        this.supplierUpdate.supplier_tel = this.showEditData.supplier_tel
+      }
+    },
+    async editData(id) {
+      const data = this.supplierUpdate
+      await this.$store.dispatch('supplier/updateData', { data, id })
+      await this.$store.dispatch('user/showUser')
+      this.dialog = false
+    },
+    async addData() {
+      await this.$store.dispatch('supplier/postData', { ...this.supplierInfo })
+      this.supplierInfo.supplier_name = ''
+      this.supplierInfo.supplier_tel = ''
+      this.supplierInfo.supplier_address = ''
+      await this.$store.dispatch('user/showUser')
+      this.showAddDialog = false
+    },
   },
 }
 </script>

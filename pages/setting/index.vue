@@ -224,6 +224,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="dataInput.name"
+              :rules="[() => !!dataInput.name]"
               outlined
               dense
               hide-details="auto"
@@ -234,6 +235,7 @@
           <v-col cols="12">
             <v-select
               v-model="dataInput.gender"
+              :rules="[() => !!dataInput.gender]"
               outlined
               dense
               hide-details="auto"
@@ -245,6 +247,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="dataInput.tel"
+              :rules="[() => !!dataInput.tel]"
               outlined
               dense
               hide-details
@@ -255,6 +258,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="dataInput.password"
+              :rules="[() => !!dataInput.password]"
               outlined
               dense
               hide-details
@@ -265,6 +269,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="dataInput.address"
+              :rules="[() => !!dataInput.address]"
               outlined
               dense
               hide-details
@@ -275,6 +280,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="dataInput.position"
+              :rules="[() => !!dataInput.position]"
               outlined
               dense
               hide-details
@@ -285,6 +291,7 @@
           <v-col cols="12">
             <v-select
               v-model="dataInput.role"
+              :rules="[() => !!dataInput.role]"
               outlined
               dense
               hide-details="auto"
@@ -351,7 +358,7 @@ export default {
       ],
     }
   },
-    computed: {
+  computed: {
     staff() {
       return this.$store.state.staff.dataStaff
     },
@@ -396,7 +403,6 @@ export default {
     },
     async updateData(id) {
       const ddd = this.dataEdit
-      console.log(this.dataEdit)
       await this.$store.dispatch('staff/updateData', { ddd, id })
       await this.$store.dispatch('staff/staffInfo')
       this.dialog = false

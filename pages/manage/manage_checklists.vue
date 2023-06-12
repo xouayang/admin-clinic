@@ -167,22 +167,22 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
+              v-model="storeData.name"
               outlined
               dense
               hide-details="auto"
               label="ຊື່ລາຍການກວດ"
               color="#9155FD"
-              v-model="storeData.name"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
+              v-model="storeData.price"
               outlined
               dense
               hide-details
               label="ລາຄາ"
               color="#9155FD"
-              v-model="storeData.price"
             />
           </v-col>
           <v-spacer></v-spacer>

@@ -4,7 +4,7 @@
     <v-card>
       <!-- search button------------------------------- -->
       <v-row class="d-flex align-center col-12">
-        <v-col cols="12" md="10" sm="12">
+        <v-col cols="12" md="12" sm="12">
           <v-card-title>
             <v-text-field
               v-model="searchTerm"
@@ -18,15 +18,6 @@
             />
           </v-card-title>
         </v-col>
-        <v-col cols="12" md="2" sm="3" class="d-flex justify-end">
-          <v-btn
-            style="width: 100"
-            color="#9155FD"
-            @click="showAddDialog = !showAddDialog"
-            ><span style="color: white">ເພີ່ມຂໍ້ມູນພະນັກງານ</span>
-            <v-icon color="white">mdi-plus-outline</v-icon>
-          </v-btn>
-        </v-col>
       </v-row>
 
       <v-data-table
@@ -36,7 +27,7 @@
         color="#9155FD"
         :search="searchTerm"
       >
-        <template #[`item.action`]>
+        <!-- <template #[`item.action`]>
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
@@ -57,7 +48,7 @@
             </template>
             <span>ເເກ້ໄຂ</span>
           </v-tooltip>
-        </template>
+        </template> -->
         <template slot="item.index" scope="props">
           {{ props.index + 1 }}
         </template>
@@ -260,8 +251,7 @@ export default {
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ສະຖານະ', value: 'status' },
-        { text: 'ຕຳເເໜ່ງ', value: 'position' },
-        { text: 'Actions', value: 'action' },
+        { text: 'ຕຳເເໜ່ງ', value: 'position' }
       ],
     }
   },

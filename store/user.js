@@ -24,7 +24,6 @@ export const actions = {
  async showUser({commit}) {
      await  this.$axios.get('http://localhost:7000/get-suppliers').then(user => {
            commit("setUser", user.data)
-          //  console.log(user.data.rows)
        })
    },
 

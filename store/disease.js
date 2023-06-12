@@ -56,8 +56,6 @@ export const actions = {
   async updateData({commit},dataDisease) {
     const data1 = dataDisease.data
     const id = dataDisease.id
-    console.log(">>>>>>>>>>>>>",data1)
-    console.log(id)
     await this.$axios
       .put(`http://localhost:7000/update/${id}`, data1)
       .then(() => {

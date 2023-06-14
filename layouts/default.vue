@@ -8,7 +8,172 @@
       app
       width="290"
     >
-      <v-list>
+      <v-list v-if="dataCheck">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="'A' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- drop down menu -->
+        <v-list-group
+          v-for="(group, index) in menuItems"
+          :key="'B' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestMenu"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+          v-for="(group, index) in menuList"
+          :key="'C' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+          v-for="(group, index) in menuList1"
+          :key="'D' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title>{{ group.title }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList1"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+          v-for="(group, index) in menuList2"
+          :key="'E' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList2"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+          v-for="(group, index) in menuList3"
+          :key="'F' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList3"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+
+        <!-- ************************ setting *********************************** -->
+      </v-list>
+      <v-list v-else>
         <v-list-item
           v-for="(item, i) in items"
           :key="'A' + i"
@@ -200,11 +365,62 @@
       <v-toolbar-title style="color: #9155fd">{{ title }}</v-toolbar-title>
       <v-spacer />
       <div v-ripple class="text-center px-3 cursor-pointer">
-        <v-btn style="font" text rounded>
-          <v-badge color="success" dot>
-            <span class="btn">ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{ $cookies.get('name') }}</span>
-          </v-badge>
-        </v-btn>
+        <v-menu offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              color="#9155FD"
+              dark
+              style="font"
+              text
+              rounded
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-badge color="success" dot>
+                <span class="btn"
+                  >ຜູ້ເຂົ້າໃໍຊ້ລະບົບ : {{ $cookies.get('name') }}</span
+                >
+              </v-badge>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-list>
+              <v-list-item>
+                <v-list-item-avatar color="#9155FD">
+                  <v-icon color="white">mdi-account-outline</v-icon>
+                </v-list-item-avatar>
+                <v-list-item-title>{{
+                  $cookies.get('name')
+                }}</v-list-item-title>
+              </v-list-item>
+              <v-divider></v-divider>
+              <div class="container">
+                 <v-list-item-title
+                  >ເພດ : {{ $cookies.get('gender') }}</v-list-item-title
+                >
+                <v-list-item-title
+                  >ທີ່ຢຸູ : {{ $cookies.get('address') }}</v-list-item-title
+                >
+                <v-list-item-title
+                  >ເບີໂທລະສັບ : {{ $cookies.get('tel') }}</v-list-item-title
+                >
+                <v-list-item-title
+                  >ຕຳເເໜ່ງ : {{ $cookies.get('position') }}</v-list-item-title
+                >
+                <v-list-item-title
+                  >ສິດທິ : {{ $cookies.get('role') }}</v-list-item-title
+                >
+              </div>
+            </v-list>
+            <v-divider></v-divider>
+            <div class="container d-flex justify-end">
+              <v-btn color="#9155FD">
+                <span style="color: white">ຕັ້ງຄ່າ</span>
+                <v-icon color="white">mdi-cog-outline</v-icon>
+              </v-btn>
+            </div>
+          </v-card>
+        </v-menu>
       </div>
       <div v-ripple class="text-center px-3 cursor-pointer">
         <v-btn text rounded @click="showDialog">
@@ -267,7 +483,8 @@ export default {
       fixed: false,
       show: false,
       dialog: false,
-      dataCheck:'',
+      showMemu: '',
+      dataCheck: '',
       menuList: [
         {
           icon: 'mdi-doctor',
@@ -370,6 +587,12 @@ export default {
       title: 'ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ',
     }
   },
+  mounted() {
+    const check = this.$cookies.get('role')
+    if (check === 'doctor' || check === 'staff') {
+      this.dataCheck = check
+    }
+  },
   methods: {
     showDialog() {
       this.dialog = true
@@ -386,12 +609,6 @@ export default {
       })
     },
   },
-  // mounted() {
-  //   const check = this.$cookies.get('role')
-  //   if(check === 'doctor' || check === 'staff'){
-  //      this.dataCheck = check   
-  //   }
-  // },
 }
 </script>
 <style >

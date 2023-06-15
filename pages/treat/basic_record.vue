@@ -7,7 +7,7 @@
       >
         ບັນທຶກຂໍ້ມູນພື້ນຖານ
       </div>
-      <v-row class="d-flex align-center col-12">
+      <v-row v-if="doctorData" class="d-flex align-center col-12">
         <v-col cols="12" md="6" sm="12">
           <v-text-field
             v-model="treat_data.name"
@@ -42,63 +42,145 @@
             outlined
             dense
             color="#9155FD"
-            :items="[
-              'ກວດລະດັບນໍ້າຕານໃນເລືອດ',
-              'ກວດລະດັບໄຂມັນໃນເລືອ',
-              'ກວດປັດສະວະ',
-              'ກວດຄວາມສົມບູນຂອງເລືອດ',
-            ]"
+            :items="showDiseas"
           />
         </v-col>
       </v-row>
+      <v-row v-else class="d-flex align-center col-12">
+        <v-col cols="12" md="12" sm="12">
+          <v-text-field
+            v-model="treat_data.name"
+            label="ຊື່ ເເລະ ນາມສະກຸນ"
+            prepend-inner-icon="mdi-account-outline"
+            outlined
+            dense
+            color="#9155FD"
+          />
+          <v-text-field
+            v-model="treat_data.address"
+            label="ທີ່ຢູ່"
+            prepend-inner-icon="mdi-map-marker-outline"
+            outlined
+            dense
+            color="#9155FD"
+          />
+          <v-text-field
+            v-model="treat_data.tel"
+            label="ເບີໂທລະສັບ"
+            prepend-inner-icon="mdi-phone-outline"
+            outlined
+            dense
+            color="#9155FD"
+          />
+          <v-text-field
+            v-model="treat_data.details"
+            label="ອາການເບື້ອງຕົ້ນ"
+            prepend-inner-icon="mdi-doctor"
+            outlined
+            dense
+            color="#9155FD"
+          />
+        </v-col>
+      </v-row>
+      <v-row v-if="staffData" class="col-12">
+        <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
+          <div class="pr-6">
+            <v-btn large color="error" @click="clearData">
+              <span style="color: white">ລ້າງຂໍ້ມູນ</span>
+              <v-icon color="white">mdi-backspace-outline</v-icon>
+            </v-btn>
+          </div>
+          <div>
+            <v-btn large color="#9155FD" @click="addPatientsData">
+              <span style="color: white">ບັນທຶກຂໍ້ມູນ</span>
+              <v-icon color="white">mdi-content-save-check-outline</v-icon>
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>
     </v-card>
-    <div class="d-flex justify-end">
-      <v-card class="mt-5 col-8">
-        <div class="d-flex justify-space-between">
-          <div class="ml-3">ລາຍການ</div>
-        </div>
-        <v-row class="col-12 d-flex justify-center">
-          <v-col cols="12" md="6" sm="12">
-            <div>ຊື່ ເເລະ ນາມສະກຸນ : {{ treat_data.name }}</div>
-            <div class="mt-5">ເບີໂທລະສັບ: {{ treat_data.tel }}</div>
-            <div class="mt-5">
-              ລາຄາກວດທັງໝົດ: <span style="color: red">200000 LAK</span>
-            </div>
-          </v-col>
-          <v-col cols="12" md="6" sm="12">
-            <div>ອາການເບື້ອງຕົ້ນ : {{ treat_data.basic }}</div>
-            <div class="mt-5">
-              ລາຍການທີ່ເລືອກກວດ : {{ treat_data.list_check }}
-            </div>
-          </v-col>
-          <v-col class="d-flex justify-end">
-            <v-btn color="#9155FD" to="/bill"
-              ><span style="color: white">ອອກໃບບິນຈ່າຍເງິນ</span></v-btn
-            >
-          </v-col>
-        </v-row>
-      </v-card>
+    <div>
+      <div v-if="doctorData" class="d-flex justify-end">
+        <v-card class="mt-5 col-8">
+          <div class="d-flex justify-space-between">
+            <div class="ml-3">ລາຍການ</div>
+          </div>
+          <v-row class="col-12 d-flex justify-center">
+            <v-col cols="12" md="6" sm="12">
+              <div>ຊື່ ເເລະ ນາມສະກຸນ : {{ treat_data.name }}</div>
+              <div class="mt-5">ເບີໂທລະສັບ: {{ treat_data.tel }}</div>
+              <div class="mt-5">
+                ລາຄາກວດທັງໝົດ:
+                <span style="color: red"> {{ toCurrencyString(200000) }}</span>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6" sm="12">
+              <div>ອາການເບື້ອງຕົ້ນ : {{ treat_data.basic }}</div>
+              <div class="mt-5">
+                ລາຍການທີ່ເລືອກກວດ : {{ treat_data.list_check }}
+              </div>
+            </v-col>
+            <v-col class="d-flex justify-end">
+              <v-btn color="#9155FD" to="/bill"
+                ><span style="color: white">ອອກໃບບິນຈ່າຍເງິນ</span></v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+      <div v-else></div>
     </div>
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'BasicRecordPages',
   data() {
     return {
-      item: [
-        'ກວດລະດັບນໍ້າຕານໃນເລືອດ',
-        'ກວດລະດັບໄຂມັນໃນເລືອດ',
-        'ກວດປັດສະວະ',
-        'ກວດຄວາມສົມບູນຂອງເລືອດ',
-      ],
       treat_data: {
         name: '',
-        basic: '',
+        address: '',
+        details: '',
         tel: '',
         list_check: '',
       },
+      staffData: '',
+      doctorData: '',
     }
+  },
+  computed: {
+    showDiseas() {
+      return this.$store.state.disease.dataName
+    }
+  },
+  async mounted() {
+    await this.$store.dispatch('disease/getName')
+    const check = this.$cookies.get('role')
+    if (check === 'doctor' || check === 'admin') {
+      this.doctorData = check
+    }
+    if (check === 'staff') {
+      this.staffData = check
+    }
+  },
+  methods: {
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
+    },
+    async addPatientsData() {
+      await this.$store.dispatch('patient/postData', { ...this.treat_data })
+      this.treat_data.name = ''
+      this.treat_data.address = ''
+      this.treat_data.details = ''
+      this.treat_data.tel = ''
+    },
+    clearData() {
+      this.treat_data.name = ''
+      this.treat_data.address = ''
+      this.treat_data.details = ''
+      this.treat_data.tel = ''
+    },
   },
 }
 </script>

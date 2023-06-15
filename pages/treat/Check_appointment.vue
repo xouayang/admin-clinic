@@ -6,43 +6,44 @@
           >ກວດການັດໝາຍ</v-toolbar-title
         >
       </v-toolbar>
-      <v-row class="col-12 container">
-        <v-col cols="12" md="6" sm="12">
+      <v-row v-if="doctorData" class="col-12 container">
+        <!-- <v-col cols="12" md="4" sm="12">
           <div class="mt-1 mb-2 text-center">ລາຍການນັດໝໍທັງໝົດ</div>
           <div>
             <v-card>
-              <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
+              <v-col cols="12" md="12" sm="12">
                 <v-col cols="12" md="12" sm="12">
                   <v-text-field
-                  v-model="search"
-                  outlined
-                  dense
-                  label="ຄົ້ນຫາ"
-                  prepend-inner-icon="mdi-magnify"
-                />
+                    v-model="search"
+                    outlined
+                    dense
+                    label="ຄົ້ນຫາ"
+                    prepend-inner-icon="mdi-magnify"
+                  />
                 </v-col>
               </v-col>
               <v-data-table
-                :headers="headers"
-                :items="items"
+                :headers="headers1"
                 :items-per-page="5"
                 color="#9155FD"
                 :search="search"
               >
-              <template slot = "item.pk" scope="props">{{props.index + 1}}</template>
+                <template slot="item.pk" scope="props">{{
+                  props.index + 1
+                }}</template>
               </v-data-table>
             </v-card>
           </div>
-        </v-col>
+        </v-col> -->
         <v-divider vertical></v-divider>
-        <v-col cols="12" md="6" sm="12">
-          <div class="mt-1 mb-2 text-center">ລາຍການນັດໝໍໃໝ່</div>
+        <v-col cols="12" md="12" sm="12">
+          <div class="mt-1 mb-2 text-center">ລາຍການປີ່ນປົວໃໝ່</div>
           <div>
             <v-card>
               <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
                 <v-col sm="12" cols="12" md="10">
                   <v-text-field
-                   v-model="search1"
+                    v-model="search1"
                     outlined
                     dense
                     label="ຄົ້ນຫາ"
@@ -59,14 +60,48 @@
               </v-col>
               <v-data-table
                 :headers="headers"
+                :items="showListCheck.rows"
+                :items-per-page="5"
+                color="#9155FD"
+                :search="search1"
+              >
+                <template slot="item.pk" scope="props">
+                  {{ props.index + 1 }}
+                </template>
+              </v-data-table>
+            </v-card>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row v-else class="col-12 container">
+        <v-col cols="12" md="12" sm="12">
+          <div class="mt-1 mb-2 text-center">ລາຍການນັດໝໍທັງໝົດ</div>
+          <div>
+            <v-card>
+              <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
+                <v-col cols="12" md="12" sm="12">
+                  <v-text-field
+                    v-model="search"
+                    outlined
+                    dense
+                    label="ຄົ້ນຫາ"
+                    prepend-inner-icon="mdi-magnify"
+                  />
+                </v-col>
+              </v-col>
+              <v-data-table
+                :headers="headers"
                 :items="items"
                 :items-per-page="5"
-                 color="#9155FD"
-                 :search="search1"
+                color="#9155FD"
+                :search="search"
               >
-              <template slot = "item.pk" scope="props">
-                {{props.index + 1}}
-              </template>
+                <template slot="item.pk" scope="props">{{
+                  props.index + 1
+                }}</template>
+                <!-- <template #[`item.createdAt`]="{ item }">
+                {{}}
+                </template> -->
               </v-data-table>
             </v-card>
           </div>
@@ -78,54 +113,47 @@
 
 <script>
 export default {
-  name: "CheckAppointment",
+  name: 'CheckAppointment',
   data() {
     return {
-      search:'',
-      search1:'',
+      search: '',
+      search1: '',
       tab: null,
-      list_items: ["ລາຍການນັດໝໍ", "ນັດໝາຍໝໍ"],
+      staffData: '',
+      doctorData: '',
+      list_items: ['ລາຍການນັດໝໍ', 'ນັດໝາຍໝໍ'],
       check_appointment: false,
       headers: [
-        { text: "ລຳດັບ", value: "pk" },
-        { text: "ຊື່", value: "ຊື່" },
-        { text: "ທີ່ຢູ່", value: "ທີ່ຢູ່" },
-        { text: "ເບີໂທລະສັບ", value: "ເບີໂທລະສັບ" },
-        { text: "ວັນ ເດືອນ ປີ", value: "ວັນ_ເດືອນ_ປີ_ເກີດ" },
+        { text: 'ລຳດັບ', value: 'pk' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ທີ່ຢູ່', value: 'address' },
+        { text: 'ເບີໂທລະສັບ', value: 'tel' },
+        { text: 'ລາຍລະອຽດ', value: 'details' },
+        { text: 'ວັນ ເດືອນ ປີ', value: 'createdAt' },
       ],
-      items: [
-        {
-
-          ຊື່: "XOUAYANG",
-          ທີ່ຢູ່: "XAYSOMBOUN",
-          ເບີໂທລະສັບ: "02054116066",
-          ວັນ_ເດືອນ_ປີ_ເກີດ: "04/12/2000",
-        },
-        {
-
-          ຊື່: "DDDDD",
-          ທີ່ຢູ່: "XAYSOMBOUN",
-          ເບີໂທລະສັບ: "02077975212",
-          ວັນ_ເດືອນ_ປີ_ເກີດ: "04/12/2000",
-        },
-        {
-
-          ຊື່: "EEEE",
-          ທີ່ຢູ່: "XAYSOMBOUN",
-          ເບີໂທລະສັບ: "02054116066",
-          ວັນ_ເດືອນ_ປີ_ເກີດ: "04/12/2000",
-        },
-        {
-
-          ຊື່: "FFFF",
-          ທີ່ຢູ່: "XAYSOMBOUN",
-          ເບີໂທລະສັບ: "02054116066",
-          ວັນ_ເດືອນ_ປີ_ເກີດ: "04/12/2000",
-        },
+      headers1: [
+        { text: 'ລຳດັບ', value: 'pk' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ທີ່ຢູ່', value: 'address' },
+        { text: 'ເບີໂທລະສັບ', value: 'tel' },
       ],
-    };
+    }
   },
-  mounted() {},
+  computed: {
+    showListCheck() {
+      return this.$store.state.patient.dataPatients
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('patient/patientInfo')
+    const check = this.$cookies.get('role')
+    if (check === 'doctor' || check === 'admin') {
+      this.doctorData = check
+    }
+    if (check === 'staff') {
+      this.staffData = check
+    }
+  },
   methods: {},
-};
+}
 </script>

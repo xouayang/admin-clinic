@@ -52,10 +52,9 @@
                 </v-col>
                 <v-col sm="12" cols="12" md="2">
                   <v-btn text small fab color="#9155FD">
-                    <v-badge content="5" color="error">
+                    <v-badge :content="showListCheck.count" color="error">
                       <v-icon>mdi-bell-plus-outline</v-icon>
-                    </v-badge></v-btn
-                  >
+                    </v-badge></v-btn>
                 </v-col>
               </v-col>
               <v-data-table
@@ -68,6 +67,9 @@
                 <template slot="item.pk" scope="props">
                   {{ props.index + 1 }}
                 </template>
+                <!-- <template #item.createdAt = "{data}">
+                  {{$moment(createdAt)}}
+                </template> -->
               </v-data-table>
             </v-card>
           </div>
@@ -91,7 +93,6 @@
               </v-col>
               <v-data-table
                 :headers="headers"
-                :items="items"
                 :items-per-page="5"
                 color="#9155FD"
                 :search="search"
@@ -129,7 +130,7 @@ export default {
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ລາຍລະອຽດ', value: 'details' },
-        { text: 'ວັນ ເດືອນ ປີ', value: 'createdAt' },
+        { text: 'ວັນທີ່', value: 'createdAt' },
       ],
       headers1: [
         { text: 'ລຳດັບ', value: 'pk' },

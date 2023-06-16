@@ -54,7 +54,8 @@
                   <v-btn text small fab color="#9155FD">
                     <v-badge :content="showListCheck.count" color="error">
                       <v-icon>mdi-bell-plus-outline</v-icon>
-                    </v-badge></v-btn>
+                    </v-badge></v-btn
+                  >
                 </v-col>
               </v-col>
               <v-data-table
@@ -67,9 +68,9 @@
                 <template slot="item.pk" scope="props">
                   {{ props.index + 1 }}
                 </template>
-                <!-- <template #item.createdAt = "{data}">
-                  {{$moment(createdAt)}}
-                </template> -->
+                <template slot="item.createdAt">
+                  {{$moment(createdAt).format('LLLL') }}
+                </template>
               </v-data-table>
             </v-card>
           </div>

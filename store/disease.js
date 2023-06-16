@@ -1,10 +1,14 @@
 export const state = () => ({
   dataDisase: [],
+  datas:[]
 })
 export const mutations = {
   getDiseas(state, data) {
     state.dataDisase = data
   },
+  getSingData(state, data) {
+    state.datas = data
+  }
 }
 
 export const actions = {
@@ -31,6 +35,11 @@ export const actions = {
   async getAll({ commit }) {
     await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
       commit('getDiseas', diseas.data)
+    })
+  },
+  async getSingData({ commit }) {
+    await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
+       commit('getSingData', diseas.data.rows[0].name)
     })
   },
   async deleteData({ commit }, id) {

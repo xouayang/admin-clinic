@@ -43,6 +43,8 @@
             dense
             color="#9155FD"
             :items="showDiseas"
+            :item-value="id"
+            return-object
           />
         </v-col>
       </v-row>
@@ -147,15 +149,20 @@ export default {
       },
       staffData: '',
       doctorData: '',
+      diseaseData : '',
     }
   },
   computed: {
-    showDiseas() {
-      return this.$store.state.disease.dataName
+    showDiseas () {
+     return this.$store.state.disease.datas
+      // const data =  this.$store.state.disease.datas
+      // data.map((item , id) => {
+       
+      // })
     }
   },
   async mounted() {
-    await this.$store.dispatch('disease/getName')
+    await this.$store.dispatch('disease/getSingData')
     const check = this.$cookies.get('role')
     if (check === 'doctor' || check === 'admin') {
       this.doctorData = check

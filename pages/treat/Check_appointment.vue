@@ -68,9 +68,23 @@
                 <template slot="item.pk" scope="props">
                   {{ props.index + 1 }}
                 </template>
-                <template slot="item.createdAt">
-                  {{$moment(createdAt).format('LLLL') }}
+                <template #[`item.action`]="{ item }"
+                >
+                  <v-tooltip top color="success">
+                    <template #activator="{ on, attrs }">
+                      <v-btn icon color="#9155FD" v-bind="attrs" v-on="on">
+                        <v-icon @click="showDetails(item)"
+                          >mdi-eye-check-outline</v-icon
+                        >
+                      </v-btn>
+                    </template>
+                    <span>ກວດ</span>
+                  </v-tooltip>
                 </template>
+
+                <!-- <template #[`item.createdAt`]>
+                  {{$moment(createdAt).format('DD-MM-YYY ') }}
+                </template> -->
               </v-data-table>
             </v-card>
           </div>
@@ -101,9 +115,6 @@
                 <template slot="item.pk" scope="props">{{
                   props.index + 1
                 }}</template>
-                <!-- <template #[`item.createdAt`]="{ item }">
-                {{}}
-                </template> -->
               </v-data-table>
             </v-card>
           </div>
@@ -132,6 +143,7 @@ export default {
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ລາຍລະອຽດ', value: 'details' },
         { text: 'ວັນທີ່', value: 'createdAt' },
+        { text: 'actions', value: 'action' },
       ],
       headers1: [
         { text: 'ລຳດັບ', value: 'pk' },
@@ -156,6 +168,10 @@ export default {
       this.staffData = check
     }
   },
-  methods: {},
+  methods: {
+    showDetails(data){
+      // console.log(data)
+    }
+  },
 }
 </script>

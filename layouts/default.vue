@@ -490,8 +490,8 @@ export default {
           icon: 'mdi-doctor',
           title: 'ກວດພະຍາດ',
           nestList: [
-            { title: 'ກວດການັດໝາຍ', to: '/treat/Check_appointment' },
             { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
+            { title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ', to: '/treat/Check_appointment' },
             // { title: "ບັນທືກການປີ່ນປົວ", to: "" },
             // { title: "ອອກໃບສັ່ງຢາ", to: "" },
           ],

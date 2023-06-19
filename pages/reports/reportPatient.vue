@@ -21,17 +21,47 @@
           <div>ຄົ້ນຫາວັນທີ ເດືອນ ປີ : {{ value }}</div>
         </v-col>
       </v-row>
-      <v-data-table :headers="headers" :items="items"> </v-data-table>
+      <v-data-table :headers="headers" :items="patient.rows"> </v-data-table>
     </v-card>
+    <div class="mt-5">
+      <v-row>
+        <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
+          <v-btn large color="#9155FD" class="mr-5">
+            <span style="color: white">ພິມອອກ</span>
+            <v-icon color="white">mdi-printer-outline</v-icon>
+          </v-btn>
+          <v-btn large color="success">
+            <span style="color: white">ດາວໂຫຼດ</span>
+            <v-icon color="white">mdi-download-outline</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  name: "ReportsPatients",
+  name: 'ReportsPatients',
   data() {
     return {
-        value:''
+      value: '',
+      headers: [
+        { text: 'ລຳດັບ', value: 'id' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ທີ່ຢູ່', value: 'address' },
+        { text: 'ເບີໂທລະສັບ', value: 'tel' },
+        { text: 'ລາຍລະອຽດ', value: 'details' },
+        { text: 'ວັນ ເດືອນ ປີ ເກີດ', value: 'birtday' },
+      ],
     }
   },
-};
+  computed: {
+    patient() {
+      return this.$store.state.patient.dataPatients
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('patient/patientInfo')
+  },
+}
 </script>

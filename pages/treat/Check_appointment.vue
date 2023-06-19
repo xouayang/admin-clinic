@@ -37,7 +37,7 @@
         </v-col> -->
         <v-divider vertical></v-divider>
         <v-col cols="12" md="12" sm="12">
-          <div class="mt-1 mb-2 text-center">ລາຍການປີ່ນປົວໃໝ່</div>
+          <div class="mt-1 mb-2 text-center">ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ</div>
           <div>
             <v-card>
               <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
@@ -92,7 +92,7 @@
       </v-row>
       <v-row v-else class="col-12 container">
         <v-col cols="12" md="12" sm="12">
-          <div class="mt-1 mb-2 text-center">ລາຍການນັດໝໍທັງໝົດ</div>
+          <div class="mt-1 mb-2 text-center">ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ</div>
           <div>
             <v-card>
               <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
@@ -108,6 +108,7 @@
               </v-col>
               <v-data-table
                 :headers="headers"
+                :items="showListCheck.rows"
                 :items-per-page="5"
                 color="#9155FD"
                 :search="search"
@@ -170,7 +171,8 @@ export default {
   },
   methods: {
     showDetails(data){
-      // console.log(data)
+     this.$store.commit('patient/getDataId',data)
+     this.$router.push('/treat/basic_record')
     }
   },
 }

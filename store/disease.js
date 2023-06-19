@@ -39,7 +39,7 @@ export const actions = {
   },
   async getSingData({ commit }) {
     await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
-       commit('getSingData', diseas.data.rows[0].name)
+       commit('getSingData', diseas.data.rows)
     })
   },
   async deleteData({ commit }, id) {

@@ -1,6 +1,7 @@
 export const state = () => ({
   dataPatients: [],
   singleData: [],
+  dataId:'',
 })
 export const mutations = {
   getPatient(state, data) {
@@ -9,6 +10,9 @@ export const mutations = {
   getsingleData(state, data) {
     state.singleData = data
   },
+  getDataId(state, data) {
+    state.dataId = data
+  }
 }
 
 export const actions = {

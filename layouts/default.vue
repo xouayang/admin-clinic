@@ -492,6 +492,7 @@ export default {
           nestList: [
             { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ', to: '/treat/Check_appointment' },
+            { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             // { title: "ບັນທືກການປີ່ນປົວ", to: "" },
             // { title: "ອອກໃບສັ່ງຢາ", to: "" },
           ],

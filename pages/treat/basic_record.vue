@@ -180,10 +180,10 @@ export default {
         list_check: '',
       },
       checkData: {
-        height: '',
-        weight: '',
-        patientId: '',
+        patients_id: '',
         details: '',
+        weight: '',
+        height: '',
       },
       staffData: '',
       doctorData: '',
@@ -199,7 +199,6 @@ export default {
       }))
     },
     selectedDiseases() {
-      console.log(this.treat_data.list_check)
       let data
       if (this.treat_data.list_check) {
         data = this.treat_data.list_check.map((disease) => disease.name)
@@ -246,12 +245,16 @@ export default {
     },
     async addDataCheckFirst() {
       if (this.showDatId) {
-        this.checkData.patientId = this.showDatId.id
+        this.checkData.patients_id = this.showDatId.id
         this.checkData.details = this.showDatId.details
       }
       await this.$store.dispatch('firstcheck/postData', {
         ...this.checkData,
       })
+      this.checkData.weight = ''
+      this.checkData.height = ''
+     await this.$router.push('/treat/dataTreat')
+ 
     },
   },
 }

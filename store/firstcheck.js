@@ -1,20 +1,20 @@
 export const state = () => ({
-    dataDisase: [],
+    dataStore: [],
     datas:[]
   })
   export const mutations = {
-    getDiseas(state, data) {
-      state.dataDisase = data
+    getData(state, data) {
+      state.dataStore = data
     },
-    getSingData(state, data) {
-      state.datas = data
-    }
+    // getSingData(state, data) {
+    //   state.datas = data
+    // }
   }
   
   export const actions = {
     async postData({ commit }, form) {
       await this.$axios
-        .post('http://localhost:7000/create', form)
+        .post('http://localhost:7000/create-firstCheck', form)
         .then(() => {
           this.$toast.success('ບັນທືກຂໍ້ມູນສຳເລັດ', {
             duration: 2000,
@@ -32,11 +32,11 @@ export const state = () => ({
           })
         })
     },
-    // async getAll({ commit }) {
-    //   await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
-    //     commit('getDiseas', diseas.data)
-    //   })
-    // },
+    async getAll({ commit }) {
+      await this.$axios.get(`http://localhost:7000/get-data`).then((storeData) => {
+        commit('getData', storeData.data)
+      })
+    },
     // async getSingData({ commit }) {
     //   await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
     //      commit('getSingData', diseas.data.rows)

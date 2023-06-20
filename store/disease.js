@@ -35,11 +35,13 @@ export const actions = {
   async getAll({ commit }) {
     await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
       commit('getDiseas', diseas.data)
+      console.log('>>>>>>>>>>>>',diseas.data.rows)
     })
   },
   async getSingData({ commit }) {
     await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
        commit('getSingData', diseas.data.rows)
+       console.log('>>>>>>>>>>>>',diseas.data.rows)
     })
   },
   async deleteData({ commit }, id) {

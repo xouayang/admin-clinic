@@ -1,5 +1,6 @@
 <template>
   <div class="mt-3">
+    <!-- {{showDiseas}} -->
     <v-card>
       <div class="pa-2 ml-1 font-weight-bold" style="color: #9155fd">
         ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ
@@ -28,6 +29,7 @@
 
     <!-- dialog show treat -->
     <template>
+      <!-- <div>{{showDiseas}}</div> -->
       <v-row justify="center" class="col-12">
         <v-dialog
           v-model="dialog"
@@ -42,6 +44,7 @@
               </v-btn>
               <v-toolbar-title>ປີ່ນປົວ</v-toolbar-title>
             </v-toolbar>
+            <!-- {{showDiseas.rows}} -->
             <v-row class="mt-2">
               <v-col cols="12" md="6" sm="12">
                 <v-list>
@@ -55,9 +58,10 @@
                           outlined
                           dense
                           color="#9155FD"
-                          :items="a"
+                          :items="showDiseas.rows"
+                          item-value="disease_id"
+                          v-model="diseaseId"
                           item-text="name"
-                          :item-value="id"
                           return-object
                         />
                       </v-col>
@@ -89,34 +93,25 @@
                         <div>ລວງສູງ : {{ storeData.height }} Cm</div>
                       </v-col>
                       <v-col md="6">
-                        <div>ລາຍການທີ່ເລືອກກວດ : {{}}</div>
+                        <div>ລາຄາລວມ : {{ diseaseId.reduce((sum, data) => data.price + sum,0 ) }} kip</div>
+                      </v-col>
+                      <v-col md="6">
+                        <div>ລາຍການທີ່ເລືອກກວດ :
+       
+                          <div v-for="data in diseaseId" :key="data.id">
+                            <ul>
+                              <li>
+
+                              {{data.name}}
+                              </li>
+
+                            </ul>
+                            
+                          </div>
+                        </div>
                       </v-col>
                     </v-row>
-                  </v-list-item>
-                  <!-- <v-list-item>
-                    <v-list-item-action>
-                      <v-checkbox v-model="sound"></v-checkbox>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                      <v-list-item-title>Sound</v-list-item-title>
-                      <v-list-item-subtitle
-                        >Auto-update apps at any time. Data charges may
-                        apply</v-list-item-subtitle
-                      >
-                    </v-list-item-content>
-                  </v-list-item> -->
-                  <!-- <v-list-item>
-                    <v-list-item-action>
-                      <v-checkbox v-model="widgets"></v-checkbox>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                      <v-list-item-title>Auto-add widgets</v-list-item-title>
-                      <v-list-item-subtitle
-                        >Automatically add home screen
-                        widgets</v-list-item-subtitle
-                      >
-                    </v-list-item-content>
-                  </v-list-item> -->
+                  </v-list-item>                  
                 </v-list>
               </v-col>
             </v-row>
@@ -138,6 +133,7 @@ export default {
       sound: true,
       widgets: false,
       selectedDiseases: [],
+      diseaseId:[],
       storeData: '',
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
@@ -157,10 +153,7 @@ export default {
       return this.$store.state.firstcheck.dataStore
     },
     showDiseas() {
-      return this.$store.state.disease.datas.map((disease) => ({
-        id: disease.disease_id,
-        name: disease.name,
-      }))
+      return this.$store.state.disease.dataDisase
     },
   },
   async mounted() {

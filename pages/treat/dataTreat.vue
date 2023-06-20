@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3">
-    <!-- {{showDiseas}} -->
+    <!-- <div>{{ dataTreat }}</div> -->
     <v-card>
       <div class="pa-2 ml-1 font-weight-bold" style="color: #9155fd">
         ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ
@@ -53,6 +53,7 @@
                     <v-row>
                       <v-col>
                         <v-select
+                          v-model="diseaseId"
                           label="ເລືອກລາຍການກວດ"
                           multiple
                           outlined
@@ -60,7 +61,6 @@
                           color="#9155FD"
                           :items="showDiseas.rows"
                           item-value="disease_id"
-                          v-model="diseaseId"
                           item-text="name"
                           return-object
                         />
@@ -93,26 +93,43 @@
                         <div>ລວງສູງ : {{ storeData.height }} Cm</div>
                       </v-col>
                       <v-col md="6">
-                        <div>ລາຄາລວມ : {{ diseaseId.reduce((sum, data) => data.price + sum,0 ) }} kip</div>
+                        <div>
+                          ລາຄາລວມ :
+                          <span style="color: red" class="font-weight-bold">{{
+                            toCurrencyString(
+                              diseaseId.reduce(
+                                (sum, data) => data.price + sum,
+                                0
+                              )
+                            )
+                          }}</span>
+                        </div>
                       </v-col>
                       <v-col md="6">
-                        <div>ລາຍການທີ່ເລືອກກວດ :
-       
+                        <div>
+                          ລາຍການທີ່ເລືອກກວດ :
+
                           <div v-for="data in diseaseId" :key="data.id">
                             <ul>
                               <li>
-
-                              {{data.name}}
+                                {{ data.name }}
                               </li>
-
                             </ul>
-                            
                           </div>
                         </div>
                       </v-col>
                     </v-row>
-                  </v-list-item>                  
+                  </v-list-item>
                 </v-list>
+                <v-divider></v-divider>
+                <v-col class="d-flex justify-end">
+                  <v-btn large color="#9155FD"
+                    ><span style="color: white">ບັນທືກ</span>
+                    <v-icon color="white"
+                      >mdi-content-save-check-outline</v-icon
+                    >
+                  </v-btn>
+                </v-col>
               </v-col>
             </v-row>
           </v-card>
@@ -124,6 +141,7 @@
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'DataTreat',
   data() {
@@ -133,8 +151,13 @@ export default {
       sound: true,
       widgets: false,
       selectedDiseases: [],
-      diseaseId:[],
+      diseaseId: [],
       storeData: '',
+      firstcheckData:{
+        firstCheck_id:'',
+        disease_id:'',
+        details:''
+      },
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
@@ -164,7 +187,14 @@ export default {
     showDetails(data) {
       console.log(data)
       this.storeData = data
-      this.dialog = true
+      if(this.storeData.length > 0) {
+        this.firstcheckData.firstCheck_id = this.storeData.firstcheckid
+      }
+        this.dialog = true
+        console.log('firstcheckData',this.firstcheckData)
+    },
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
     },
   },
 }

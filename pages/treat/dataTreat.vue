@@ -38,7 +38,7 @@
           transition="dialog-bottom-transition"
         >
           <v-card>
-            <v-toolbar dark color="primary">
+            <v-toolbar dark color="#9155FD">
               <v-btn icon dark @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
@@ -60,10 +60,11 @@
                           dense
                           color="#9155FD"
                           :items="showDiseas.rows"
-                          item-value="disease_id"
                           item-text="name"
                           return-object
+                          hide-details="auto"
                         />
+                        <div style="color: red">*ກະລຸນາເລືອກລາຍການກວດ</div>
                       </v-col>
                     </v-row>
                   </div>
@@ -72,9 +73,16 @@
               <v-divider vertical></v-divider>
               <v-col cols="12" md="6" sm="12">
                 <v-list>
-                  <div class="font-weight-bold container mb-5">
-                    ຂໍ້ມູນປີ່ນປົວ
-                  </div>
+                  <v-row class="container mb-5">
+                    <v-col>
+                      <span class="font-weight-bold">ຂໍ້ມູນປີ່ນປົວ</span></v-col
+                    >
+                    <v-col>
+                      <span
+                        >ອາການເບື້ອງຕົ້ນ : {{ storeData.details }}</span
+                      ></v-col
+                    >
+                  </v-row>
                   <v-list-item>
                     <v-row class="d-flex align-center">
                       <v-col md="6">
@@ -94,6 +102,7 @@
                       </v-col>
                       <v-col md="6">
                         <div>
+                          <!-- {{diseaseId}} -->
                           ລາຄາລວມ :
                           <span style="color: red" class="font-weight-bold">{{
                             toCurrencyString(
@@ -124,7 +133,7 @@
                 <v-divider></v-divider>
                 <v-col class="d-flex justify-end">
                   <v-btn large color="#9155FD"
-                    ><span style="color: white">ບັນທືກ</span>
+                    ><span style="color: white" @click="save">ບັນທືກ</span>
                     <v-icon color="white"
                       >mdi-content-save-check-outline</v-icon
                     >
@@ -132,6 +141,38 @@
                 </v-col>
               </v-col>
             </v-row>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="dialogBill"
+          persistent 
+          max-width="500px"
+          transition="dialog-transition"
+        >
+          <v-card class="pa-10">
+            <v-card-title >
+              Bill
+            </v-card-title>
+            <v-card-text>
+              <p>bill number: {{bill.billNumber}}</p>
+              <p>name: {{bill.name}}</p>
+              <p>address: {{bill.address}}</p>
+              <p>all price: {{bill.total_price}}</p>
+              <!-- <p>diseas</p> -->
+              <p>detail:</p>
+              <div v-for="data in bill.rows" :key="data.id">
+                <ul>
+                  <li>
+                    {{data.details}}
+                  </li>
+                </ul>
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red" outlined @click="dialogBill = false">cancel</v-btn>
+              <v-btn color="blue" dark @click='route(bill)'>print</v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
       </v-row>
@@ -153,11 +194,8 @@ export default {
       selectedDiseases: [],
       diseaseId: [],
       storeData: '',
-      firstcheckData:{
-        firstCheck_id:'',
-        disease_id:'',
-        details:''
-      },
+      firstcheckid:'',
+      dialogBill:false,
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
@@ -178,24 +216,45 @@ export default {
     showDiseas() {
       return this.$store.state.disease.dataDisase
     },
+    bill(){
+      return this.$store.state.treat.bill
+    }
   },
   async mounted() {
     await this.$store.dispatch('disease/getAll')
     await this.$store.dispatch('firstcheck/getAll')
+    // await this.$store.dispatch('')
   },
   methods: {
+    route(data){
+      // console.log( this.firstcheckid)
+      this.$router.push(`/treat/data?bill=${data.id}&treat_id=${this.firstcheckid}`)
+    },
     showDetails(data) {
-      console.log(data)
+      // console.log(data)
+      this.firstcheckid = data.firstcheckid
       this.storeData = data
-      if(this.storeData.length > 0) {
-        this.firstcheckData.firstCheck_id = this.storeData.firstcheckid
-      }
-        this.dialog = true
-        console.log('firstcheckData',this.firstcheckData)
+      this.dialog = true
     },
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
     },
+   async save(){
+      const testData = []
+    await  this.diseaseId.map((res)=>{
+        return testData.push({disease_id: res.disease_id, details: res.name})
+      })
+
+        const data = {
+          firstcheck_id: this.firstcheckid,
+          item:testData,
+          total_price:this.diseaseId.reduce((sum , res)=> res.price + sum , 0)
+        }
+
+     await this.$store.dispatch('treat/createTreat', {...data})
+      this.dialog = false
+     this.dialogBill = true
+    }
   },
 }
 </script>

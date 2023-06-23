@@ -29,7 +29,7 @@
                     :rotate="360"
                     :size="100"
                     :width="15"
-                    value="50"
+                    :value="dataMale.count"
                     color="success"
                     >50</v-progress-circular
                   >
@@ -48,7 +48,7 @@
             </v-col>
             <v-col cols="12" md="6" sm="12">
               <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
-                >ລາຍການນັດໝາຍໃໝ່
+                >ລາຍການປີ່ນປົວໃໝ່
                 <v-row align="center">
                   <v-col><div class="mt-3 text-h4">50</div></v-col>
                   <v-col>
@@ -61,7 +61,7 @@
                 rounded="xl"
                 class="mt-5 pt-3 pl-3"
                 elevation="0"
-                >ລາຍການນັດໝາຍທັງໝົດ
+                >ລາຍການປີ່ນປົວທັງໝົດ
                 <v-row align="center">
                   <v-col><div class="mt-3 text-h4">50</div></v-col>
                   <v-col>
@@ -80,9 +80,9 @@
               <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0">
                 ພະນັກງານ (ຊາຍ)
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">3</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{dataMale.count}}</div></v-col>
                   <v-col>
-                    <v-btn color="success" rounded>3++</v-btn>
+                    <v-btn color="success" rounded>{{dataMale.count}}++</v-btn>
                   </v-col>
                 </v-row>
               </v-card>
@@ -93,10 +93,10 @@
                 elevation="0"
                 >ພະນັກງານ (ຍິງ)
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">10</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{dataFemal.count}}</div></v-col>
                   <v-col>
                     <v-btn style="background-color: #9155fd" rounded
-                      ><span style="color: white">5++</span></v-btn
+                      ><span style="color: white">{{dataFemal.count}}++</span></v-btn
                     >
                   </v-col>
                 </v-row>
@@ -182,13 +182,23 @@ export default {
   beforeUnmount() {
     clearInterval(this.interval);
   },
-  mounted() {
+    computed: {
+    dataMale() {
+      return this.$store.state.user.maleData
+    },
+    dataFemal() {
+      return this.$store.state.user.femaleData 
+    }
+  },
+ async mounted() {
     this.interval = setInterval(() => {
       if (this.value === 100) {
         return (this.value = 0);
       }
       this.value += 10;
     }, 1000);
+    await this.$store.dispatch('user/male')
+    await this.$store.dispatch('user/female')
   },
 };
 </script>

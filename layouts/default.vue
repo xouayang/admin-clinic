@@ -83,6 +83,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
+
         <v-list-group
           v-for="(group, index) in menuList1"
           :key="'D' + index"
@@ -235,19 +236,21 @@
               }}</v-list-item-title>
             </v-list-item-content>
           </template>
-          <v-list-item
-            v-for="(item, i) in group.nestList"
-            :key="i"
-            :to="item.to"
-            router
-            exact
-            class="rounded-xl"
-          >
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+            <v-list-item
+              v-for="(item, i) in group.nestList"
+              :key="i"
+              :to="item.to"
+              router
+              exact
+              class="rounded-xl"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+
         </v-list-group>
+
         <v-list-group
           v-for="(group, index) in menuList1"
           :key="'D' + index"
@@ -395,7 +398,7 @@
               </v-list-item>
               <v-divider></v-divider>
               <div class="container">
-                 <v-list-item-title
+                <v-list-item-title
                   >ເພດ : {{ $cookies.get('gender') }}</v-list-item-title
                 >
                 <v-list-item-title
@@ -473,7 +476,6 @@
 <script>
 export default {
   name: 'DefaultLayout',
-  // middleware: 'onlogin',
   middleware: 'auth',
   data() {
     return {
@@ -485,16 +487,22 @@ export default {
       dialog: false,
       showMemu: '',
       dataCheck: '',
+      staffData: '',
+      doctorData: '',
       menuList: [
         {
           icon: 'mdi-doctor',
           title: 'ກວດພະຍາດ',
           nestList: [
             { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
-            { title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ', to: '/treat/Check_appointment' },
+            {
+              title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ',
+              to: '/treat/Check_appointment',
+            },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
-            // { title: "ບັນທືກການປີ່ນປົວ", to: "" },
-            // { title: "ອອກໃບສັ່ງຢາ", to: "" },
+          ],
+          list1: [
+            { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' }
           ],
         },
       ],
@@ -592,6 +600,12 @@ export default {
     const check = this.$cookies.get('role')
     if (check === 'doctor' || check === 'staff') {
       this.dataCheck = check
+    }
+    if (check === 'staff' || check === 'admin') {
+      this.staffData = check
+    }
+    if (check === 'doctor') {
+      this.doctorData = check
     }
   },
   methods: {

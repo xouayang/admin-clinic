@@ -2,7 +2,9 @@ export const state = () => ({
   number:10 ,
   suppliers:[],
   loading:false,
-  datas:[]
+  datas:[],
+  maleData:[],
+  femaleData:[]
   
 })
 export const mutations = {
@@ -17,7 +19,14 @@ export const mutations = {
    },
    setData(state,data) {
     state.datas = data
+   },
+   MaleDatas(state,data) {
+    state.maleData = data
+   },
+   FeMaleDatas(state,data) {
+    state.femaleData = data
    }
+
 }
 
 export const actions = {
@@ -31,5 +40,16 @@ export const actions = {
      await  this.$axios.get('http://localhost:7000/get-single', {params}).then(user => {
             commit("datas", user.data)
        })
-   }
+   },
+   async male({commit}) {
+    await  this.$axios.get('http://localhost:7000/statff-male').then(data => {
+           commit("MaleDatas", data.data)
+      })
+  },
+  async female({commit}) {
+    await  this.$axios.get('http://localhost:7000/statff-female').then(data => {
+           commit("FeMaleDatas", data.data)
+      })
+  },
+
 }

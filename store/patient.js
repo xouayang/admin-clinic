@@ -2,11 +2,16 @@ export const state = () => ({
   dataPatients: [],
   singleData: [],
   dataId:'',
+  status:[],
 })
 export const mutations = {
   getPatient(state, data) {
     state.dataPatients = data
   },
+  getStatus(state, data) {
+    state.status = data
+  }
+  ,
   getsingleData(state, data) {
     state.singleData = data
   },
@@ -42,6 +47,14 @@ export const actions = {
       .get('http://localhost:7000/get-patients')
       .then((patients) => {
         commit('getPatient', patients.data)
+      })
+  },
+  async patientStatus({ commit }) {
+    await this.$axios
+      .get('http://localhost:7000/get-status')
+      .then((status) => {
+        commit('getStatus', status.data)
+        console.log("data?????", status.data)
       })
   },
   // delete data

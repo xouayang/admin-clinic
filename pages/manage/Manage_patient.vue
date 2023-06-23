@@ -31,7 +31,7 @@
 
       <v-data-table
         :headers="headers"
-        :items="patient.rows"
+        :items="Status.rows"
         :items-per-page="5"
         color="#9155FD"
         :search="searchTerm"
@@ -279,8 +279,12 @@ export default {
     patient() {
       return this.$store.state.patient.dataPatients
     },
+    Status() {
+     return this.$store.state.patient.status
+    }
   },
   async mounted() {
+    await this.$store.dispatch('patient/patientStatus')
     await this.$store.dispatch('patient/patientInfo')
   },
   methods: {

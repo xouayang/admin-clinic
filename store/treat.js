@@ -1,6 +1,8 @@
 export const state = () => ({
     bill:{},
-    billData:{}
+    billData:{},
+    medicinesType:[],
+    medicines:[]
 })
 
 export const mutations = {
@@ -9,6 +11,12 @@ export const mutations = {
     },
     setBillData(state, data){
         state.billData = data
+    },
+    setMedicinesType(state, data){
+      state.medicinesType = data
+    },
+    setMedicines(state, data){
+      state.medicines = data
     }
 }
 
@@ -52,8 +60,32 @@ export const actions = {
     await this.$axios
         .get(`http://localhost:7000/bill-data/${id}`)
         .then((res) => {
-          console.log(res.data)
+          // conso/le.log(res.data)
         commit('setBillData',res.data)
         })
+  }, 
+  async getMedicinesType ({commit}){
+    await this.$axios.get('http://localhost:7000/get-medicins')
+    .then((res)=>{
+      commit('setMedicinesType',res.data)
+    })
+  },
+  async getMedicinesAllById({commit}, id){
+    try {
+      await this.$axios.get(`http://localhost:7000/get-id/${id}`)
+      .then((res)=>{
+        // console.log(res.data)
+        commit('setMedicines', res.data)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async saveOffer({commit}, data){
+    await this.$axios.post('http://localhost:7000/createOffer', data)
+    .then((res)=>{
+      this.$toast.success('Sccess')
+    })
   }
+  
 }

@@ -145,33 +145,56 @@
         </v-dialog>
         <v-dialog
           v-model="dialogBill"
-          persistent 
-          max-width="500px"
+          persistent
+          max-width="900px"
           transition="dialog-transition"
         >
-          <v-card class="pa-10">
-            <v-card-title >
-              Bill
-            </v-card-title>
-            <v-card-text>
-              <p>bill number: {{bill.billNumber}}</p>
-              <p>name: {{bill.name}}</p>
-              <p>address: {{bill.address}}</p>
-              <p>all price: {{bill.total_price}}</p>
-              <!-- <p>diseas</p> -->
-              <p>detail:</p>
-              <div v-for="data in bill.rows" :key="data.id">
-                <ul>
-                  <li>
-                    {{data.details}}
-                  </li>
-                </ul>
+          <v-card class="pa-5">
+            <div class="text-center font-weight-bold" style="font-size: 20px">
+              ໃບບິນ
+            </div>
+            <!-- <v-row>
+              <v-col md="6">asdf</v-col>
+              <v-col md="6">ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</v-col>
+            </v-row> -->
+            <v-row class="d-flex justify-space-between">
+              <v-col md="6">ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</v-col>
+              <v-col md="6" class="text-end"
+                >ລະຫັດໃບບີນ : {{ bill.billNumber }}
+              </v-col>
+            </v-row>
+            <v-divider class="mb-8 mt-2" style="color: red"></v-divider>
+            <v-card-text
+              class="col-12 d-flex justify-space-between"
+              
+            >
+              <div class="col-md-6">
+                <p class="font-weight-bold">ຊື່: {{ bill.name }}</p>
+                <p class="font-weight-bold">ທີ່ຢຸູ: {{ bill.address }}</p>
+                <p class="font-weight-bold">
+                  ລາຄາລວມ:
+                  <span style="color: red">{{
+                   (bill.total_price)
+                  }}</span>
+                </p>
+              </div>
+              <div class="col-md-6 font-weight-bold" >
+                ລາຍການກວດພະຍາດ:
+                <div v-for="data in bill.rows" :key="data.id">
+                  <ul>
+                    <li>
+                      {{ data.details }}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="red" outlined @click="dialogBill = false">cancel</v-btn>
-              <v-btn color="blue" dark @click='route(bill)'>print</v-btn>
+              <v-btn color="red" dark @click="dialogBill = false"
+                >ຍົກເລີກ</v-btn
+              >
+              <v-btn color="blue" dark @click="route(bill)">ພິມໃບບິນ</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -194,15 +217,14 @@ export default {
       selectedDiseases: [],
       diseaseId: [],
       storeData: '',
-      firstcheckid:'',
-      dialogBill:false,
+      firstcheckid: '',
+      dialogBill: false,
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ລາຍລະອຽດ', value: 'details' },
-        { text: 'ວັນ ເດືອນ ປີ ເກີດ', value: 'birtday' },
         { text: 'ນໍ້າໜັກ', value: 'weight' },
         { text: 'ລວງສູງ', value: 'height' },
         { text: 'action', value: 'action' },
@@ -216,9 +238,9 @@ export default {
     showDiseas() {
       return this.$store.state.disease.dataDisase
     },
-    bill(){
+    bill() {
       return this.$store.state.treat.bill
-    }
+    },
   },
   async mounted() {
     await this.$store.dispatch('disease/getAll')
@@ -226,9 +248,11 @@ export default {
     // await this.$store.dispatch('')
   },
   methods: {
-    route(data){
+    route(data) {
       // console.log( this.firstcheckid)
-      this.$router.push(`/treat/data?bill=${data.id}&treat_id=${this.firstcheckid}`)
+      this.$router.push(
+        `/treat/data?bill=${data.id}&treat_id=${this.firstcheckid}`
+      )
     },
     showDetails(data) {
       // console.log(data)
@@ -239,22 +263,22 @@ export default {
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
     },
-   async save(){
+    async save() {
       const testData = []
-    await  this.diseaseId.map((res)=>{
-        return testData.push({disease_id: res.disease_id, details: res.name})
+      await this.diseaseId.map((res) => {
+        return testData.push({ disease_id: res.disease_id, details: res.name })
       })
 
-        const data = {
-          firstcheck_id: this.firstcheckid,
-          item:testData,
-          total_price:this.diseaseId.reduce((sum , res)=> res.price + sum , 0)
-        }
+      const data = {
+        firstcheck_id: this.firstcheckid,
+        item: testData,
+        total_price: this.diseaseId.reduce((sum, res) => res.price + sum, 0),
+      }
 
-     await this.$store.dispatch('treat/createTreat', {...data})
+      await this.$store.dispatch('treat/createTreat', { ...data })
       this.dialog = false
-     this.dialogBill = true
-    }
+      this.dialogBill = true
+    },
   },
 }
 </script>

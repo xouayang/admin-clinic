@@ -4,7 +4,10 @@ export const state = () => ({
   loading:false,
   datas:[],
   maleData:[],
-  femaleData:[]
+  femaleData:[],
+  dataCount:[],
+  Patients:[],
+  Patiented:[]
   
 })
 export const mutations = {
@@ -25,6 +28,15 @@ export const mutations = {
    },
    FeMaleDatas(state,data) {
     state.femaleData = data
+   },
+   setCount(state,data) {
+    state.dataCount = data
+   },
+   setPatients(state,data) {
+    state.Patients = data
+   },
+   setPatiented(state,data) {
+    state.Patiented = data
    }
 
 }
@@ -49,6 +61,21 @@ export const actions = {
   async female({commit}) {
     await  this.$axios.get('http://localhost:7000/statff-female').then(data => {
            commit("FeMaleDatas", data.data)
+      })
+  },
+  async countType({commit}) {
+    await  this.$axios.get('http://localhost:7000/count').then(data => {
+           commit("setCount", data.data)
+      })
+  },
+  async getPatients({commit}) {
+    await  this.$axios.get('http://localhost:7000/statusZero').then(data => {
+           commit("setPatients", data.data)
+      })
+  },
+  async getPatiented({commit}) {
+    await  this.$axios.get('http://localhost:7000/get-patients').then(data => {
+           commit("setPatiented", data.data)
       })
   },
 

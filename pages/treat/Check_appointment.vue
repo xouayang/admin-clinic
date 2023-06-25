@@ -52,7 +52,7 @@
                 </v-col>
                 <v-col sm="12" cols="12" md="2">
                   <v-btn text small fab color="#9155FD">
-                    <v-badge :content="showListCheck.count" color="error">
+                    <v-badge :content="showListCheck.count ? showListCheck.count : '0' " color="error">
                       <v-icon>mdi-bell-plus-outline</v-icon>
                     </v-badge></v-btn
                   >

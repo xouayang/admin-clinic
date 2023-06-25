@@ -49,10 +49,15 @@
             <v-col cols="12" md="6" sm="12">
               <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
                 >ລາຍການປີ່ນປົວໃໝ່
+                
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">50</div></v-col>
-                  <v-col>
-                    <v-btn color="success" rounded>50++</v-btn>
+                  <v-col><div class="mt-3 text-h4">{{showPatiented?.count}}</div></v-col>
+                  <v-col class="mt-2">
+                    <v-btn text small fab color="#9155FD">
+                    <v-badge :content="showPatiented.count ? showPatiented.count : '0'" color="error">
+                      <v-icon>mdi-bell-plus-outline</v-icon>
+                    </v-badge></v-btn>
+                    <!-- <v-btn color="success" rounded>{{showPatiented?.count}}++</v-btn> -->
                   </v-col>
                 </v-row>
               </v-card>
@@ -63,10 +68,10 @@
                 elevation="0"
                 >ລາຍການປີ່ນປົວທັງໝົດ
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">50</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{showPatients.count}}</div></v-col>
                   <v-col>
                     <v-btn style="background-color: #9155fd" rounded
-                      ><span style="color: white">50++</span></v-btn
+                      ><span style="color: white">{{showPatients.count}}++</span></v-btn
                     >
                   </v-col>
                 </v-row>
@@ -106,9 +111,9 @@
               <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0">
                 ປະເພດ (ອຸປະກອນ ເເລະ ຢາ)
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">3</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{countShow?.count}}</div></v-col>
                   <v-col>
-                    <v-btn color="success" rounded>3++</v-btn>
+                    <v-btn color="success" rounded>{{countShow?.count}}++</v-btn>
                   </v-col>
                 </v-row>
               </v-card>
@@ -188,6 +193,15 @@ export default {
     },
     dataFemal() {
       return this.$store.state.user.femaleData 
+    },
+    countShow() {
+     return this.$store.state.user.dataCount  
+    },
+    showPatients() {
+      return this.$store.state.user.Patients  
+    },
+    showPatiented() {
+      return this.$store.state.user.Patiented  
     }
   },
  async mounted() {
@@ -199,6 +213,9 @@ export default {
     }, 1000);
     await this.$store.dispatch('user/male')
     await this.$store.dispatch('user/female')
+    await this.$store.dispatch('user/countType')
+    await this.$store.dispatch('user/getPatients')
+    await this.$store.dispatch('user/getPatiented')
   },
 };
 </script>

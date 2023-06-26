@@ -6,15 +6,19 @@
       <v-row class="col-12">
           <v-col cols="12" md="12" sm="12">
             <v-text-field
-            v-model="treatId"
               id="sale"
+              v-model="treatId"
               name="sale"
               label="ລະຫັດບາໂຄດ"
               prepend-inner-icon="mdi-barcode"
               outlined
               dense
               @keydown.enter="getPrescrition"
-            ></v-text-field>
+            >
+             <template #[`item.createdAt`] = "{item}">
+               {{$moment(item.createdAt).format('DD-MM-YYY')}}
+             </template>
+            </v-text-field>
           </v-col>
       </v-row>
       <v-data-table

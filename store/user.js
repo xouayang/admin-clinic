@@ -7,7 +7,8 @@ export const state = () => ({
   femaleData:[],
   dataCount:[],
   Patients:[],
-  Patiented:[]
+  Patiented:[],
+  historyData:[],
   
 })
 export const mutations = {
@@ -37,6 +38,9 @@ export const mutations = {
    },
    setPatiented(state,data) {
     state.Patiented = data
+   },
+   setHistory(state,data){
+    state.historyData = data
    }
 
 }
@@ -76,6 +80,12 @@ export const actions = {
   async getPatiented({commit}) {
     await  this.$axios.get('http://localhost:7000/get-patients').then(data => {
            commit("setPatiented", data.data)
+      })
+  },
+  async getHistory({commit}) {
+    await  this.$axios.get('http://localhost:7000/get-prescriptions').then(data => {
+           commit("setHistory", data.data)
+           console.log(data.data)
       })
   },
 

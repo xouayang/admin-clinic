@@ -29,7 +29,7 @@
                     :rotate="360"
                     :size="100"
                     :width="15"
-                    :value="dataMale.count"
+                    :value="dataMale?.count"
                     color="success"
                     >50</v-progress-circular
                   >
@@ -54,7 +54,7 @@
                   <v-col><div class="mt-3 text-h4">{{showPatiented?.count}}</div></v-col>
                   <v-col class="mt-2">
                     <v-btn text small fab color="#9155FD">
-                    <v-badge :content="showPatiented.count ? showPatiented.count : '0'" color="error">
+                    <v-badge :content="showPatiented?.count ? showPatiented?.count : '0'" color="error">
                       <v-icon>mdi-bell-plus-outline</v-icon>
                     </v-badge></v-btn>
                     <!-- <v-btn color="success" rounded>{{showPatiented?.count}}++</v-btn> -->
@@ -68,10 +68,10 @@
                 elevation="0"
                 >ລາຍການປີ່ນປົວທັງໝົດ
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">{{showPatients.count}}</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{showPatients?.count}}</div></v-col>
                   <v-col>
                     <v-btn style="background-color: #9155fd" rounded
-                      ><span style="color: white">{{showPatients.count}}++</span></v-btn
+                      ><span style="color: white">{{showPatients?.count}}++</span></v-btn
                     >
                   </v-col>
                 </v-row>
@@ -85,9 +85,9 @@
               <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0">
                 ພະນັກງານ (ຊາຍ)
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">{{dataMale.count}}</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{dataMale?.count}}</div></v-col>
                   <v-col>
-                    <v-btn color="success" rounded>{{dataMale.count}}++</v-btn>
+                    <v-btn color="success" rounded>{{dataMale?.count}}++</v-btn>
                   </v-col>
                 </v-row>
               </v-card>
@@ -98,10 +98,10 @@
                 elevation="0"
                 >ພະນັກງານ (ຍິງ)
                 <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">{{dataFemal.count}}</div></v-col>
+                  <v-col><div class="mt-3 text-h4">{{dataFemal?.count}}</div></v-col>
                   <v-col>
                     <v-btn style="background-color: #9155fd" rounded
-                      ><span style="color: white">{{dataFemal.count}}++</span></v-btn
+                      ><span style="color: white">{{dataFemal?.count}}++</span></v-btn
                     >
                   </v-col>
                 </v-row>

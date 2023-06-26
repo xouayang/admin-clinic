@@ -524,8 +524,7 @@ export default {
           title: 'ຈັດຊື້',
           nestList2: [
             { title: 'ກວດສອບຂໍ້ມູນຢາ-ອຸປະກອນ', to: '/orders' },
-            // { title: "ບັນທຶກການສັ່ງຊື້", to: "" },
-            // { title: "ພິມໃບບິນ", to: "" },
+            { title: 'ປະຫວັດຈັດຊື້ຢາ-ອຸປະກອນ', to: '/orders/historyOrder' }
           ],
         },
       ],
@@ -533,7 +532,7 @@ export default {
         {
           icon: 'mdi-import',
           title: 'ນຳເຂົ້າ',
-          nestList3: [{ title: 'ກວດສອບການສັ່ງຊື້', to: '/import' }],
+          nestList3: [{ title: 'ກວດສອບນຳເຂົ້າ', to: '/import' }],
         },
       ],
       menuList4: [

@@ -35,9 +35,6 @@
         </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="importData.rows" color="#9155FD">
-        <template slot="item.indx" scope="props">
-          {{ props.index + 1 }}
-        </template>
         <template #[`item.amount`]="{ item }">
           <v-text-field
             v-model="item.amount"
@@ -46,6 +43,9 @@
             dense
             style="width: 50px"
           ></v-text-field>
+        </template>
+        <template #[`item.createdAt`]="{ item }">
+          {{ $moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
         </template>
       </v-data-table>
       <v-divider></v-divider>
@@ -164,11 +164,11 @@ export default {
       search: '',
       data: [],
       headers: [
-        { text: 'ລຳດັບ', value: 'indx' },
         { text: 'ລະຫັດນຳເຂົ້າ ', value: 'bill_number' },
-        { text: 'ຊື່ຢາ', value: 'name' },
         { text: 'ປະເພດ', value: 'type_name' },
+        { text: 'ຊື່ຢາ', value: 'name' },
         { text: 'ຈຳນວນ', value: 'amount' },
+        { text: 'ລາຄາ', value: 'price' },
         { text: 'ຫົວໜ່ວຍ', value: 'unit' },
         { text: 'ວັນ ເດືອນ ປີ ສັ່ງຊື້', value: 'createdAt' },
         // { text: "ວັນ ເດືອນ ປີ ໝົດອາຍຸ", value: "expired_date" },
@@ -185,21 +185,21 @@ export default {
   methods: {
     saveImport() {
       const dataIn = []
-      this.importData?.rows?.map((el)=>{
+      this.importData?.rows?.map((el) => {
         const res = {
-          'amount':parseFloat(el.amount),
-          'bill_number': el.bill_number,
-          'createdAt':el.createdAt,
-          'id':el.id,
-          'medicines_id':el.medicines_id,
-          'name':el.name,
-          'prescription_id':el.prescription_id,
-          'price':el.price,
-          'type_name':el.price,
-          'unit':el.unit,
-          'updatedAt':el.unit 
+          amount: parseFloat(el.amount),
+          bill_number: el.bill_number,
+          createdAt: el.createdAt,
+          id: el.id,
+          medicines_id: el.medicines_id,
+          name: el.name,
+          prescription_id: el.prescription_id,
+          price: el.price,
+          type_name: el.price,
+          unit: el.unit,
+          updatedAt: el.unit,
         }
-       return dataIn.push(res)
+        return dataIn.push(res)
       })
 
       const data = {
@@ -207,16 +207,32 @@ export default {
         item: dataIn,
       }
       // console.log(data)
-      this.$axios.post('http://localhost:7000/createImport', data,{
+      this.$axios
+        .post('http://localhost:7000/createImport', data, {
           headers: {
             Authorization: `CLINIC ${this.token}`,
           },
-        }).then((res)=>{
-        this.importData = []
-        this.expired_date = ''
-        this.billId = ''
-        this.$toast.success('import success')
-      })
+        })
+        .then((res) => {
+          // if (res.data.status === 400) {
+          //   this.$toast.error('ລະຫັດໃບບິນນີ້ໄດ້ນຳເຂົ້າກ່ອນໜ້ານີເເລ້ວ', {
+          //     duration: 2000,
+          //     position: 'top-right',
+          //     iconPack: 'mdi',
+          //     icon: 'close',
+          //   })
+          // } else {
+            this.importData = []
+            this.expired_date = ''
+            this.billId = ''
+            this.$toast.success('ນຳເຂົ້າສຳເລັດ', {
+              duration: 2000,
+              position: 'top-right',
+              iconPack: 'mdi',
+              icon: 'check',
+            })
+          // }
+        })
     },
     searchData(e) {
       this.$axios

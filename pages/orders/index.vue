@@ -4,50 +4,51 @@
     <!-- <div>ກວດສອບນຳເຂົ້າ</div> -->
     <!-- {{medicines}} -->
     <v-card class="pa-10">
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-text-field
-                v-model="searchTerm"
-                prepend-inner-icon="mdi-magnify"
-                label="ຄົ້ນຫາ"
-                outlined
-                hide-details
-                dense
-                small
-                color="#9155FD"
-                class="mb-2"
-              />
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="searchTerm"
+            prepend-inner-icon="mdi-magnify"
+            label="ຄົ້ນຫາ"
+            outlined
+            hide-details
+            dense
+            small
+            color="#9155FD"
+            class="mb-2"
+          />
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-select
+            v-model="supId"
+            :items="supData"
+            outlined
+            dense
+            item-text="supplier_name"
+            item-value="id"
+            label="ເລືອກຜູ້ສະໜອງ"
+          ></v-select>
+        </v-col>
+      </v-row>
 
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
-                :items="supData"
-                v-model="supId"
-                item-text="supplier_name"
-                item-value="id"
-                label="label"
-              ></v-select>
-            </v-col>
-          </v-row>
+      <v-col>
+        <v-data-table
+          v-model="selectedItems"
+          :headers="headers"
+          :items="medicines"
+          :rows-per-page-items="[10, 25, 50, 100]"
+          show-select
+          item-key="medicines_id"
+        >
+          <template #[`item.indx`]="{ index }">
+            {{ index + 1 }}
+          </template>
+        </v-data-table>
+      </v-col>
 
-          <v-col>
-            <v-data-table
-              :headers="headers"
-              :items="medicines"
-              :rows-per-page-items="[10, 25, 50, 100]"
-              show-select
-              item-key="medicines_id"
-              v-model="selectedItems"
-            >
-              <template #[`item.indx`]="{ index }">
-                {{ index + 1 }}
-              </template>
-            </v-data-table>
-          </v-col>
-      
       <v-divider></v-divider>
     </v-card>
-    <v-row class="mt-3">
+    <v-row class="mt-3 mb-8">
       <v-col cols="12" class="text-end">
         <v-btn color="#9155FD" @click="getSelectedItems">
           <span style="color: white">ບັນທຶກການສັ່ງຊື້</span>
@@ -132,25 +133,36 @@ export default {
     })
   },
   methods: {
-   async order(){
+    async order() {
       const data = {
         supplier_id: this.supId,
         item: this.selectedItems,
         // token: this.token
       }
-      // console.log(data)
-    await this.$axios.post('http://localhost:7000/create-prescription', data, {
-      headers:{
-        Authorization:`CLINIC ${this.token}`
-      }
-     }).then((res)=>{
-      console.log(res.data)
-      this.$toast.success("create order success")
-     }).catch((err)=>{
-      console.log(err)
-      this.$toast.error("create order error")
-     })
-     this.dialog = false
+      await this.$axios
+        .post('http://localhost:7000/create-prescription', data, {
+          headers: {
+            Authorization: `CLINIC ${this.token}`,
+          },
+        })
+        .then((res) => {
+          this.$router.push('/orders/historyOrder')
+          this.$toast.success('ສັ່ງຊື້ສຳເລັດ', {
+            duration: 2000,
+            position: 'top-right',
+            iconPack: 'mdi',
+            icon: 'check',
+          })
+        })
+        .catch(() => {
+          this.$toast.error('ສັ່ງຊື້ບໍ່ສຳເລັດ', {
+            duration: 2000,
+            position: 'top-right',
+            iconPack: 'mdi',
+            icon: 'close',
+          })
+        })
+      this.dialog = false
     },
     onAmountEdit(item) {
       console.log(`Edited amount value: ${item.amount}`)

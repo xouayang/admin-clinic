@@ -195,7 +195,7 @@ export default {
           name: el.name,
           prescription_id: el.prescription_id,
           price: el.price,
-          type_name: el.price,
+          type_name: el.type_name,
           unit: el.unit,
           updatedAt: el.unit,
         }
@@ -231,6 +231,7 @@ export default {
               iconPack: 'mdi',
               icon: 'check',
             })
+            this.$router.push('/Import/historyImport')
           // }
         })
     },

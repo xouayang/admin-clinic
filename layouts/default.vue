@@ -84,6 +84,23 @@
           </v-list-item>
         </v-list-group>
 
+        <v-list-item
+          v-for="(item, i) in pay"
+          :key="'Z' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+          class="mt-2"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-group
           v-for="(group, index) in menuList1"
           :key="'D' + index"
@@ -220,6 +237,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
+
         <v-list-group
           v-for="(group, index) in menuList"
           :key="'C' + index"
@@ -236,20 +254,36 @@
               }}</v-list-item-title>
             </v-list-item-content>
           </template>
-            <v-list-item
-              v-for="(item, i) in group.nestList"
-              :key="i"
-              :to="item.to"
-              router
-              exact
-              class="rounded-xl"
-            >
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
+          <v-list-item
+            v-for="(item, i) in group.nestList"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-group>
+        <!-- pay price -->
+        <v-list-item
+          v-for="(item, i) in pay"
+          :key="'Z' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+          class="mt-2"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
         <v-list-group
           v-for="(group, index) in menuList1"
@@ -500,10 +534,12 @@ export default {
               to: '/treat/Check_appointment',
             },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
+            { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
+            { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
           ],
-          list1: [
-            { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' }
-          ],
+          // list1: [
+          //   { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
+          // ],
         },
       ],
       menuList1: [
@@ -524,7 +560,7 @@ export default {
           title: 'ຈັດຊື້',
           nestList2: [
             { title: 'ກວດສອບຂໍ້ມູນຢາ-ອຸປະກອນ', to: '/orders' },
-            { title: 'ປະຫວັດຈັດຊື້ຢາ-ອຸປະກອນ', to: '/orders/historyOrder' }
+            { title: 'ປະຫວັດຈັດຊື້ຢາ-ອຸປະກອນ', to: '/orders/historyOrder' },
           ],
         },
       ],
@@ -532,7 +568,10 @@ export default {
         {
           icon: 'mdi-import',
           title: 'ນຳເຂົ້າ',
-          nestList3: [{ title: 'ກວດສອບນຳເຂົ້າ', to: '/import' }],
+          nestList3: [
+            { title: 'ກວດສອບນຳເຂົ້າ', to: '/import' },
+            { title: 'ປະຫວັດນຳເຂົ້າຊື້ຢາ', to: '/import/historyImport' },
+          ],
         },
       ],
       menuList4: [
@@ -577,6 +616,13 @@ export default {
           to: '/',
         },
       ],
+      pay: [
+        {
+          icon: 'mdi-currency-usd',
+          title: 'ຊຳລະລາຍການກວດ',
+          to: '/treat/pay',
+        },
+      ],
       setting: [
         {
           icon: 'mdi-chart-line',
@@ -600,12 +646,12 @@ export default {
     if (check === 'doctor' || check === 'staff') {
       this.dataCheck = check
     }
-    if (check === 'staff' || check === 'admin') {
-      this.staffData = check
-    }
-    if (check === 'doctor') {
-      this.doctorData = check
-    }
+    // if (check === 'staff' || check === 'admin') {
+    //   this.staffData = check
+    // }
+    // if (check === 'doctor') {
+    //   this.doctorData = check
+    // }
   },
   methods: {
     showDialog() {

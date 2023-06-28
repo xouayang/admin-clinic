@@ -36,7 +36,6 @@
           v-model="selectedItems"
           :headers="headers"
           :items="medicines"
-          :rows-per-page-items="[10, 25, 50, 100]"
           show-select
           item-key="medicines_id"
         >

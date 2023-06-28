@@ -52,7 +52,10 @@
                 </v-col>
                 <v-col sm="12" cols="12" md="2">
                   <v-btn text small fab color="#9155FD">
-                    <v-badge :content="showListCheck.count ? showListCheck.count : '0' " color="error">
+                    <v-badge
+                      :content="showListCheck.count ? showListCheck.count : '0'"
+                      color="error"
+                    >
                       <v-icon>mdi-bell-plus-outline</v-icon>
                     </v-badge></v-btn
                   >
@@ -68,8 +71,7 @@
                 <template slot="item.pk" scope="props">
                   {{ props.index + 1 }}
                 </template>
-                <template #[`item.action`]="{ item }"
-                >
+                <template #[`item.action`]="{ item }">
                   <v-tooltip top color="success">
                     <template #activator="{ on, attrs }">
                       <v-btn icon color="#9155FD" v-bind="attrs" v-on="on">
@@ -80,6 +82,9 @@
                     </template>
                     <span>ກວດ</span>
                   </v-tooltip>
+                </template>
+                <template #[`item.createdAt`]="{ item }">
+                  {{ $moment(item.createdAt).format('DD-MM-YYYY') }}
                 </template>
 
                 <!-- <template #[`item.createdAt`]>
@@ -116,6 +121,7 @@
                 <template slot="item.pk" scope="props">{{
                   props.index + 1
                 }}</template>
+
               </v-data-table>
             </v-card>
           </div>
@@ -170,10 +176,10 @@ export default {
     }
   },
   methods: {
-    showDetails(data){
-     this.$store.commit('patient/getDataId',data)
-     this.$router.push('/treat/basic_record')
-    }
+    showDetails(data) {
+      this.$store.commit('patient/getDataId', data)
+      this.$router.push('/treat/basic_record')
+    },
   },
 }
 </script>

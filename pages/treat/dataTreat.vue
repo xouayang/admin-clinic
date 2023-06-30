@@ -5,7 +5,7 @@
       <div class="pa-2 ml-1 font-weight-bold" style="color: #9155fd">
         ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ
       </div>
-      <v-data-table :headers="headers" :items="dataTreat">
+      <v-data-table :headers="headers" :items="dataTreat.rows">
         <template slot="item.index" scope="props">
           {{ props.index + 1 }}
         </template>
@@ -227,6 +227,7 @@ export default {
         { text: 'ລາຍລະອຽດ', value: 'details' },
         { text: 'ນໍ້າໜັກ', value: 'weight' },
         { text: 'ລວງສູງ', value: 'height' },
+        { text: 'ຊິບພະຈອນ', value: 'chip_life' },
         { text: 'action', value: 'action' },
       ],
     }
@@ -255,8 +256,8 @@ export default {
       )
     },
     showDetails(data) {
-      // console.log(data)
-      this.firstcheckid = data.firstcheckid
+      console.log(data.id)
+      this.firstcheckid = data.id
       this.storeData = data
       this.dialog = true
     },

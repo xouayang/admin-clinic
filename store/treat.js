@@ -68,6 +68,7 @@ export const actions = {
     await this.$axios.get('http://localhost:7000/get-medicins')
     .then((res)=>{
       commit('setMedicinesType',res.data)
+      console.log(res.data)
     })
   },
   async getMedicinesAllById({commit}, id){
@@ -82,10 +83,11 @@ export const actions = {
     }
   },
   async saveOffer({commit}, data){
-    await this.$axios.post('http://localhost:7000/createOffer', data)
-    .then((res)=>{
-      this.$toast.success('Sccess')
-    })
+   await console.log(data)
+    // await this.$axios.post('http://localhost:7000/createOffer', data)
+    // .then((res)=>{
+    //   this.$toast.success('Sccess')
+    // })
   }
   
 }

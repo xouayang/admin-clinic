@@ -33,56 +33,9 @@ export const state = () => ({
         })
     },
     async getAll({ commit }) {
-      await this.$axios.get(`http://localhost:7000/get-data`).then((storeData) => {
+      await this.$axios.get(`http://localhost:7000/get-firstCheck`).then((storeData) => {
         commit('getData', storeData.data)
       })
     },
-    // async getSingData({ commit }) {
-    //   await this.$axios.get(`http://localhost:7000/get-all`).then((diseas) => {
-    //      commit('getSingData', diseas.data.rows)
-    //   })
-    // },
-    // async deleteData({ commit }, id) {
-    //   await this.$axios
-    //     .delete(`http://localhost:7000/delete/${id}`)
-    //     .then(() => {
-    //       this.$toast.success('ລືບຂໍ້ມູນສຳເລັດ', {
-    //         duration: 2000,
-    //         position: 'top-right',
-    //         iconPack: 'mdi',
-    //         icon: 'check',
-    //       })
-    //     })
-    //     .catch(() => {
-    //       this.$toast.error('ລືບບໍ່ຂໍ້ມູນສຳເລັດ', {
-    //         duration: 2000,
-    //         position: 'top-right',
-    //         iconPack: 'mdi',
-    //         icon: 'close',
-    //       })
-    //     })
-    // },
-    // async updateData({commit},dataDisease) {
-    //   const data1 = dataDisease.data
-    //   const id = dataDisease.id
-    //   await this.$axios
-    //     .put(`http://localhost:7000/update/${id}`, data1)
-    //     .then(() => {
-    //       this.$toast.success('ເເກ້ໄຂຂໍ້ມູນສຳເລັດ', {
-    //         duration: 3000,
-    //         position: 'top-right',
-    //         iconPack: 'mdi',
-    //         icon: 'check',
-    //       })
-    //     })
-    //     .catch(() => {
-    //       this.$toast.error('ບໍ່ສາມາດເເກ້ໄຂຂໍ້ມູນ?', {
-    //         duration: 3000,
-    //         position: 'top-right',
-    //         iconPack: 'mdi',
-    //         icon: 'close',
-    //       })
-    //     })
-    // }
   }
   

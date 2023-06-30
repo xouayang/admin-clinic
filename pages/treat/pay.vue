@@ -22,7 +22,7 @@
       </v-row>
       <v-data-table :headers="headers" :items="bill" :search="search">
         <template #[`item.date`]="{ item }">
-          {{ $moment(item.date).format('DD-MM-YYYY') }}
+          {{ $moment(item.date).format('DD-MM-YYYY h:mm:ss a') }}
         </template>
         <template #[`item.total_price`]="{ item }">
           <span class="font-weight-bold" style="color: red">{{
@@ -53,8 +53,9 @@
             <span> ຊື່:{{ data_by_id.name }}</span>
             <span> ລະຫັດໃບບິນ : {{ data_by_id.billNumber }}</span>
           </div>
-          <div class="d-flex">
-            <v-col>ທີ່ຢຸູ:{{ data_by_id.address }}</v-col>
+          <div class="d-flex justify-space-between container">
+            <span>ທີ່ຢຸູ:{{ data_by_id.address }}</span>
+            <span>ເບີໂທລະສັບ:{{ data_by_id.tel }}</span>
           </div>
           <v-data-table :headers="headers1" :items="data_by_id.rows">
             <template #[`item.price`]="{ item }">
@@ -74,7 +75,7 @@
             </v-btn>
           </v-toolbar>
           <div class="d-flex justify-space-around container">
-            <span> ລາຄາລວມ:{{sendData.total_price}}</span>
+            <span> ລາຄາລວມ:{{toCurrencyString(parseInt(sendData.total_price))}}</span>
             <span> ລະຫັດໃບບິນ : {{ sendData.bill_number }}</span>
           </div>
           <v-card-actions class="d-flex justify-end">

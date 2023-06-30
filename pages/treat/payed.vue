@@ -15,14 +15,14 @@
             dense
           >
             <template #[`item.createdAt`]="{ item }">
-              {{ $moment(item.createdAt).format('DD-MM-YYY') }}
+              {{ $moment(item.createdAt).format('DD-MM-YYYY , h:mm:ss a') }}
             </template>
           </v-text-field>
         </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="dataStatus" :search="search">
         <template #[`item.date`]="{ item }">
-          {{ $moment(item.date).format('DD-MM-YYYY') }}
+          {{ $moment(item.date).format('DD-MM-YYYY  h:mm:ss a') }}
         </template>
         <template #[`item.total_price`]="{ item }">
           <span class="font-weight-bold" style="color: red">{{
@@ -32,9 +32,9 @@
         <template #[`item.actions`]="{ item }">
           <div class="d-flex">
             <div v-if="item.status == 0" class="mr-2">
-              <v-btn rounded color="success">
+              <v-btn text rounded color="success">
                 <v-icon>mdi-check</v-icon>
-                <span style="color: white">ຊຳລະເງີນເເລ້ວ</span>
+                <span>ຊຳລະເງີນເເລ້ວ</span>
               </v-btn>
             </div>
             <div class="mr-2">
@@ -66,8 +66,9 @@
             <span> ຊື່:{{ data_by_id.name }}</span>
             <span> ລະຫັດໃບບິນ : {{ data_by_id.billNumber }}</span>
           </div>
-          <div class="d-flex">
-            <v-col>ທີ່ຢຸູ:{{ data_by_id.address }}</v-col>
+          <div class="d-flex justify-space-between container">
+            <span>ທີ່ຢຸູ:{{ data_by_id.address }}</span>
+            <span>ເບີໂທລະສັບ:{{ data_by_id.tel }}</span>
           </div>
           <v-data-table :headers="headers1" :items="data_by_id.rows">
             <template #[`item.price`]="{ item }">
@@ -172,11 +173,11 @@ export default {
     },
     async save() {
       const data = {
-        firstcheck_id:this.firstcheck_id,
-        bill_id:this.bill_id,
-        result:this.result
+        firstcheck_id: this.firstcheck_id,
+        bill_id: this.bill_id,
+        result: this.result,
       }
-      await this.$store.dispatch('result/createResult', {...data})
+      await this.$store.dispatch('result/createResult', { ...data })
       await this.$router.push('/treat/checked')
       // await this.$store.dispatch('user/getStatus')
     },

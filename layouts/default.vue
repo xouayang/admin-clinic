@@ -529,10 +529,10 @@ export default {
           title: 'ກວດພະຍາດ',
           nestList: [
             { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
-            {
-              title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ',
-              to: '/treat/Check_appointment',
-            },
+            // {
+            //   title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ',
+            //   to: '/treat/Check_appointment',
+            // },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
             { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },

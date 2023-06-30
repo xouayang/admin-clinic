@@ -1,11 +1,16 @@
 <template>
   <div>
-    <v-card class="container mt-5">
-      <!-- {{medicines}} -->
+    <div class="container font-weight-bold" style="color:#9155FD">ວາງຢາ</div>
+    <v-card class="container">
       <v-row class="d-flex justify-end pa-2 mb-4">
         <div class="mr-4">
-          <div>ລະຫັດປີ່ນປົວ : {{ billData.billNumber }}</div>
-          <div>ວັນທີ່ : {{ $moment(Date.now()).format('DD/MM/YYYY') }}</div>
+          <div>ລະຫັດໃບບິນ :{{ dataFrom_checked.bill_number }}</div>
+          <div>
+            ວັນທີ່ :
+            {{
+              $moment(dataFrom_checked.created_at).format('DD-MM-YYYY h:mm:ss a')
+            }}
+          </div>
         </div>
       </v-row>
       <v-row>
@@ -35,51 +40,46 @@
           <div>
             ຈໍານວນ : {{ allData.reduce((sum, data) => data.amount + sum, 0) }}
           </div>
-          <div style="color: red">
+          <div>
             ລາຄາລວມ :
-            {{
-              allData.reduce((sum, data) => data.amount * data.price + sum, 0)
-            }}
+            <span style="color: red" class="font-weight-bold">{{
+              toCurrencyString(allData.reduce((sum, data) => data.amount * data.price + sum, 0))
+            }}</span>
           </div>
         </v-col>
         <v-divider vertical></v-divider>
         <v-col cols="12" md="4" sm="12">
           <div>
-            ລາຍການກວດພະຍາດ :
-            <div v-for="data in billData.rows" :key="data.id">
-              <ul>
-                <li>
-                  {{ data.details }}
-                </li>
-              </ul>
+            ຜົນກວດກວດພະຍາດ :
+            <div>
+              <span>{{ dataFrom_checked.result }}</span>
             </div>
           </div>
-          <v-btn
-            color="#9155FD"
-            class="mt-8 d-flex justify-end"
-            @click="saveData"
-          >
-            <span style="color: white">ບັນທຶກ</span>
-            <v-icon color="white"> mdi-content-save-check-outline </v-icon>
-          </v-btn>
         </v-col>
       </v-row>
     </v-card>
-    <!-- {{medicines}} -->
+
     <v-card v-if="medicines.length > 0" class="mt-5">
       <v-card-text>
         <v-row>
           <v-col v-for="data in medicines" :key="data.id" cols="12" md="3">
             <v-card @click="showMedicines(data)">
               <v-card-title> ຊື່ຢາ: {{ data.name }} </v-card-title>
-              <div class="pa-1">ລາຄາ: {{toCurrencyString(data.price)}}</div>
+              <div class="pa-1">ລາຄາ: {{ toCurrencyString(data.price) }}</div>
               <div class="pa-1">ຈຳນວນໃນ(stock): {{ data.amount }}</div>
             </v-card>
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
-
+    <v-row class="mt-2">
+      <v-col class="mt-8 d-flex justify-end">
+        <v-btn color="#9155FD" @click="saveData">
+          <span style="color: white">ບັນທຶກ</span>
+          <v-icon color="white"> mdi-content-save-check-outline </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-dialog
       v-model="dialog"
       persistent
@@ -88,7 +88,8 @@
     >
       <v-card>
         <v-card-title> ຊື່ຢາ: {{ dataMedisinesOne.name }} </v-card-title>
-        <v-card-text> ລາຄາ: {{dataMedisinesOne.price}} </v-card-text>
+        <v-card-title> ປະເພດຢາ: {{ dataMedisinesOne.type_name }} </v-card-title>
+        <v-card-text> ລາຄາ: {{ dataMedisinesOne.price }} </v-card-text>
         <v-card-text>
           ຈຳນວນ:
           <v-text-field
@@ -101,9 +102,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="red white--text" outlined @click="dialog = false"
-            >cancel</v-btn
+            >ຍົກເລິກ</v-btn
           >
-          <v-btn color="success white--text" @click="sendDataArray">OK</v-btn>
+          <v-btn color="success white--text" @click="sendDataArray">ບັນທຶກ</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -122,38 +123,39 @@ export default {
     }
   },
   computed: {
-    billId() {
-      return this.$route.query.bill
-    },
-    T_id() {
-      return this.$route.query.treat_id
-    },
-    billData() {
-      return this.$store.state.treat.billData
-    },
+    // billId() {
+    //   return this.$route.query.bill
+    // },
+    // T_id() {
+    //   return this.$route.query.treat_id
+    // },
+    // billData() {
+    //   return this.$store.state.treat.billData
+    // },
     medicinesType() {
       return this.$store.state.treat.medicinesType
     },
     medicines() {
       return this.$store.state.treat.medicines
     },
+    dataFrom_checked() {
+      return this.$store.state.result.dataId
+    },
   },
   mounted() {
-    this.$store.dispatch('treat/getMedicines', this.billId)
+    // this.$store.dispatch('treat/getMedicines', this.billId)
     this.$store.dispatch('treat/getMedicinesType')
-    console.log('---------------->', this.allData)
   },
   methods: {
     async saveData() {
-      const readyData = {
-        treat_id: this.T_id,
-        item: this.allData,
-      }
+     await console.log(this.dataFrom_checked.id)
+      // const readyData = {
+      //   treat_id:this.dataFrom_checked.id,
+      //   item: this.allData,
+      // }
 
-      await this.$store.dispatch('treat/saveOffer', readyData)
-      this.allData = []
-      this.$router.back()
-      // console.log('data----------------------->',readyData)
+      // await this.$store.dispatch('treat/saveOffer', readyData)
+      // this.allData = []
     },
     sendDataArray() {
       const medicinesData = {

@@ -42,10 +42,14 @@
             hide-details="auto"
             dense
             style="width: 50px"
+            :rules="[greaterThanZeroRule]"
           ></v-text-field>
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ $moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template #[`item.price`]="{ item }">
+          <span style="color: red"> {{ toCurrencyString(item.price) }}</span>
         </template>
       </v-data-table>
       <v-divider></v-divider>
@@ -147,6 +151,7 @@
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'ImportPages',
   data() {
@@ -163,6 +168,12 @@ export default {
       showAddDialog: false,
       search: '',
       data: [],
+      greaterThanZeroRule: [
+        (v) => !!v || 'Value is required',
+        (v) => /^\d+$/.test(v) || 'Value must be a number',
+        (v) => Number(v) > 0 || 'Value must be greater than zero',
+        (v) => this.noNegativeSign(v) || 'Value must not be negative',
+      ],
       headers: [
         { text: 'ລະຫັດນຳເຂົ້າ ', value: 'bill_number' },
         { text: 'ປະເພດ', value: 'type_name' },
@@ -183,6 +194,16 @@ export default {
     }
   },
   methods: {
+    noNegativeSign(value) {
+      if (value.includes('-') !== -1) {
+        this.myNumber = value.replace('-', '');
+        return false;
+      }
+      return true;
+  },
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
+    },
     saveImport() {
       const dataIn = []
       this.importData?.rows?.map((el) => {
@@ -222,16 +243,16 @@ export default {
           //     icon: 'close',
           //   })
           // } else {
-            this.importData = []
-            this.expired_date = ''
-            this.billId = ''
-            this.$toast.success('ນຳເຂົ້າສຳເລັດ', {
-              duration: 2000,
-              position: 'top-right',
-              iconPack: 'mdi',
-              icon: 'check',
-            })
-            this.$router.push('/Import/historyImport')
+          this.importData = []
+          this.expired_date = ''
+          this.billId = ''
+          this.$toast.success('ນຳເຂົ້າສຳເລັດ', {
+            duration: 2000,
+            position: 'top-right',
+            iconPack: 'mdi',
+            icon: 'check',
+          })
+          this.$router.push('/Import/historyImport')
           // }
         })
     },

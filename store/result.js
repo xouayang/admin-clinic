@@ -1,10 +1,14 @@
 export const state = () => ({
-  setDataResult:[]
+  setDataResult:[],
+  dataId:''
 })
 
 export const mutations = {
   setResult(state,data){
     state.setDataResult = data
+  },
+  getDataId(state,data) {
+    state.dataId = data
   }
 }
 

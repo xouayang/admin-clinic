@@ -67,7 +67,7 @@
       transition="dialog-transition"
     >
       <v-card>
-        <v-card-title> insert data </v-card-title>
+        <v-card-title> ລາຍການສັ່ງຊື້ຢາ </v-card-title>
         <v-card-text>
           <v-data-table :headers="headers" :items="selectedItems">
             <template #[`item.indx`]="{ index }">
@@ -89,8 +89,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red " outlined @click="dialog = false">cancel</v-btn>
-          <v-btn color="success white--text " @click="order">ok</v-btn>
+          <v-btn color="red " outlined @click="dialog = false">ຍົກເລີກ</v-btn>
+          <v-btn color="success white--text " @click="order">ບັນທຶກ</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

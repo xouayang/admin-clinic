@@ -177,10 +177,10 @@ export default {
         bill_id: this.bill_id,
         result: this.result,
       }
-      await this.$store.dispatch('result/createResult', { ...data })
-      await this.$router.push('/treat/checked');
-    },
-  },
+      this.$router.push('/treat/checked');
+      await this.$store.dispatch('result/createResult', { ...data });
+    }
+  }
 }
 </script>
 

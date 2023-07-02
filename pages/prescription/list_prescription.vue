@@ -1,8 +1,7 @@
 <template>
   <div class="mt-2 ml-2">
-    <!-- {{prescrition}} -->
     <div style="font-size: 20px; color: #9155fd" class="mb-7 ml-4">
-      ປະຫວັດຈັດຊື້ຢາ
+      ລາຍການໃບສັ່ງຢາ
     </div>
     <v-card class="mt-3 text-center">
       <v-row class="col-12">
@@ -18,26 +17,24 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-data-table :headers="headers" :items="history" :search="search">
-        <template #[`item.create_at`]="{ item }">
-          {{ $moment(item.create_at).format('YYYY-MM-DD') }}
-        </template>
-        <template #[`item.actions`]="{ item }">
-          <div v-if="item.status == 1">
-            <v-btn rounded color="error">
-              <v-icon>mdi-dots-horizontal</v-icon>
-              <span style="color: white">ລໍຖ້ານໍາເຂົ້າ</span>
-            </v-btn>
-          </div>
-          <div v-if="item.status == 0">
-            <v-btn rounded color="success">
-              <v-icon>mdi-check</v-icon>
-              <span style="color: white">ນໍາເຂົ້າແລ້ວ</span>
-            </v-btn>
-          </div>
+      <v-data-table
+        :headers="headers"
+        :items="prescrition_data"
+        :search="search"
+      >
+        <template #[`item.created_at`]="{ item }">
+          {{ $moment(item.created_at).format('DD-MM-YYYY h:mm:ss a') }}
         </template>
         <template #[`item.price`]="{ item }">
           <span style="color: red">{{ toCurrencyString(item.price) }}</span>
+        </template>
+        <template #[`item.actions`] = "{item}">
+          <div v-if="item.status === 1">
+            <v-btn rounded color="error">
+              <v-icon>mdi-dots-horizontal</v-icon>
+              <span> ລໍຖ້າບັນທຶກຈ່າຍຢາ</span>
+            </v-btn>
+          </div>
         </template>
       </v-data-table>
     </v-card>
@@ -51,25 +48,24 @@ export default {
     return {
       search: '',
       headers: [
-        { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
+        { text: 'ລະຫັດໃບບິນ', value: 'treat_id' },
         { text: 'ປະເພດຢາ', value: 'type_name' },
         { text: 'ຊື່ຢາ', value: 'name' },
         { text: 'ຈຳນວນ', value: 'amount' },
         { text: 'ລາຄາ', value: 'price' },
         { text: 'ຫົວໜ່ວຍ', value: 'unit' },
-        { text: 'ຜູ້ສະໜອງ', value: 'supplier_name' },
-        { text: 'ວັນທີ່ສັ່ງຊື້', value: 'create_at' },
+        { text: 'ວັນທີ່', value: 'created_at' },
         { text: 'ສະຖານະ', value: 'actions' },
       ],
     }
   },
   computed: {
-    history() {
-      return this.$store.state.user.historyData
+    prescrition_data() {
+      return this.$store.state.sale.statusData
     },
   },
   async mounted() {
-    await this.$store.dispatch('user/getHistory')
+    await this.$store.dispatch('sale/getDataStatus')
   },
   methods: {
     toCurrencyString(number) {

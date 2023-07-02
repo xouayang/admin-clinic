@@ -42,6 +42,9 @@
           <template #[`item.indx`]="{ index }">
             {{ index + 1 }}
           </template>
+          <template #[`item.price`]="{ item }">
+            <span style="color: red">{{ toCurrencyString(item.price) }}</span>
+          </template>
         </v-data-table>
       </v-col>
 
@@ -79,6 +82,9 @@
                 style="width: 50px"
               ></v-text-field>
             </template>
+            <template #[`item.price`]="{ item }">
+              <span style="color: red">{{ toCurrencyString(item.price) }}</span>
+            </template>
           </v-data-table>
         </v-card-text>
         <v-card-actions>
@@ -91,6 +97,7 @@
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'OrderPages',
   data() {
@@ -172,6 +179,9 @@ export default {
     },
     getSelectedItems() {
       this.dialog = true
+    },
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
     },
   },
 }

@@ -1,6 +1,7 @@
 export const state = () => ({
   setDataResult:[],
-  dataId:''
+  dataId:'',
+  dataHistory:[]
 })
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
   },
   getDataId(state,data) {
     state.dataId = data
+  },
+  setHistory(state,data) {
+    state.dataHistory = data
   }
 }
 
@@ -47,6 +51,16 @@ export const actions = {
       await this.$axios.get('http://localhost:7000/get-result').then((data) => {
         commit('setResult', data.data)
         console.log("resultData",data.data)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getHistory({commit}) {
+    try {
+      await this.$axios.get('http://localhost:7000/history-result').then((data) => {
+        commit('setHistory', data.data)
+        // console.log("resultData",data.data)
       })
     } catch (error) {
       console.log(error)

@@ -174,7 +174,7 @@
                 <p class="font-weight-bold">
                   ລາຄາລວມ:
                   <span style="color: red">{{
-                   (bill.total_price)
+                   toCurrencyString(parseInt(bill.total_price))
                   }}</span>
                 </p>
               </div>
@@ -194,7 +194,7 @@
               <v-btn color="red" dark @click="dialogBill = false"
                 >ຍົກເລີກ</v-btn
               >
-              <v-btn color="blue" dark @click="route(bill)">ພິມໃບບິນ</v-btn>
+              <v-btn color="blue" dark @click="route">ພິມໃບບິນ</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -249,11 +249,12 @@ export default {
     // await this.$store.dispatch('')
   },
   methods: {
-    route(data) {
+    route() {
+      this.$router.push('/treat/pay')
       // console.log( this.firstcheckid)
-      this.$router.push(
-        `/treat/data?bill=${data.id}&treat_id=${this.firstcheckid}`
-      )
+      // this.$router.push(
+      //   `/treat/data?bill=${data.id}&treat_id=${this.firstcheckid}`
+      // )
     },
     showDetails(data) {
       console.log(data.id)

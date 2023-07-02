@@ -472,7 +472,7 @@
       </v-container>
     </v-main>
     <v-footer :absolute="!fixed" app class="d-flex justify-center">
-      <span>ຄີຣນິກ ດຣ ສະຖຽນ</span>
+      <span>ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</span>
     </v-footer>
 
     <v-row>
@@ -536,6 +536,7 @@ export default {
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
             { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
+            { title: 'ປະຫວັດລາຍການກວດທັງໝົດ', to: '/treat/history_checked' },
           ],
           // list1: [
           //   { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
@@ -549,8 +550,7 @@ export default {
           title: 'ຂາຍຢາ',
           nestList1: [
             { title: 'ກວດສອບໃບສັ່ງຢາ', to: '/prescription/check_prescription' },
-            // { title: "ບັນທຶກການຈ່າຍຢາ", to: "" },
-            // { title: "ຢືນຢັນການຈ່າຍຢາ", to: "" },
+            { title: "ລາຍການໃບສັ່ງຢາ", to: '/prescription/list_prescription' },
           ],
         },
       ],

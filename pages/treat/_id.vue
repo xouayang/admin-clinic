@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container font-weight-bold" style="color:#9155FD">ວາງຢາ</div>
+    <div class="container font-weight-bold" style="color: #9155fd">ວາງຢາ</div>
     <v-card class="container">
       <v-row class="d-flex justify-end pa-2 mb-4">
         <div class="mr-4">
@@ -8,7 +8,9 @@
           <div>
             ວັນທີ່ :
             {{
-              $moment(dataFrom_checked.created_at).format('DD-MM-YYYY h:mm:ss a')
+              $moment(dataFrom_checked.created_at).format(
+                'DD-MM-YYYY h:mm:ss a'
+              )
             }}
           </div>
         </div>
@@ -43,7 +45,9 @@
           <div>
             ລາຄາລວມ :
             <span style="color: red" class="font-weight-bold">{{
-              toCurrencyString(allData.reduce((sum, data) => data.amount * data.price + sum, 0))
+              toCurrencyString(
+                allData.reduce((sum, data) => data.amount * data.price + sum, 0)
+              )
             }}</span>
           </div>
         </v-col>
@@ -58,14 +62,20 @@
         </v-col>
       </v-row>
     </v-card>
-
     <v-card v-if="medicines.length > 0" class="mt-5">
       <v-card-text>
         <v-row>
           <v-col v-for="data in medicines" :key="data.id" cols="12" md="3">
             <v-card @click="showMedicines(data)">
               <v-card-title> ຊື່ຢາ: {{ data.name }} </v-card-title>
-              <div class="pa-1">ລາຄາ: {{ toCurrencyString(data.price) }}</div>
+              <div class="pa-1">ປະເພດຢາ: {{ data.type_name }}</div>
+              <div class="pa-1">ຫົວໜ່ວຍ: {{ data.unit }}</div>
+              <div class="pa-1">
+                ລາຄາ:
+                <span style="color: red">{{
+                  toCurrencyString(data.price)
+                }}</span>
+              </div>
               <div class="pa-1">ຈຳນວນໃນ(stock): {{ data.amount }}</div>
             </v-card>
           </v-col>
@@ -88,8 +98,13 @@
     >
       <v-card>
         <v-card-title> ຊື່ຢາ: {{ dataMedisinesOne.name }} </v-card-title>
-        <v-card-title> ປະເພດຢາ: {{ dataMedisinesOne.type_name }} </v-card-title>
-        <v-card-text> ລາຄາ: {{ dataMedisinesOne.price }} </v-card-text>
+        <v-card-text> ປະເພດຢາ: {{ dataMedisinesOne.type_name }} </v-card-text>
+        <v-card-text> ຫົວໜ່ວຍ: {{ dataMedisinesOne.unit }} </v-card-text>
+        <v-card-text>
+          ລາຄາ:<span style="color:red">
+            {{ toCurrencyString(parseInt(dataMedisinesOne.price)) }}</span
+          >
+        </v-card-text>
         <v-card-text>
           ຈຳນວນ:
           <v-text-field
@@ -104,7 +119,9 @@
           <v-btn color="red white--text" outlined @click="dialog = false"
             >ຍົກເລິກ</v-btn
           >
-          <v-btn color="success white--text" @click="sendDataArray">ບັນທຶກ</v-btn>
+          <v-btn color="success white--text" @click="sendDataArray"
+            >ບັນທຶກ</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -123,15 +140,6 @@ export default {
     }
   },
   computed: {
-    // billId() {
-    //   return this.$route.query.bill
-    // },
-    // T_id() {
-    //   return this.$route.query.treat_id
-    // },
-    // billData() {
-    //   return this.$store.state.treat.billData
-    // },
     medicinesType() {
       return this.$store.state.treat.medicinesType
     },
@@ -148,14 +156,15 @@ export default {
   },
   methods: {
     async saveData() {
-     await console.log(this.dataFrom_checked.id)
-      // const readyData = {
-      //   treat_id:this.dataFrom_checked.id,
-      //   item: this.allData,
-      // }
+      // await console.log('data >>>>>>>>>>>>>>>', this.dataFrom_checked)
+      const readyData = {
+        treat_id:this.dataFrom_checked.id,
+        item: this.allData,
+      }
 
-      // await this.$store.dispatch('treat/saveOffer', readyData)
-      // this.allData = []
+      await this.$store.dispatch('treat/saveOffer', readyData)
+      this.allData = []
+      this.$router.push('/appointment')
     },
     sendDataArray() {
       const medicinesData = {
@@ -169,7 +178,6 @@ export default {
       this.dialog = false
     },
     showMedicines(data) {
-      console.log(data)
       this.dataMedisinesOne = data
       this.dialog = true
     },

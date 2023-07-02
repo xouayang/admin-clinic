@@ -45,8 +45,16 @@
             :rules="[greaterThanZeroRule]"
           ></v-text-field>
         </template>
+        <template #[`item.expired_date`]="{ item }">
+          <v-text-field
+            v-model="item.expired_date"
+            hide-details="auto"
+            dense
+            style="width: 50px"
+          ></v-text-field>
+        </template>
         <template #[`item.createdAt`]="{ item }">
-          {{ $moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss') }}
+          {{ $moment(item.createdAt).format('YYYY-MM-DD') }}
         </template>
         <template #[`item.price`]="{ item }">
           <span style="color: red"> {{ toCurrencyString(item.price) }}</span>
@@ -182,7 +190,7 @@ export default {
         { text: 'ລາຄາ', value: 'price' },
         { text: 'ຫົວໜ່ວຍ', value: 'unit' },
         { text: 'ວັນ ເດືອນ ປີ ສັ່ງຊື້', value: 'createdAt' },
-        // { text: "ວັນ ເດືອນ ປີ ໝົດອາຍຸ", value: "expired_date" },
+        { text: 'ວັນ ເດືອນ ປີ ໝົດອາຍຸ', value: 'expired_date' },
       ],
       item: {
         id: '',
@@ -196,11 +204,11 @@ export default {
   methods: {
     noNegativeSign(value) {
       if (value.includes('-') !== -1) {
-        this.myNumber = value.replace('-', '');
-        return false;
+        this.myNumber = value.replace('-', '')
+        return false
       }
-      return true;
-  },
+      return true
+    },
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
     },

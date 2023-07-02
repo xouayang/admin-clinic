@@ -178,8 +178,7 @@ export default {
         result: this.result,
       }
       await this.$store.dispatch('result/createResult', { ...data })
-      await this.$router.push('/treat/checked')
-      // await this.$store.dispatch('user/getStatus')
+      await this.$router.push('/treat/checked');
     },
   },
 }

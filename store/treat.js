@@ -3,6 +3,7 @@ export const state = () => ({
   billData: {},
   medicinesType: [],
   medicines: [],
+  treatData:[]
 })
 
 export const mutations = {
@@ -18,6 +19,9 @@ export const mutations = {
   setMedicines(state, data) {
     state.medicines = data
   },
+  setTreats(state,data) {
+    state.treatData = data
+  }
 }
 
 export const actions = {
@@ -45,7 +49,8 @@ export const actions = {
       await this.$axios
         .post('http://localhost:7000/post-data', itemBillId)
         .then((res) => {
-          //   console.log(res.data)
+          commit('setTreats', res.data)
+          console.log(">>>>>>>>>>>>>> treatData", res.data)
         })
 
       await this.$axios

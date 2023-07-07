@@ -22,7 +22,7 @@
       </v-row>
       <v-data-table :headers="headers" :items="dataStatus" :search="search">
         <template #[`item.date`]="{ item }">
-          {{ $moment(item.date).format('DD-MM-YYYY  h:mm:ss a') }}
+          {{ $moment(item.date).format('DD-MM-YYYY') }}
         </template>
         <template #[`item.total_price`]="{ item }">
           <span class="font-weight-bold" style="color: red">{{
@@ -89,14 +89,36 @@
           </v-toolbar>
           <v-col>
             <div class="ml-2 mb-3">ປ້ອນຜົນກວດ</div>
-            <v-textarea
-              v-model="result"
-              label="ປ້ອນຜົນກວດ"
-              outline
-              outlined
-              rows="3"
-              row-height="25"
-            ></v-textarea>
+            <v-text-field v-model="result" outlined  label="ປ້ອນຜົນກວດ" ></v-text-field>
+            <div>
+              <!-- <v-row
+                class="d-flex col-12"
+                v-for="data in data_by_id.rows"
+                :key="data.id"
+              >
+                <v-card
+                  class="container"
+                  style="cursor: pointer"
+                  @click="detailsDialog = !detailsDialog"
+                >
+                  <v-col md="6">{{ data.details }}</v-col>
+                </v-card>
+              </v-row> -->
+            </div>
+            <!-- <v-data-table :headers="headers2" :items="data_by_id.rows">
+              <template #[`item.results`]="{ item }">
+                <v-select
+                  v-model="item.result"
+                  label="ເລືອກ"
+                  dense
+                  outlined
+                  :items="['positive', 'Negative']"
+                ></v-select>
+              </template>
+            </v-data-table> -->
+
+            <!-- <div>{{ data_by_id.firstcheck_id }}</div>
+            <div>{{ data_by_id.id }}</div> -->
           </v-col>
           <v-card-actions class="d-flex justify-end">
             <v-btn color="error" @click="clearData">
@@ -110,6 +132,25 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <!-- <v-dialog
+        v-model="detailsDialog"
+        width="640"
+        activator="parent"
+        persistent
+      >
+        <v-card class="container">
+          <v-select
+            label="ເລືອກ"
+            dense
+            outlined
+            :items="['positive', 'Negative']"
+          ></v-select>
+          <v-card-actions>
+            <v-btn @click="detailsDialog = false">cancel</v-btn>
+            <v-btn @click="detailsDialog = false">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog> -->
     </v-card>
   </div>
 </template>
@@ -122,6 +163,7 @@ export default {
       search: '',
       dialog: false,
       resultDialog: false,
+      detailsDialog: false,
       bill_id: '',
       firstcheck_id: '',
       result: '',
@@ -135,6 +177,10 @@ export default {
       headers1: [
         { text: 'ລາຍການກວດ', value: 'details' },
         { text: 'ລາຄາ', value: 'price' },
+      ],
+      headers2: [
+        { text: 'ລາຍການກວດ', value: 'details' },
+        { text: 'ປ້ອນຜົນກວດ', value: 'results' },
       ],
     }
   },
@@ -177,10 +223,10 @@ export default {
         bill_id: this.bill_id,
         result: this.result,
       }
-      this.$router.push('/treat/checked');
-      await this.$store.dispatch('result/createResult', { ...data });
-    }
-  }
+      this.$router.push('/treat/checked')
+      await this.$store.dispatch('result/createResult', { ...data })
+    },
+  },
 }
 </script>
 

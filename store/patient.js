@@ -44,7 +44,7 @@ export const actions = {
   // get data
   async patientInfo({ commit }) {
     await this.$axios
-      .get('http://localhost:7000/get-patients')
+      .get('http://localhost:7000/get-report')
       .then((patients) => {
         commit('getPatient', patients.data)
       })

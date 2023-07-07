@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>{{dataFrom_checked}}</div>
+    <!-- <div>{{dataFrom_checked}}</div> -->
     <div class="container font-weight-bold" style="color: #9155fd">ວາງຢາ</div>
     <v-card class="container">
       <v-row class="d-flex justify-end pa-2 mb-4">

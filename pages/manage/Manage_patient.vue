@@ -153,17 +153,6 @@
               color="#9155FD"
             />
           </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="storePatients.birtday"
-              :value="data1.birtday"
-              outlined
-              dense
-              hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
-              color="#9155FD"
-            />
-          </v-col>
           <v-spacer></v-spacer>
           <div class="d-flex justify-end pa-4">
             <v-btn
@@ -223,16 +212,6 @@
               color="#9155FD"
             />
           </v-col>
-          <v-col cols="12">
-            <v-text-field
-              placeholder="XOUAYANG"
-              outlined
-              dense
-              hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
-              color="#9155FD"
-            />
-          </v-col>
           <v-spacer></v-spacer>
           <div class="d-flex justify-end pa-4">
             <v-btn
@@ -270,7 +249,6 @@ export default {
         { text: 'ຊື່', value: 'name' },
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
-        { text: 'ວັນ ເດືອນ ປີ ເກີດ', value: 'birtday' },
         { text: 'Actions', value: 'action' },
       ],
     }

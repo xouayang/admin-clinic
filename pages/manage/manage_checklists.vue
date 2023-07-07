@@ -60,6 +60,9 @@
             <span>ເເກ້ໄຂ</span>
           </v-tooltip>
         </template>
+        <template #[`item.price`]="{item}">
+          {{ toCurrencyString(parseInt(item.price)) }}
+        </template>
       </v-data-table>
     </v-card>
     <!-- show delete data -->
@@ -201,6 +204,7 @@
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'ManageChecklistsPages',
   data() {
@@ -227,15 +231,18 @@ export default {
       ],
     }
   },
-    computed: {
+  computed: {
     showDiseas() {
       return this.$store.state.disease.dataDisase
     },
   },
-    async mounted() {
+  async mounted() {
     await this.$store.dispatch('disease/getAll')
   },
   methods: {
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
+    },
     async addData() {
       await this.$store.dispatch('disease/postDiseas', { ...this.storeData })
       this.storeData.name = ''
@@ -262,10 +269,10 @@ export default {
       }
     },
     async editInfo(id) {
-      const data = this.editInformation;
-      await this.$store.dispatch('disease/updateData', { data, id });
-      await this.$store.dispatch('disease/getAll');
-      this.dialog = false;
+      const data = this.editInformation
+      await this.$store.dispatch('disease/updateData', { data, id })
+      await this.$store.dispatch('disease/getAll')
+      this.dialog = false
     },
   },
 }

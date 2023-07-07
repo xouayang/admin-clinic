@@ -67,6 +67,39 @@
                         <div style="color: red">*ກະລຸນາເລືອກລາຍການກວດ</div>
                       </v-col>
                     </v-row>
+                    <v-row class="mt-16 col-12">
+                      <div class="font-weight-bold">ນັດໝາຍກວດຄັ້ງຕໍ່ໄປ</div>
+                      <v-col cols="12" md="12" sm="12">
+                        <v-text-field
+                          v-model="appointMentData.treat_id"
+                          outlined
+                          dense
+                          label="ລະຫັດ"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="12" sm="12">
+                        <v-text-field
+                          v-model="appointMentData.name"
+                          outlined
+                          dense
+                          label="ຊື່"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="12" sm="12">
+                        <v-text-field
+                          v-model="appointMentData.tel"
+                          outlined
+                          dense
+                          label="ເບີໂທລະສັບ"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="12" sm="12">
+                        <DataPicker1 v-model="appointMentData.date" />
+                      </v-col>
+                    </v-row>
                   </div>
                 </v-list>
               </v-col>
@@ -164,21 +197,18 @@
               </v-col>
             </v-row>
             <v-divider class="mb-8 mt-2" style="color: red"></v-divider>
-            <v-card-text
-              class="col-12 d-flex justify-space-between"
-              
-            >
+            <v-card-text class="col-12 d-flex justify-space-between">
               <div class="col-md-6">
                 <p class="font-weight-bold">ຊື່: {{ bill.name }}</p>
                 <p class="font-weight-bold">ທີ່ຢຸູ: {{ bill.address }}</p>
                 <p class="font-weight-bold">
                   ລາຄາລວມ:
                   <span style="color: red">{{
-                   toCurrencyString(parseInt(bill.total_price))
+                    toCurrencyString(parseInt(bill.total_price))
                   }}</span>
                 </p>
               </div>
-              <div class="col-md-6 font-weight-bold" >
+              <div class="col-md-6 font-weight-bold">
                 ລາຍການກວດພະຍາດ:
                 <div v-for="data in bill.rows" :key="data.id">
                   <ul>
@@ -219,6 +249,12 @@ export default {
       storeData: '',
       firstcheckid: '',
       dialogBill: false,
+      appointMentData :{
+      treat_id:'',
+      name:'',
+      tel:'',
+      date:''
+      },
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
@@ -257,9 +293,14 @@ export default {
       // )
     },
     showDetails(data) {
-      console.log(data.id)
+      console.log(data)
       this.firstcheckid = data.id
       this.storeData = data
+      if(this.storeData) {
+        this.appointMentData.treat_id = this.storeData.id
+        this.appointMentData.name = this.storeData.name
+        this.appointMentData.tel = this.storeData.tel
+      }
       this.dialog = true
     },
     toCurrencyString(number) {
@@ -276,8 +317,10 @@ export default {
         item: testData,
         total_price: this.diseaseId.reduce((sum, res) => res.price + sum, 0),
       }
-
+      // console.log(data)
       await this.$store.dispatch('treat/createTreat', { ...data })
+      console.log("appointmentDAta :   ",this.appointMentData)
+      await this.$store.dispatch('appointment/postAppointment', {...this.appointMentData})
       this.dialog = false
       this.dialogBill = true
     },

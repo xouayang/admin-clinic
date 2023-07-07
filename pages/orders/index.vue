@@ -38,6 +38,7 @@
           :items="medicines"
           show-select
           item-key="medicines_id"
+          :search="searchTerm"
         >
           <template #[`item.indx`]="{ index }">
             {{ index + 1 }}
@@ -80,6 +81,8 @@
                 hide-details="auto"
                 dense
                 style="width: 50px"
+                hide-spin-buttons
+                @keydown.native="validateNumber"
               ></v-text-field>
             </template>
             <template #[`item.price`]="{ item }">
@@ -139,6 +142,11 @@ export default {
     })
   },
   methods: {
+    validateNumber(e) {
+      if (e.key === '-') {
+        e.preventDefault()
+      }
+    },
     async order() {
       const data = {
         supplier_id: this.supId,

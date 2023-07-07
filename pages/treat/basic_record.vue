@@ -17,6 +17,7 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              :rules="rules"
             />
           </v-col>
           <v-col md="6" sm="12">
@@ -27,6 +28,7 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              :rules="rules1"
             />
           </v-col>
           <v-col md="6" sm="12">
@@ -37,6 +39,9 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              :rules="rules2"
+              type="number"
+              hide-spin-buttons
             />
           </v-col>
           <v-col md="6" sm="12">
@@ -47,6 +52,7 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              :rules="rules3"
             />
           </v-col>
           <v-col md="6" sm="12">
@@ -57,6 +63,10 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              type="number"
+              hide-spin-buttons
+              @keydown.native="validateNumber"
+              :rules="rules3"
             />
           </v-col>
           <v-col md="6" sm="12">
@@ -67,6 +77,10 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              type="number"
+              hide-spin-buttons
+              @keydown.native="validateNumber"
+              :rules="rules3"
             />
           </v-col>
           <v-col md="12" sm="12">
@@ -77,6 +91,7 @@
               dense
               color="#9155FD"
               hide-details="auto"
+              :rules="rules3"
             />
           </v-col>
         </v-row>
@@ -116,6 +131,20 @@ export default {
         weight: '',
         chip_life: '',
       },
+      rules: [
+        (value) => !!value || '*Required.',
+        (value) => (value && value.length >= 3) || 'Min 3 characters',
+      ],
+      rules1: [
+        (value) => !!value || '*Required.',
+        (value) => (value && value.length >= 5) || 'Min 5 characters',
+      ],
+      rules2: [
+        (value) => !!value || '*Required ',
+      ],
+      rules3: [
+        (value) => !!value || '*Required.',
+      ],
     }
   },
   computed: {
@@ -140,6 +169,11 @@ export default {
     // }
   },
   methods: {
+    validateNumber(e) {
+      if (e.key === '-') {
+        e.preventDefault()
+      }
+    },
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
     },

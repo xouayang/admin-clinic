@@ -19,20 +19,6 @@
             />
           </v-card-title>
         </v-col>
-        <v-col cols="12" md="6" sm="12">
-          <v-card-title>
-            <v-text-field
-              type="text"
-              v-model="expired_date"
-              label="ວັນໝົດອາຍຸ"
-              outlined
-              hide-details
-              dense
-              small
-              color="#9155FD"
-            />
-          </v-card-title>
-        </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="importData.rows" color="#9155FD">
         <template #[`item.amount`]="{ item }">
@@ -42,16 +28,12 @@
             hide-details="auto"
             dense
             style="width: 50px"
-            :rules="[greaterThanZeroRule]"
+            @keydown.native="validateNumber"
+            hide-spin-buttons
           ></v-text-field>
         </template>
         <template #[`item.expired_date`]="{ item }">
-          <v-text-field
-            v-model="item.expired_date"
-            hide-details="auto"
-            dense
-            style="width: 50px"
-          ></v-text-field>
+          <DataPicker v-model="item.expired_date" />
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ $moment(item.createdAt).format('YYYY-MM-DD') }}
@@ -176,12 +158,6 @@ export default {
       showAddDialog: false,
       search: '',
       data: [],
-      greaterThanZeroRule: [
-        (v) => !!v || 'Value is required',
-        (v) => /^\d+$/.test(v) || 'Value must be a number',
-        (v) => Number(v) > 0 || 'Value must be greater than zero',
-        (v) => this.noNegativeSign(v) || 'Value must not be negative',
-      ],
       headers: [
         { text: 'ລະຫັດນຳເຂົ້າ ', value: 'bill_number' },
         { text: 'ປະເພດ', value: 'type_name' },
@@ -201,13 +177,15 @@ export default {
       },
     }
   },
+  computed: {
+  
+
+  },
   methods: {
-    noNegativeSign(value) {
-      if (value.includes('-') !== -1) {
-        this.myNumber = value.replace('-', '')
-        return false
+    validateNumber(e){
+    if (e.key === '-' ) {
+        e.preventDefault()
       }
-      return true
     },
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
@@ -218,7 +196,6 @@ export default {
         const res = {
           amount: parseFloat(el.amount),
           bill_number: el.bill_number,
-          createdAt: el.createdAt,
           id: el.id,
           medicines_id: el.medicines_id,
           name: el.name,
@@ -226,31 +203,21 @@ export default {
           price: el.price,
           type_name: el.type_name,
           unit: el.unit,
-          updatedAt: el.unit,
+          expire_date: el.expired_date,
         }
         return dataIn.push(res)
       })
-
-      const data = {
-        expire_date: this.expired_date,
-        item: dataIn,
-      }
-      // console.log(data)
       this.$axios
-        .post('http://localhost:7000/createImport', data, {
-          headers: {
-            Authorization: `CLINIC ${this.token}`,
-          },
-        })
+        .post(
+          'http://localhost:7000/createImport',
+          { item: dataIn },
+          {
+            headers: {
+              Authorization: `CLINIC ${this.token}`,
+            },
+          }
+        )
         .then((res) => {
-          // if (res.data.status === 400) {
-          //   this.$toast.error('ລະຫັດໃບບິນນີ້ໄດ້ນຳເຂົ້າກ່ອນໜ້ານີເເລ້ວ', {
-          //     duration: 2000,
-          //     position: 'top-right',
-          //     iconPack: 'mdi',
-          //     icon: 'close',
-          //   })
-          // } else {
           this.importData = []
           this.expired_date = ''
           this.billId = ''
@@ -261,7 +228,6 @@ export default {
             icon: 'check',
           })
           this.$router.push('/Import/historyImport')
-          // }
         })
     },
     searchData(e) {
@@ -276,8 +242,6 @@ export default {
         })
     },
     showData() {
-      //  const id =  this.data.push(this.item.id)
-      //   console.log(id)
       this.dialog = false
       this.$refs.anyName.reset()
     },
@@ -288,4 +252,5 @@ export default {
 .font {
   font-family: 'Noto Serif Lao', serif;
 }
+
 </style>

@@ -86,10 +86,6 @@
                 <template #[`item.createdAt`]="{ item }">
                   {{ $moment(item.createdAt).format('DD-MM-YYYY') }}
                 </template>
-
-                <!-- <template #[`item.createdAt`]>
-                  {{$moment(createdAt).format('DD-MM-YYY ') }}
-                </template> -->
               </v-data-table>
             </v-card>
           </div>

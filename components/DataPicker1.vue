@@ -29,7 +29,7 @@ export default {
   props: {
     label: {
       type: String,
-      default: "ວັນທີເລີ່ມ",
+      default: "ວັນທີ ເດືອນ ປີ ນັດໝາຍ",
     },
     value: {
       type: String,

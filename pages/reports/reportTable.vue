@@ -15,7 +15,7 @@
       <v-col cols="12" md="3" sm="12">
         <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/reportDrug_equipment">
           <div class="d-flex justify-space-around align-center">
-            <v-card-subtitle>ລາຍງານຂໍ້ມູນຢາ-ອຸປະກອນ</v-card-subtitle>
+            <v-card-subtitle>ລາຍງານຂໍ້ມູນຢາ</v-card-subtitle>
             <v-btn fab small color="#9155FD">
               <v-icon color="white">mdi-medical-cotton-swab</v-icon>
             </v-btn>
@@ -38,6 +38,16 @@
             <v-card-subtitle>ລາຍງານຂໍ້ມູນການປີ່ນປົວ</v-card-subtitle>
             <v-btn fab small color="#9155FD">
               <v-icon color="white">mdi-account-injury-outline</v-icon>
+            </v-btn>
+          </div>
+        </v-card>
+      </v-col>
+            <v-col cols="12" md="3" sm="12">
+        <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/reportIncome_summary">
+          <div class="d-flex justify-space-around align-center">
+            <v-card-subtitle>ລາຍງານສະຫຼຸບລາຍຈ່າຍ</v-card-subtitle>
+            <v-btn fab small color="error">
+              <v-icon>mdi-currency-usd</v-icon>
             </v-btn>
           </div>
         </v-card>

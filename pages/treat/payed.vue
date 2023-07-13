@@ -63,14 +63,14 @@
             </v-btn>
           </v-toolbar>
           <div class="d-flex justify-space-between container">
-            <span> ຊື່:{{ data_by_id.name }}</span>
-            <span> ລະຫັດໃບບິນ : {{ data_by_id.billNumber }}</span>
+            <span> ຊື່:{{ billIdData.name }}</span>
+            <span> ລະຫັດໃບບິນ : {{ billIdData.billNumber }}</span>
           </div>
           <div class="d-flex justify-space-between container">
-            <span>ທີ່ຢຸູ:{{ data_by_id.address }}</span>
-            <span>ເບີໂທລະສັບ:{{ data_by_id.tel }}</span>
+            <span>ທີ່ຢຸູ:{{ billIdData.address }}</span>
+            <span>ເບີໂທລະສັບ:{{ billIdData.tel }}</span>
           </div>
-          <v-data-table :headers="headers1" :items="data_by_id.rows">
+          <v-data-table :headers="headers1" :items="billIdData.rows">
             <template #[`item.price`]="{ item }">
               <span style="color: red">{{ toCurrencyString(item.price) }}</span>
             </template>
@@ -88,34 +88,21 @@
             </v-btn>
           </v-toolbar>
           <v-col>
-            <div class="ml-2 mb-3">ປ້ອນຜົນກວດ</div>
+            <!-- <div class="ml-2 mb-3">ປ້ອນຜົນກວດ</div>
             <v-text-field v-model="result" outlined  label="ປ້ອນຜົນກວດ" ></v-text-field>
             <div>
-              <!-- <v-row
-                class="d-flex col-12"
-                v-for="data in data_by_id.rows"
-                :key="data.id"
-              >
-                <v-card
-                  class="container"
-                  style="cursor: pointer"
-                  @click="detailsDialog = !detailsDialog"
-                >
-                  <v-col md="6">{{ data.details }}</v-col>
-                </v-card>
-              </v-row> -->
-            </div>
-            <!-- <v-data-table :headers="headers2" :items="data_by_id.rows">
+            </div> -->
+            <v-data-table :headers="headers2" :items="billIdData.rows">
               <template #[`item.results`]="{ item }">
                 <v-select
-                  v-model="item.result"
+                  v-model="item.results"
                   label="ເລືອກ"
                   dense
                   outlined
                   :items="['positive', 'Negative']"
                 ></v-select>
               </template>
-            </v-data-table> -->
+            </v-data-table>
 
             <!-- <div>{{ data_by_id.firstcheck_id }}</div>
             <div>{{ data_by_id.id }}</div> -->
@@ -166,7 +153,8 @@ export default {
       detailsDialog: false,
       bill_id: '',
       firstcheck_id: '',
-      result: '',
+      billIdData: {},
+      results: [],
       headers: [
         { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
         { text: 'ລາຍລະອຽດ', value: 'details' },
@@ -188,9 +176,9 @@ export default {
     bill() {
       return this.$store.state.user.billData
     },
-    data_by_id() {
-      return this.$store.state.user.dataById
-    },
+    // data_by_id() {
+    //   return this.$store.state.user.dataById
+    // },
     dataStatus() {
       return this.$store.state.user.dataStatus
     },
@@ -209,9 +197,14 @@ export default {
       this.dialog = true
     },
     async show(id) {
-      await this.$store.dispatch('user/getById', id)
-      this.bill_id = this.data_by_id.id
-      this.firstcheck_id = this.data_by_id.firstcheck_id
+      await this.$axios
+        .get(`http://localhost:7000/bill-data/${id}`)
+        .then((data) => {
+          this.billIdData = data?.data
+        })
+      // await this.$store.dispatch('user/getById', id)
+      // this.bill_id = this.data_by_id.id
+      // this.firstcheck_id = this.data_by_id.firstcheck_id
       this.resultDialog = true
     },
     clearData() {
@@ -219,12 +212,13 @@ export default {
     },
     async save() {
       const data = {
-        firstcheck_id: this.firstcheck_id,
-        bill_id: this.bill_id,
-        result: this.result,
+        firstcheck_id: this.billIdData.firstcheck_id,
+        bill_id: this.billIdData.id,
+        item: this.billIdData.rows,
       }
-      this.$router.push('/treat/checked')
+     await console.log(data)
       await this.$store.dispatch('result/createResult', { ...data })
+      this.$router.push('/treat/checked')
     },
   },
 }

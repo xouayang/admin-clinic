@@ -1,9 +1,9 @@
 <template >
-      <div>
-    <div class="mt-5 mb-3 pb-2 ml-2 font-weight-bold">ຈັດການຂໍ້ມູນຢາ ເເລະ ອຸປະກອນ</div>
+  <div>
+    <div class="mt-5 mb-3 pb-2 ml-2 font-weight-bold">ຈັດການຂໍ້ມູນຢາ</div>
     <v-card>
       <!-- search button------------------------------- -->
-      <v-row  class="d-flex align-center col-12">
+      <v-row class="d-flex align-center col-12">
         <v-col cols="12" md="10" sm="12">
           <v-card-title>
             <v-text-field
@@ -19,8 +19,11 @@
           </v-card-title>
         </v-col>
         <v-col cols="12" md="2" sm="3" class="d-flex justify-end">
-          <v-btn  style="width:100" color="#9155FD" @click="showAddDialog = !showAddDialog"
-            ><span style="color:white">ເພີ່ມຂໍ້ມູນ</span>
+          <v-btn
+            style="width: 100"
+            color="#9155FD"
+            @click="showAddDialog = !showAddDialog"
+            ><span style="color: white">ເພີ່ມຂໍ້ມູນ</span>
             <v-icon color="white">mdi-plus-outline</v-icon>
           </v-btn>
         </v-col>
@@ -28,7 +31,7 @@
 
       <v-data-table
         :headers="headers"
-        :items="items"
+        :items="Info"
         :items-per-page="5"
         color="#9155FD"
         :search="searchTerm"
@@ -54,6 +57,15 @@
             </template>
             <span>ເເກ້ໄຂ</span>
           </v-tooltip>
+        </template>
+        <template #[`item.date`]="{ item }">
+          {{ $moment(item.date).format('DD-MM-YYYY') }}
+        </template>
+        <template slot="item.index" scope="props">
+          {{ props.index + 1 }}
+        </template>
+        <template #[`item.price`] = "{item}">
+          {{toCurrencyString(item.price)}}
         </template>
       </v-data-table>
     </v-card>
@@ -166,7 +178,7 @@
         </v-card>
       </v-dialog>
     </v-row>
-     <v-row>
+    <v-row>
       <v-dialog
         v-model="showAddDialog"
         width="600"
@@ -175,7 +187,7 @@
       >
         <v-card>
           <v-toolbar dark color="#9155FD">
-            <div>ເພີ່ມຂໍ້ມູນຄົນເຈັບ</div>
+            <div>ເພີ່ມຂໍ້ມູນຢາ</div>
             <v-spacer></v-spacer>
             <v-btn icon dark @click="showAddDialog = !showAddDialog">
               <v-icon>mdi-close</v-icon>
@@ -184,41 +196,68 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="name"
               outlined
               dense
               hide-details="auto"
-              label="ຊື່"
+              label="ຊື່ຢາ"
+              color="#9155FD"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-select
+              v-model="medicines_type_id"
+              :items="dataMedicines.rows"
+              item-text="type_name"
+              item-value="id"
+              outlined
+              dense
+              return-object
+              hide-details
+              label="ປະເພດຢາ"
+              color="#9155FD"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-select
+              v-model="unit"
+              :items="dataMedicines.rows"
+              item-text="unit"
+              item-value="unit"
+              outlined
+              dense
+              hide-details
+              label="ຫົວໜ່ວຍ"
               color="#9155FD"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="amount"
               outlined
               dense
               hide-details
-              label="ທີ່ຢູ່"
+              label="ຈຳນວນ"
               color="#9155FD"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="price"
               outlined
               dense
               hide-details
-              label="ເບີໂທລະສັບ"
+              label="ລາຄາ"
               color="#9155FD"
             />
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="expired_date"
               outlined
               dense
               hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
+              label="ວັນ ເດືອນ ປີ ເກີດ ໝົດອາຍຸ "
               color="#9155FD"
             />
           </v-col>
@@ -228,7 +267,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="showAddDialog = false"
+              @click="insertData"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -238,37 +277,61 @@
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
-   name:"ManageDrugEquipment" ,
-   data() {
+  name: 'ManageDrugEquipment',
+  data() {
     return {
-      searchTerm: "",
+      searchTerm: '',
       showDailog: false,
       dialog: false,
-      showAddDialog : false,
+      showAddDialog: false,
+      name: '',
+      medicines_type_id: '',
+      unit: '',
+      amount: 0,
+      price: 0,
+      expired_date: '',
       headers: [
-        { text: "ລະຫັດ", value: "ລະຫັດ" },
-        { text: "ຊື່", value: "ຊື່" },
-        { text: "ຈຳນວນ", value: "ຈຳນວນ" },
-        { text: "ລາຄາ", value: "ລາຄາ" },
-        { text: "Actions", value: "action" },
+        { text: 'ລ/ດ', value: 'index' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ປະເພດຢາ', value: 'type_name' },
+        { text: 'ລາຄາ', value: 'price' },
+        { text: 'ຈຳນວນ', value: 'amount' },
+        { text: 'ຫົວໜ່ວຍ', value: 'unit' },
+        { text: 'ວັນທີ່', value: 'date' },
+        { text: 'Actions', value: 'action' },
       ],
-      items: [
-        {
-          ລະຫັດ: "1",
-          ຊື່: "XOUAYANG",
-          ຈຳນວນ: "1000",
-          ລາຄາ: "100000",
-        },
-        {
-          ລະຫັດ: "2",
-          ຊື່: "XOUAYANG",
-          ຈຳນວນ: "400",
-          ລາຄາ: "104500",
-        },
-        
-      ],
-    };
-  },  
+    }
+  },
+  computed: {
+    dataMedicines() {
+      return this.$store.state.medicinesType.medicinesData
+    },
+    Info() {
+      return this.$store.state.medicinesType.Data
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('medicinesType/medicinesTypeData')
+    await this.$store.dispatch('medicinesType/medicinesAllData')
+  },
+  methods: {
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
+    },
+    async insertData() {
+      const data = {
+        name: this.name,
+        medicines_type_id: this.medicines_type_id.id,
+        unit: this.unit,
+        amount: this.amount,
+        price: this.price,
+        expired_date: this.expired_date,
+      }
+       await this.$store.dispatch('medicinesType/postMedicines', {...data})
+       this.showAddDialog = false
+    },
+  },
 }
 </script> 

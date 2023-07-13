@@ -140,7 +140,7 @@
                   </v-col>
                 </v-row>
               </v-card>
-              <v-card
+              <!-- <v-card
                 height="100"
                 rounded="xl"
                 class="mt-5 pt-3 pl-3"
@@ -155,7 +155,7 @@
                     >
                   </v-col>
                 </v-row>
-              </v-card>
+              </v-card> -->
             </v-col>
           </v-row>
         </v-col>

@@ -1,22 +1,25 @@
 export const state = () => ({
-  dataPatients: [],
+  medicinesData: [],
   singleData: [],
-  dataId:'',
-  status:[],
+  dataId: '',
+  status: [],
+  Data:[],
 })
 export const mutations = {
-  getPatient(state, data) {
-    state.dataPatients = data
+  getMedicinesData(state, data) {
+    state.medicinesData = data
   },
   getStatus(state, data) {
     state.status = data
-  }
-  ,
+  },
   getsingleData(state, data) {
     state.singleData = data
   },
   getDataId(state, data) {
     state.dataId = data
+  },
+  getMAllData(state,data) {
+    state.Data = data
   }
 }
 
@@ -24,7 +27,7 @@ export const actions = {
   // post data
   async postData({ commit }, form) {
     await this.$axios
-      .post('http://localhost:7000/create-patients', form)
+      .post('http://localhost:7000/medicins-type', form)
       .then(() => {
         this.$toast.success('ບັນທືກຂໍ້ມູນສຳເລັດ', {
           duration: 2000,
@@ -42,25 +45,15 @@ export const actions = {
       })
   },
   // get data
-  async patientInfo({ commit }) {
-    await this.$axios
-      .get('http://localhost:7000/get-report')
-      .then((patients) => {
-        commit('getPatient', patients.data)
-      })
+  async medicinesTypeData({ commit }) {
+    await this.$axios.get('http://localhost:7000/count').then((data) => {
+      commit('getMedicinesData', data.data)
+    })
   },
-  async patientStatus({ commit }) {
-    await this.$axios
-      .get('http://localhost:7000/get-report')
-      .then((status) => {
-        commit('getStatus', status.data)
-        console.log("data?????", status.data)
-      })
-  },
-  // delete data
+  // // delete data
   async deleteData({ commit }, id) {
     await this.$axios
-      .delete(`http://localhost:7000/delete-patients/${id}`)
+      .delete(`http://localhost:7000/delete-type/${id}`)
       .then(() => {
         this.$toast.success('ລືບຂໍ້ມູນສຳເລັດ', {
           duration: 2000,
@@ -69,13 +62,21 @@ export const actions = {
           icon: 'check',
         })
       })
+      .catch(() => {
+        this.$toast.error('ລືບຂໍ້ມູນບໍ່ສຳເລັດ', {
+          duration: 2000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'check',
+        })
+      })
   },
   // update data
-  async updateData({ commit }, dataPatients) {
-    const data1 = dataPatients.data
-    const id = dataPatients.id
+  async updateData({ commit }, info) {
+    const data1 = info.data
+    const id = info.id
     await this.$axios
-      .put(`http://localhost:7000/update-patients/${id}`, data1)
+      .put(`http://localhost:7000/update-type/${id}`, data1)
       .then(() => {
         this.$toast.success('ເເກ້ໄຂຂໍ້ມູນສຳເລັດ', {
           duration: 3000,
@@ -92,5 +93,30 @@ export const actions = {
           icon: 'close',
         })
       })
+  },
+  async postMedicines({ commit }, form) {
+    await this.$axios
+      .post('http://localhost:7000/medicins', form)
+      .then(() => {
+        this.$toast.success('ບັນທືກຂໍ້ມູນສຳເລັດ', {
+          duration: 2000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'check',
+        })
+      }).catch(() => {
+        this.$toast.error('ບັນທືກບໍ່ຂໍ້ມູນສຳເລັດ?', {
+          duration: 2000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'close',
+        })
+      })
+  },
+//   http://localhost:7000/get-medicins
+async medicinesAllData({ commit }) {
+    await this.$axios.get('http://localhost:7000/get-medicins').then((data) => {
+      commit('getMAllData', data.data)
+    })
   },
 }

@@ -67,7 +67,7 @@
                         <div style="color: red">*ກະລຸນາເລືອກລາຍການກວດ</div>
                       </v-col>
                     </v-row>
-                    <v-row class="mt-16 col-12">
+                    <!-- <v-row class="mt-16 col-12">
                       <div class="font-weight-bold">ນັດໝາຍກວດຄັ້ງຕໍ່ໄປ</div>
                       <v-col cols="12" md="12" sm="12">
                         <v-text-field
@@ -99,7 +99,7 @@
                       <v-col cols="12" md="12" sm="12">
                         <DataPicker1 v-model="appointMentData.date" />
                       </v-col>
-                    </v-row>
+                    </v-row> -->
                   </div>
                 </v-list>
               </v-col>

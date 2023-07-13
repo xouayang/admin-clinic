@@ -56,8 +56,10 @@
         <v-col cols="12" md="4" sm="12">
           <div>
             ຜົນກວດກວດພະຍາດ :
-            <div>
-              <span>{{ dataFrom_checked.result }}</span>
+            <div v-for="data in resultData" :key="data.id">
+              <ul>
+                <li>{{data.result_details}}</li> > {{data.result}}
+              </ul>
             </div>
           </div>
         </v-col>
@@ -102,7 +104,7 @@
         <v-card-text> ປະເພດຢາ: {{ dataMedisinesOne.type_name }} </v-card-text>
         <v-card-text> ຫົວໜ່ວຍ: {{ dataMedisinesOne.unit }} </v-card-text>
         <v-card-text>
-          ລາຄາ:<span style="color:red">
+          ລາຄາ:<span style="color: red">
             {{ toCurrencyString(parseInt(dataMedisinesOne.price)) }}</span
           >
         </v-card-text>
@@ -138,6 +140,7 @@ export default {
       dialog: false,
       dataMedisinesOne: {},
       allData: [],
+      resultData:[],
     }
   },
   computed: {
@@ -150,19 +153,30 @@ export default {
     dataFrom_checked() {
       return this.$store.state.result.dataId
     },
+    // dataResult() {
+    //   return this.$store.state.result.resultData
+    // },
   },
-  mounted() {
+  async mounted() {
     // this.$store.dispatch('treat/getMedicines', this.billId)
-    this.$store.dispatch('treat/getMedicinesType')
+    await this.$store.dispatch('treat/getMedicinesType')
+    // this.$store.dispatch('result/getId')
+    const id = await this.dataFrom_checked.bill_id
+    await this.$axios
+      .get(`http://localhost:7000/get-result/${id}`)
+      .then((data) => {
+        this.resultData = data?.data?.rows
+        console.log(data?.data?.rows)
+      })
   },
   methods: {
     async saveData() {
       // await console.log('data >>>>>>>>>>>>>>>', this.dataFrom_checked)
       const readyData = {
-        treat_id:this.dataFrom_checked.id,
+        treat_id: this.dataFrom_checked.bill_id,
         item: this.allData,
       }
-
+      //  await console.log(readyData)
       await this.$store.dispatch('treat/saveOffer', readyData)
       this.allData = []
       this.$router.push('/appointment')

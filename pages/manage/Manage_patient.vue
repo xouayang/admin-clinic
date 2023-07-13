@@ -249,7 +249,11 @@ export default {
         { text: 'ຊື່', value: 'name' },
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
-        { text: 'Actions', value: 'action' },
+        { text: 'ອາການເບື້ອງ', value: 'details' },
+        { text: 'ນໍ້າໜັກ', value: 'weight' },
+        { text: 'ລວງສູງ', value: 'height' },
+        { text: 'ຊິບພະຈອນ', value: 'chip_life' },
+        { text: 'action', value: 'action' }
       ],
     }
   },
@@ -258,8 +262,8 @@ export default {
       return this.$store.state.patient.dataPatients
     },
     Status() {
-     return this.$store.state.patient.status
-    }
+      return this.$store.state.patient.status
+    },
   },
   async mounted() {
     await this.$store.dispatch('patient/patientStatus')

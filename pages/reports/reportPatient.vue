@@ -14,6 +14,9 @@
         <template #[`item.create_at`]="{ item }">
           {{ $moment(item.create_at).format('DD-MM-YYYY') }}
         </template>
+          <template slot="item.index" scope="props">
+            {{ props.index + 1 }}
+          </template>
       </v-data-table>
     </v-card>
     <div class="mt-5">
@@ -40,10 +43,11 @@ export default {
     return {
       value: '',
       headers: [
+        { text: 'ລ/ດ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
-        { text: 'ອາການເບື້ອງ', value: 'details' },
+        // { text: 'ອາການເບື້ອງ', value: 'details' },
         // { text: 'ນໍ້າໜັກ', value: 'weight' },
         // { text: 'ລວງສູງ', value: 'height' },
         // { text: 'ຊິບພະຈອນ', value: 'chip_life' },

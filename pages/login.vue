@@ -56,9 +56,6 @@
                 </template>
               </v-text-field>
               <v-spacer></v-spacer>
-              <div class="d-flex justify-end text-underline pointer">
-                ລືມລະຫັດຜ່ານ ?
-              </div>
             </v-card-text>
             <v-card-actions class="justify-center">
               <v-btn block type="submit" color="#9155fd" @click="onLogin">
@@ -89,8 +86,8 @@ export default {
     return {
       hidePassword: false,
       signInData: {
-        tel: '02054116066',
-        password: '123456',
+        tel: '',
+        password: '',
       },
     }
   },

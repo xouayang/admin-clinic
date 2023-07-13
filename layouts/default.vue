@@ -596,8 +596,9 @@ export default {
               title: 'ຈັດການຂໍ້ມູນພະນັກງານ',
               to: '/manage/manage_information_staff',
             },
+            { title: 'ຈັດການຂໍ້ມູນປະເພດຢາ', to: '/manage/manage_type' },
             {
-              title: 'ຈັດການຂໍ້ມູນຢາ-ອຸປະກອນ',
+              title: 'ຈັດການຂໍ້ມູນຢາ',
               to: '/manage/manage_drug_equipment',
             },
             { title: 'ຈັດການລາຍການກວດ', to: '/manage/manage_checklists' },

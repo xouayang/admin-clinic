@@ -1,18 +1,26 @@
 export const state = () => ({
-  setDataResult:[],
-  dataId:'',
-  dataHistory:[]
+  setDataResult: [],
+  dataId: '',
+  dataHistory: [],
+  idData: [],
+  resultData:[]
 })
 
 export const mutations = {
-  setResult(state,data){
+  setResult(state, data) {
     state.setDataResult = data
   },
-  getDataId(state,data) {
+  getDataId(state, data) {
     state.dataId = data
   },
-  setHistory(state,data) {
+  setHistory(state, data) {
     state.dataHistory = data
+  },
+  setId(state, data) {
+    state.idData = data
+  },
+  setDataDetails(state,data) {
+    state.resultData = data
   }
 }
 
@@ -46,24 +54,38 @@ export const actions = {
       console.log(error)
     }
   },
-  async getAll({commit}) {
+  async getAll({ commit }) {
     try {
-      await this.$axios.get('http://localhost:7000/get-result').then((data) => {
+      await this.$axios.get('http://localhost:7000/only-bill').then((data) => {
         commit('setResult', data.data)
-        console.log("resultData",data.data)
+        console.log('resultData', data.data)
       })
     } catch (error) {
       console.log(error)
     }
   },
-  async getHistory({commit}) {
+  async getHistory({ commit }) {
     try {
-      await this.$axios.get('http://localhost:7000/history-result').then((data) => {
-        commit('setHistory', data.data)
-        // console.log("resultData",data.data)
-      })
+      await this.$axios
+        .get('http://localhost:7000/history-result')
+        .then((data) => {
+          commit('setHistory', data.data)
+          // console.log("resultData",data.data)
+        })
     } catch (error) {
       console.log(error)
     }
-  }
+  },
+  async getId({ commit }, id) {
+    try {
+      // let billId =''
+      await this.$axios
+        .get(`http://localhost:7000/get-result/${id}`)
+        .then((data) => {
+          commit('setId', data.data)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  },
 }

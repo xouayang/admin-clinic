@@ -28,6 +28,12 @@
         </template>
         <template #[`item.actions`]="{ item }">
           <div class="d-flex">
+            <div class="mr-2">
+              <v-btn rounded color="#9155fd" @click="showDetails(item)">
+                <v-icon color="white">mdi-eye-outline</v-icon>
+                <span style="color: white">ລາຍລະອຽດຜົນກວດ</span>
+              </v-btn>
+            </div>
             <div v-if="item.status == 2" class="mr-2">
               <v-btn text rounded color="success">
                 <v-icon>mdi-check</v-icon>
@@ -44,6 +50,26 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-dialog v-model="dialog" width="640" activator="parent" persistent>
+      <v-card>
+        <v-toolbar dark color="#9155FD">
+          <v-card-title>ລາຍລະອຽດຜົນກວດ</v-card-title>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="dialog = !dialog">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <div class="d-flex justify-space-between container">
+          <span> ຊື່:{{ Id.name }}</span>
+          <span> ລະຫັດໃບບິນ : {{ Id.bill_number }}</span>
+        </div>
+        <v-data-table :headers="headers1" :items="Id.rows">
+          <template #[`item.price`]="{ item }">
+            <span style="color: red">{{ toCurrencyString(item.price) }}</span>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -54,19 +80,27 @@ export default {
   data() {
     return {
       search: '',
+      dialog: false,
       headers: [
         { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
         { text: 'ຊື່', value: 'name' },
-        { text: 'ຜົນກວດ', value: 'result' },
         { text: 'ລາຄາລວມທີ່ຊຳລະເເລ້ວ', value: 'total_price' },
         { text: 'ວັນທີ່', value: 'created_at' },
         { text: 'ສະຖານະ', value: 'actions' },
+      ],
+      headers1: [
+        { text: 'ລາຍການກວດ', value: 'result_details' },
+        { text: 'ລາຄາ', value: 'price' },
+        { text: 'ຜົນກວດ', value: 'result' },
       ],
     }
   },
   computed: {
     resultData() {
       return this.$store.state.result.setDataResult
+    },
+    Id() {
+      return this.$store.state.result.idData
     },
   },
   async mounted() {
@@ -83,6 +117,11 @@ export default {
     save(data) {
       this.$store.commit('result/getDataId', data)
       this.$router.push('/treat/_id')
+    },
+    async showDetails(data) {
+      const id = data.bill_id
+      await this.$store.dispatch('result/getId', id)
+      this.dialog = true
     },
   },
 }

@@ -22,7 +22,7 @@
 
       <v-data-table
         :headers="headers2"
-        :items="dataAppoint"
+        :items="dataAppoint.rows"
         :items-per-page="5"
         color="#9155FD"
         :search="searchTerm"

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <div>{{dataFrom_checked}}</div> -->
     <div class="container font-weight-bold" style="color: #9155fd">ວາງຢາ</div>
     <v-card class="container">
       <v-row class="d-flex justify-end pa-2 mb-4">
@@ -85,7 +84,7 @@
         </v-row>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2">
+    <v-row class="mt-2 mb-2">
       <v-col class="mt-8 d-flex justify-end">
         <v-btn color="#9155FD" @click="saveData">
           <span style="color: white">ບັນທຶກ</span>
@@ -171,7 +170,7 @@ export default {
   },
   methods: {
     async saveData() {
-      // await console.log('data >>>>>>>>>>>>>>>', this.dataFrom_checked)
+      await console.log('data >>>>>>>>>>>>>>>', this.dataFrom_checked)
       const readyData = {
         treat_id: this.dataFrom_checked.bill_id,
         item: this.allData,
@@ -197,6 +196,7 @@ export default {
       this.dialog = true
     },
     selectMedicines(e) {
+      console.log("ID>>>>>>>>>>>",this.dataMedisinesOne.medicines_id)
       this.$store.dispatch('treat/getMedicinesAllById', e)
     },
     toCurrencyString(number) {

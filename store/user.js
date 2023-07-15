@@ -12,7 +12,9 @@ export const state = () => ({
   importHistory: [],
   billData: [],
   dataById: [],
-  dataStatus:[]
+  dataStatus: [],
+  Income:{},
+  Outcome:{}
 })
 export const mutations = {
   changeNumber(state, data) {
@@ -57,6 +59,12 @@ export const mutations = {
   setStatus(state, data) {
     state.dataStatus = data
   },
+  setIncome(state,data){
+    state.Income = data
+  },
+  setOutcome(state,data){
+    state.Outcome = data
+  }
 }
 
 export const actions = {
@@ -97,10 +105,13 @@ export const actions = {
       commit('setPatients', data.data)
     })
   },
+
   async getPatiented({ commit }) {
-    await this.$axios.get('http://localhost:7000/get-patients').then((data) => {
-      commit('setPatiented', data.data)
-    })
+    await this.$axios
+      .get('http://localhost:7000/get-firstCheck')
+      .then((data) => {
+        commit('setPatiented', data.data)
+      })
   },
   async getHistory({ commit }) {
     await this.$axios
@@ -128,7 +139,7 @@ export const actions = {
       .get(`http://localhost:7000/bill-data/${id}`)
       .then((data) => {
         commit('setBillDataById', data.data)
-        console.log("data" , data.data)
+        console.log('data', data.data)
       })
   },
   // udpate status
@@ -156,6 +167,16 @@ export const actions = {
     await this.$axios.get('http://localhost:7000/status-zero').then((data) => {
       commit('setStatus', data.data)
     })
-  }
-  
+  },
+  async allIncome({ commit }) {
+    await this.$axios.get('http://localhost:7000/price').then((data) => {
+      commit('setIncome', data.data)
+      console.log('setIncome',data.data)
+    })
+  },
+  async allOutcome({ commit }) {
+    await this.$axios.get('http://localhost:7000/outcome').then((data) => {
+      commit('setOutcome', data.data)
+    })
+  },
 }

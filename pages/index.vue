@@ -2,8 +2,8 @@
   <div>
     <v-row class="col-12 d-flex align-center">
       <v-col cols="12" md="6" sm="6"
-        ><div class="text-body-1 pl-5" style="font-size: 20">
-          Dashboard
+        ><div class="pl-5 font-weight-bold" style="color:#9155FD" >
+          ໜ້າຫຼັກ
         </div></v-col
       >
     </v-row>
@@ -12,27 +12,42 @@
         <v-col cols="12" md="6" sm="12">
           <v-row class="col-12">
             <v-col cols="12" md="6" sm="12">
-              <v-card elevation="0" rounded="xl">
-                <div class="text-center pt-3">
-                  <v-progress-circular
-                    :rotate="360"
-                    :size="100"
-                    :width="15"
-                    :value="dataMale?.count"
-                    color="success"
-                    >50</v-progress-circular
+              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
+                >ລາຍຮັບ
+                <v-row align="center">
+                  <v-col class="d-flex align-center justify-space-between">
+                    <div class="mt-3 text-h6">
+                      {{
+                        toCurrencyString(parseInt(total_income.total_income))
+                      }}
+                    </div>
+                  </v-col>
+                  <v-col>
+                    <v-btn rounded color="success">
+                      <v-icon>mdi-currency-usd</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card>
+              <v-card
+                height="100"
+                rounded="xl"
+                class="mt-5 pt-3 pl-3"
+                elevation="0"
+              >
+                ລາຍຈ່າຍ
+                <v-row align="center">
+                  <v-col
+                    ><div class="mt-3 text-h6">
+                      {{ toCurrencyString(parseInt(total_outcome.outcome)) }}
+                    </div></v-col
                   >
-                </div>
-                <div class="text-center d-flex flex-column justify-center mt-2">
-                  <div style="margin-right: 27px">
-                    <v-icon color="#9155FD" size="50">mdi-circle-small</v-icon>
-                    <span>ຍິງ</span>
-                  </div>
-                  <div style="margin-right: 20px">
-                    <v-icon color="success" size="50">mdi-circle-small</v-icon>
-                    <span>ຊາຍ</span>
-                  </div>
-                </div>
+                  <v-col>
+                    <v-btn color="error" rounded
+                      ><v-icon>mdi-currency-usd</v-icon></v-btn
+                    >
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
             <v-col cols="12" md="6" sm="12">
@@ -69,13 +84,13 @@
                 <v-row align="center">
                   <v-col
                     ><div class="mt-3 text-h4">
-                      {{ showPatients?.count }}
+                      {{ resultData?.length }}
                     </div></v-col
                   >
                   <v-col>
                     <v-btn style="background-color: #9155fd" rounded
                       ><span style="color: white"
-                        >{{ showPatients?.count }}++</span
+                        >{{ resultData?.length }}++</span
                       ></v-btn
                     >
                   </v-col>
@@ -125,7 +140,33 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0">
+              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
+                >ລາຍການນັດໝາຍໃໝ່
+
+                <v-row align="center">
+                  <v-col
+                    ><div class="mt-3 text-h4">
+                      {{ dataAppoint?.count }}
+                    </div></v-col
+                  >
+                  <v-col class="mt-2">
+                    <v-btn text small fab color="#9155FD">
+                      <v-badge
+                        :content="dataAppoint?.count ? dataAppoint?.count : '0'"
+                        color="error"
+                      >
+                        <v-icon>mdi-bell-plus-outline</v-icon>
+                      </v-badge></v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </v-card>
+              <v-card
+                height="100"
+                rounded="xl"
+                class="mt-5 pt-3 pl-3"
+                elevation="0"
+              >
                 ປະເພດ (ອຸປະກອນ ເເລະ ຢາ)
                 <v-row align="center">
                   <v-col
@@ -140,22 +181,6 @@
                   </v-col>
                 </v-row>
               </v-card>
-              <!-- <v-card
-                height="100"
-                rounded="xl"
-                class="mt-5 pt-3 pl-3"
-                elevation="0"
-                style="cursor: pointer"
-                >ປະເພດ (Category)
-                <v-row align="center">
-                  <v-col><div class="mt-3 text-h4">100</div></v-col>
-                  <v-col>
-                    <v-btn style="background-color: #9155fd" rounded
-                      ><span style="color: white">50++</span></v-btn
-                    >
-                  </v-col>
-                </v-row>
-              </v-card> -->
             </v-col>
           </v-row>
         </v-col>
@@ -176,7 +201,7 @@
               />
               <v-data-table
                 :headers="headers2"
-                :items="dataAppoint"
+                :items="dataAppoint.rows"
                 :search="search1"
               >
                 <template #[`item.date`]="{ item }">
@@ -268,7 +293,7 @@ export default {
     return {
       interval: {},
       search: '',
-      search1:'',
+      search1: '',
       dialog: false,
       value: 0,
       headers: [
@@ -316,6 +341,12 @@ export default {
     dataAppoint() {
       return this.$store.state.appointment.appointmentData
     },
+    total_income() {
+      return this.$store.state.user.Income
+    },
+    total_outcome() {
+      return this.$store.state.user.Outcome
+    },
   },
   async mounted() {
     this.interval = setInterval(() => {
@@ -331,6 +362,8 @@ export default {
     await this.$store.dispatch('user/getPatiented')
     await this.$store.dispatch('result/getHistory')
     await this.$store.dispatch('appointment/getAll')
+    await this.$store.dispatch('user/allIncome')
+    await this.$store.dispatch('user/allOutcome')
   },
   methods: {
     toCurrencyString(number) {

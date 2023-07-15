@@ -164,13 +164,21 @@
                   </v-list-item>
                 </v-list>
                 <v-divider></v-divider>
-                <v-col class="d-flex justify-end">
-                  <v-btn large color="#9155FD"
-                    ><span style="color: white" @click="save">ບັນທືກ</span>
-                    <v-icon color="white"
-                      >mdi-content-save-check-outline</v-icon
-                    >
-                  </v-btn>
+                <v-col class="d-flex justify-space-between">
+                  <div>
+                    <v-btn large color="#9155FD" @click="getHistoryPatient"
+                      ><span style="color: white">ເບີ່ງປະຫວັດປີ່ນປົວ</span>
+                      <v-icon color="white">mdi-eye-outline</v-icon>
+                    </v-btn>
+                  </div>
+                  <div>
+                    <v-btn large color="#9155FD" @click="save"
+                      ><span style="color: white">ບັນທືກ</span>
+                      <v-icon color="white"
+                        >mdi-content-save-check-outline</v-icon
+                      >
+                    </v-btn>
+                  </div>
                 </v-col>
               </v-col>
             </v-row>
@@ -229,6 +237,63 @@
           </v-card>
         </v-dialog>
       </v-row>
+      <div>
+        <v-row>
+          <v-dialog
+            v-model="historyDialog"
+            width="640"
+            activator="parent"
+            persistent
+          >
+            <v-card hidden>
+              <v-toolbar dark color="#9155FD">
+                <v-btn icon dark @click="historyDialog = false">
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>ປະຫວັດປີ່ນປົວຄົນເຈັບ</v-toolbar-title>
+              </v-toolbar>
+              <div v-if="history_data != 0">
+                <div class="d-flex justify-space-between mt-2">
+                  <v-col>ຊື່: {{ history_data.firstcheck_name }}</v-col>
+                  <v-col>ລະຫັດໃບບິນ : {{ history_data.bill_number }}</v-col>
+                </div>
+                <div class="d-flex justify-space-between mt-2">
+                  <v-col>ເບີໂທລະສັບ: {{ history_data.tel }}</v-col>
+                  <v-col>ລາຍລະອຽດ : {{ history_data.details }}</v-col>
+                </div>
+                <div class="d-flex justify-space-between mt-2">
+                  <v-col
+                    >ລາຄາລວມ:{{
+                      toCurrencyString(parseInt(history_data.total_price))
+                    }}</v-col
+                  >
+                  <v-col
+                    >ວັນທີ່ :
+                    {{
+                      $moment(history_data.created_at).format('DD-MM-YYYY')
+                    }}</v-col
+                  >
+                </div>
+                <div>
+                  <v-data-table :headers="headers1" :items="history_data.rows">
+                    <template slot="item.index" scope="props">
+                      {{ props.index + 1 }}
+                    </template>
+                    <template #[`item.price`]="{ item }">
+                      {{ toCurrencyString(parseInt(item.price)) }}
+                    </template>
+                  </v-data-table>
+                </div>
+              </div>
+              <div v-else>
+                <h4  class="text-center pt-16 pb-16">
+                  ບໍ່ມີປະຫວັດປີ່ນປົວ !
+                </h4>
+              </div>
+            </v-card>
+          </v-dialog>
+        </v-row>
+      </div>
     </template>
   </div>
 </template>
@@ -241,7 +306,9 @@ export default {
   data() {
     return {
       dialog: false,
+      historyDialog: false,
       notifications: false,
+      dialogNoData: false,
       sound: true,
       widgets: false,
       selectedDiseases: [],
@@ -249,11 +316,11 @@ export default {
       storeData: '',
       firstcheckid: '',
       dialogBill: false,
-      appointMentData :{
-      treat_id:'',
-      name:'',
-      tel:'',
-      date:''
+      appointMentData: {
+        treat_id: '',
+        name: '',
+        tel: '',
+        date: '',
       },
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
@@ -266,6 +333,11 @@ export default {
         { text: 'ຊິບພະຈອນ', value: 'chip_life' },
         { text: 'action', value: 'action' },
       ],
+      headers1: [
+        { text: 'ລຳດັບ', value: 'index' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ລາຄາ', value: 'price' },
+      ],
     }
   },
   computed: {
@@ -277,6 +349,9 @@ export default {
     },
     bill() {
       return this.$store.state.treat.bill
+    },
+    history_data() {
+      return this.$store.state.treat.History
     },
   },
   async mounted() {
@@ -296,7 +371,7 @@ export default {
       console.log(data)
       this.firstcheckid = data.id
       this.storeData = data
-      if(this.storeData) {
+      if (this.storeData) {
         this.appointMentData.treat_id = this.storeData.id
         this.appointMentData.name = this.storeData.name
         this.appointMentData.tel = this.storeData.tel
@@ -319,10 +394,18 @@ export default {
       }
       // console.log(data)
       await this.$store.dispatch('treat/createTreat', { ...data })
-      console.log("appointmentDAta :   ",this.appointMentData)
-      await this.$store.dispatch('appointment/postAppointment', {...this.appointMentData})
+      console.log('appointmentDAta :   ', this.appointMentData)
+      await this.$store.dispatch('appointment/postAppointment', {
+        ...this.appointMentData,
+      })
       this.dialog = false
       this.dialogBill = true
+    },
+    async getHistoryPatient() {
+      const tel = this.storeData.tel
+      // const tel = '02054116066'
+      this.historyDialog = true
+      await this.$store.dispatch('treat/getHistoryOfPatient', tel)
     },
   },
 }

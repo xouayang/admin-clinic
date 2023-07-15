@@ -3,7 +3,8 @@ export const state = () => ({
   billData: {},
   medicinesType: [],
   medicines: [],
-  treatData:[]
+  treatData:[],
+  History:[]
 })
 
 export const mutations = {
@@ -21,6 +22,9 @@ export const mutations = {
   },
   setTreats(state,data) {
     state.treatData = data
+  },
+  setHistory(state,data) {
+    state.History = data
   }
 }
 
@@ -76,6 +80,7 @@ export const actions = {
     })
   },
   async getMedicinesAllById({ commit }, id) {
+    console.log("Id>>>>>>>>>>>>",id)
     try {
       await this.$axios
         .get(`http://localhost:7000/get-id/${id}`)
@@ -106,5 +111,17 @@ export const actions = {
           icon: 'close',
         })
       })
+  },
+  async getHistoryOfPatient({ commit },tel) {
+    await this.$axios.get(`http://localhost:7000/history-patient/${tel}`).then((res) => {
+      commit('setHistory', res.data)
+    }).catch(() => {
+      this.$toast.error('ບໍ່ມີປະຫວັດປີ່ນປົວ', {
+        duration:3000,
+        position:'top-right',
+        iconPack:'mdi',
+        icon:'close'
+      })
+    })
   },
 }

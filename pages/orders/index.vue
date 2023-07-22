@@ -46,6 +46,9 @@
           <template #[`item.price`]="{ item }">
             <span style="color: red">{{ toCurrencyString(item.price) }}</span>
           </template>
+          <template #[`item.image`]="{ item }">
+            <v-img :src="item.image" max-height="40" max-width="89" />
+          </template>
         </v-data-table>
       </v-col>
 
@@ -88,6 +91,9 @@
             <template #[`item.price`]="{ item }">
               <span style="color: red">{{ toCurrencyString(item.price) }}</span>
             </template>
+            <template #[`item.image`]="{ item }">
+              <v-img :src="item.image" max-height="40" max-width="89" />
+            </template>
           </v-data-table>
         </v-card-text>
         <v-card-actions>
@@ -123,7 +129,7 @@ export default {
   computed: {
     headers() {
       return [
-        { text: 'ລຳດັບ', value: 'indx' },
+        { text: 'ຮູບພາບ', value: 'image' },
         { text: 'ປະເພດ ', value: 'type_name' },
         { text: 'ຊື່ຢາ', value: 'name' },
         { text: 'ຈຳນວນ', value: 'amount' },

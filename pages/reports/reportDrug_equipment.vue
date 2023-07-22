@@ -1,22 +1,33 @@
 <template>
   <div class="mt-3">
+    <div class="d-flex justify-end mb-1">
+      <v-btn color="#9155FD" @click="back"
+        ><v-icon color="white">mdi-keyboard-backspace</v-icon
+        ><span style="color: white">ກັບຄືນ</span></v-btn
+      >
+    </div>
     <v-card>
-      <div class="pa-2 ml-1 text-center mb-2">ລາຍງານຂໍ້ມູນຢາ</div>
-      <!-- <v-row class="col-12 d-flex justify-center"> -->
-      <!-- <v-col cols="12" sm="12" md="6">
-          <DataPicker v-model="value" />
+      <div class="d-flex align-center">
+        <v-col class="pa-2 ml-1 mb-2">ລາຍງານຂໍ້ມູນຢາ</v-col>
+        <v-col>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            dense
+            label="ຄົ້ນຫາ"
+          />
         </v-col>
-        <v-col cols="12" sm="12" md="6" class="text-center">
-          <div>
-            ຄົ້ນຫາວັນທີ ເດືອນ ປີ : <span style="color: red">{{ value }}</span>
-          </div>
-        </v-col>
-      </v-row> -->
-      <v-data-table :headers="headers" :items="medicines">
+      </div>
+      <v-data-table :headers="headers" :items="medicines" :search="search">
         <template slot="item.index" scope="props">
           {{ props.index + 1 }}
         </template>
-        <template #[`item.price`]="{ item }"> {{toCurrencyString(item.price)}} </template>
+        <template #[`item.price`]="{ item }">
+          {{ toCurrencyString(item.price) }}
+        </template>
+        <template #[`item.image`]="{ item }">
+          <v-img :src="item.image" max-height="40" max-width="89"/>
+        </template>
       </v-data-table>
     </v-card>
   </div>
@@ -28,8 +39,9 @@ export default {
   data() {
     return {
       value: '',
+      search: '',
       headers: [
-        { text: 'ລ/ດ', value: 'index' },
+        { text: 'ຮູບພາບ', value: 'image' },
         { text: 'ປະເພດຢາ', value: 'type_name' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ຈຳນວນ', value: 'amount' },
@@ -49,6 +61,9 @@ export default {
   methods: {
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
+    },
+    back() {
+      this.$router.push('/reports/reportTable')
     },
   },
 }

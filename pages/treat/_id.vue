@@ -69,7 +69,8 @@
         <v-row>
           <v-col v-for="data in medicines" :key="data.id" cols="12" md="3">
             <v-card @click="showMedicines(data)">
-              <v-card-title> ຊື່ຢາ: {{ data.name }} </v-card-title>
+              <v-img :src="data.image"/>
+              <div class="pa-1">ຊື່ຢາ: {{ data.name }}</div>
               <div class="pa-1">ປະເພດຢາ: {{ data.type_name }}</div>
               <div class="pa-1">ຫົວໜ່ວຍ: {{ data.unit }}</div>
               <div class="pa-1">

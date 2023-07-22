@@ -1,7 +1,23 @@
 <template>
   <div class="mt-3">
+    <div class="d-flex justify-end mb-1">
+      <v-btn color="#9155FD" @click="back"
+        ><v-icon color="white">mdi-keyboard-backspace</v-icon
+        ><span style="color: white">ກັບຄືນ</span></v-btn
+      >
+    </div>
     <v-card>
-      <div class="pa-2 ml-1 text-center mb-2">ລາຍງານຂໍ້ມູນຄົນເຈັບ</div>
+      <div class="d-flex align-center">
+        <v-col class="pa-2 ml-1 mb-2">ລາຍງານຂໍ້ມູນຄົນເຈັບ</v-col>
+        <v-col>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            dense
+            label="ຄົ້ນຫາ"
+          />
+        </v-col>
+      </div>
       <!-- <v-row class="col-12 d-flex justify-center">
         <v-col cols="12" sm="12" md="6">
           <DataPicker2 v-model="value"/>
@@ -10,48 +26,29 @@
           <div>ຄົ້ນຫາວັນທີ ເດືອນ ປີ : <span style="color:red">{{ value }}</span></div>
         </v-col>
       </v-row> -->
-      <v-data-table :headers="headers" :items="patient.rows">
+      <v-data-table :headers="headers" :items="patient.rows" :search="search">
         <template #[`item.create_at`]="{ item }">
           {{ $moment(item.create_at).format('DD-MM-YYYY') }}
         </template>
-          <template slot="item.index" scope="props">
-            {{ props.index + 1 }}
-          </template>
+        <template slot="item.index" scope="props">
+          {{ props.index + 1 }}
+        </template>
       </v-data-table>
     </v-card>
-    <div class="mt-5">
-      <v-row>
-        <v-col cols="12" md="12" sm="12" class="d-flex justify-end">
-          <v-btn large color="#9155FD" class="mr-5">
-            <span style="color: white">ພິມອອກ</span>
-            <v-icon color="white">mdi-printer-outline</v-icon>
-          </v-btn>
-          <v-btn large color="success">
-            <span style="color: white">ດາວໂຫຼດ</span>
-            <v-icon color="white">mdi-download-outline</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </div>
   </div>
 </template>
 <script>
 export default {
-
   name: 'ReportsPatients',
   data() {
     return {
       value: '',
+      search: '',
       headers: [
         { text: 'ລ/ດ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
-        // { text: 'ອາການເບື້ອງ', value: 'details' },
-        // { text: 'ນໍ້າໜັກ', value: 'weight' },
-        // { text: 'ລວງສູງ', value: 'height' },
-        // { text: 'ຊິບພະຈອນ', value: 'chip_life' },
-        // { text: 'ວັນທີ່ ເດືອນ ປີ', value: 'create_at' },
       ],
     }
   },
@@ -62,6 +59,11 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('patient/patientInfo')
+  },
+  methods: {
+    back() {
+      this.$router.push('/reports/reportTable')
+    },
   },
 }
 </script>

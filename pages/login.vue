@@ -11,7 +11,9 @@
                 alt="logo_clinic"
               />
             </div>
-            <div class="ml-3" style="color: #9155fd">ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</div>
+            <div class="ml-3" style="color: #9155fd">
+              ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ
+            </div>
           </div>
           <div class="d-flex justify-center">
             <v-card-title style="color: #9155fd"
@@ -19,57 +21,57 @@
             >
           </div>
           <!-- <v-form > -->
-            <v-card-text>
-              <v-text-field
-                v-model="signInData.tel"
-                :rules="[() => !!signInData.tel]"
-                outlined
-                dense
-                append-icon="mdi-phone-outline"
-                type="text"
-                label="ເບີໂທລະສັບ"
-                placeholder="02054116088"
-                required
-                color="#9155fd"
-              />
-              <v-text-field
-                v-model="signInData.password"
-                :rules="[() => !!signInData.password]"
-                :type="hidePassword ? 'text' : 'password'"
-                label="ລະຫັດຜ່ານ"
-                outlined
-                dense
-                hide-details="auto"
-                required
-                color="#9155fd"
-              >
-                <template #append>
-                  <v-btn
-                    icon
-                    style="color: #9155fd"
-                    @click="hidePassword = !hidePassword"
-                  >
-                    <v-icon class="pb-2">{{
-                      hidePassword ? 'mdi-eye' : 'mdi-eye-off'
-                    }}</v-icon>
-                  </v-btn>
-                </template>
-              </v-text-field>
-              <v-spacer></v-spacer>
-            </v-card-text>
-            <v-card-actions class="justify-center">
-              <v-btn block type="submit" color="#9155fd" @click="onLogin">
-                <span class="white--text px-8">ເຂົ້າສູ່ລະບົບ</span>
-              </v-btn>
-            </v-card-actions>
-            <div class="d-flex justify-end">
-              <div class="text">
-                ບໍ່ມີບັນຊີ ?
-                <v-btn text style="color: #9155fd; cursor: pointer" to="/signUp"
-                  >ລົງທະບຽນ</v-btn
+          <v-card-text>
+            <v-text-field
+              v-model="signInData.tel"
+              :rules="rules"
+              outlined
+              dense
+              append-icon="mdi-phone-outline"
+              type="text"
+              label="ເບີໂທລະສັບ"
+              placeholder="02054116088"
+              required
+              color="#9155fd"
+            />
+            <v-text-field
+              v-model="signInData.password"
+              :rules="rules1"
+              :type="hidePassword ? 'text' : 'password'"
+              label="ລະຫັດຜ່ານ"
+              outlined
+              dense
+              hide-details="auto"
+              required
+              color="#9155fd"
+            >
+              <template #append>
+                <v-btn
+                  icon
+                  style="color: #9155fd"
+                  @click="hidePassword = !hidePassword"
                 >
-              </div>
+                  <v-icon class="pb-2">{{
+                    hidePassword ? 'mdi-eye' : 'mdi-eye-off'
+                  }}</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
+            <v-spacer></v-spacer>
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <v-btn block type="submit" color="#9155fd" @click="onLogin">
+              <span class="white--text px-8">ເຂົ້າສູ່ລະບົບ</span>
+            </v-btn>
+          </v-card-actions>
+          <div class="d-flex justify-end">
+            <div class="text">
+              ບໍ່ມີບັນຊີ ?
+              <v-btn text style="color: #9155fd; cursor: pointer" to="/signUp"
+                >ລົງທະບຽນ</v-btn
+              >
             </div>
+          </div>
           <!-- </v-form> -->
         </v-card>
       </v-col>
@@ -80,7 +82,7 @@
 export default {
   name: 'LoginPages',
   layout: 'blank',
-   middleware: 'onlogin',
+  middleware: 'onlogin',
   //  middleware: 'auth',
   data() {
     return {
@@ -89,12 +91,20 @@ export default {
         tel: '',
         password: '',
       },
+      rules: [
+        (value) => !!value || '*Required.',
+        (value) => (value && value.length >= 11) || 'Min 11 characters',
+      ],
+      rules1: [
+        (value) => !!value || '*Required.',
+        (value) => (value && value.length >= 6) || 'Min 6 characters',
+      ],
     }
   },
   methods: {
     onLogin() {
-    this.$store.dispatch("login/signIn", {...this.signInData});
-    }
+      this.$store.dispatch('login/signIn', { ...this.signInData })
+    },
   },
 }
 </script>

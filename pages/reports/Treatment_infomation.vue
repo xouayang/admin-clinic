@@ -1,7 +1,23 @@
 <template>
   <div class="mt-3">
+    <div class="d-flex justify-end">
+      <v-btn color="#9155FD" @click="back"
+        ><v-icon color="white">mdi-keyboard-backspace</v-icon
+        ><span style="color:white">ກັບຄືນ</span></v-btn
+      >
+    </div>
     <v-card>
-      <div class="pa-2 ml-1 text-center mb-2">ລາຍງານຂໍ້ມູນການປີ່ນປົວ</div>
+      <div class="d-flex align-center mt-3">
+        <v-col class="pa-2 ml-1 mb-2">ລາຍງານຂໍ້ມູນການປີ່ນປົວ</v-col>
+        <v-col>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            dense
+            label="ຄົ້ນຫາ"
+          />
+        </v-col>
+      </div>
       <v-row class="col-12 d-flex justify-center">
         <!-- <v-col cols="12" sm="12" md="6">
           <DataPicker v-model="value" />
@@ -10,13 +26,15 @@
           <div>ຄົ້ນຫາວັນທີ ເດືອນ ປີ : {{ value }}</div>
         </v-col> -->
       </v-row>
-      <v-data-table :headers="headers" :items="patient.rows">
+      <v-data-table :headers="headers" :items="patient.rows" :search="search">
         <template #[`item.create_at`]="{ item }">
           {{ $moment(item.create_at).format('DD-MM-YYYY') }}
         </template>
         <template #[`item.weight`]="{ item }"> {{ item.weight }} Kg </template>
         <template #[`item.height`]="{ item }"> {{ item.height }} Cm </template>
-        <template slot="item.index" scope="props">{{props.index + 1}}</template>
+        <template slot="item.index" scope="props">{{
+          props.index + 1
+        }}</template>
       </v-data-table>
     </v-card>
   </div>
@@ -27,6 +45,7 @@ export default {
   data() {
     return {
       value: '',
+      search: '',
       headers: [
         { text: 'ລ/ດ', value: 'index' },
         { text: 'ຊື່', value: 'name' },
@@ -47,6 +66,11 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('patient/patientInfo')
+  },
+  methods: {
+    back() {
+      this.$router.push('/reports/reportTable')
+    }
   },
 }
 </script>

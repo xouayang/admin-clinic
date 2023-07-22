@@ -394,10 +394,10 @@ export default {
       }
       // console.log(data)
       await this.$store.dispatch('treat/createTreat', { ...data })
-      console.log('appointmentDAta :   ', this.appointMentData)
-      await this.$store.dispatch('appointment/postAppointment', {
-        ...this.appointMentData,
-      })
+      // console.log('appointmentDAta :   ', this.appointMentData)
+      // await this.$store.dispatch('appointment/postAppointment', {
+      //   ...this.appointMentData,
+      // })
       this.dialog = false
       this.dialogBill = true
     },

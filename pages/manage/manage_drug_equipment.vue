@@ -36,11 +36,11 @@
         color="#9155FD"
         :search="searchTerm"
       >
-        <template #[`item.action`]>
+        <template #[`item.action`]="{ item }">
           <v-tooltip top color="error">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon color="error" @click="showDailog = !showDailog"
+                <v-icon color="error" @click="deleteData(item.medicines_id)"
                   >mdi-trash-can-outline</v-icon
                 >
               </v-btn>
@@ -64,8 +64,11 @@
         <template slot="item.index" scope="props">
           {{ props.index + 1 }}
         </template>
-        <template #[`item.price`] = "{item}">
-          {{toCurrencyString(item.price)}}
+        <template #[`item.price`]="{ item }">
+          {{ toCurrencyString(item.price) }}
+        </template>
+        <template #[`item.image`]="{ item }">
+          <v-img :src="item.image" max-height="40" max-width="89" />
         </template>
       </v-data-table>
     </v-card>
@@ -79,36 +82,16 @@
           </v-btn>
         </v-toolbar>
         <v-divider></v-divider>
-        <div class="mt-2 col-12">
-          <div class="d-flex align-center justify-space-around text-center">
-            <v-card-text class="mb-2"
-              >ຊື່ <br />
-              XOUAYANG
-            </v-card-text>
-            <v-card-text class="mb-2"
-              >ທີ່ຢູ່ <br />
-              XAYSOMBOUN</v-card-text
-            >
-          </div>
-          <div class="d-flex align-center justify-space-around text-center">
-            <v-card-text class="mb-2"
-              >ເບີໂທລະສັບ<br />
-              02054116066
-            </v-card-text>
-            <v-card-text class="mb-2"
-              >ວັນ ເດືອນ ປີ ເກີດ <br />
-              04/12/2000
-            </v-card-text>
-          </div>
-        </div>
+        <div class="container text-center">ຕ້ອງການລຶບຂໍ້ມູນບໍ ?</div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" width="100" @click="showDailog = false">
+          <v-btn color="error" width="100" @click="removedata(dataId)">
             <div class="text--white">ລຶບ</div>
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- form edit -->
     <v-row>
       <v-dialog
         v-model="dialog"
@@ -251,7 +234,7 @@
               color="#9155FD"
             />
           </v-col>
-          <v-col cols="12">
+          <!-- <v-col cols="12">
             <v-text-field
               v-model="expired_date"
               outlined
@@ -260,9 +243,41 @@
               label="ວັນ ເດືອນ ປີ ເກີດ ໝົດອາຍຸ "
               color="#9155FD"
             />
-          </v-col>
+          </v-col> -->
+          <v-file-input
+            id="file"
+            v-model="file"
+            :rules="imageRules"
+            label="Image"
+            class="d-none"
+            prepend-icon="mdi-camera"
+            @change="onFileChange"
+          ></v-file-input>
           <v-spacer></v-spacer>
-          <div class="d-flex justify-end pa-4">
+          <div class="d-flex justify-space-between align-center pa-4">
+            <v-btn class="mt-2" color="#9155FD" @click="upload">
+              <v-icon color="white">mdi-tray-arrow-up</v-icon>
+              <span style="color: white">ອັບໂຫຼດຮູບພາບ</span>
+            </v-btn>
+
+            <div class="justify-center text-center mt-5">
+              <div>
+                <v-avatar
+                  size="130"
+                  style="
+                    border-radius: 10%;
+                    border: 3px solid #9155fd;
+                    box-shadow: 12px;
+                  "
+                >
+                  <v-img v-if="url" :src="url"></v-img>
+                  <v-img v-else src="/images/logo.png"></v-img>
+                </v-avatar>
+              </div>
+            </div>
+          </div>
+
+          <div class="container d-flex justify-end">
             <v-btn
               color="#9155FD"
               width="100"
@@ -282,6 +297,8 @@ export default {
   name: 'ManageDrugEquipment',
   data() {
     return {
+      file: null,
+      urlImage: null,
       searchTerm: '',
       showDailog: false,
       dialog: false,
@@ -292,8 +309,10 @@ export default {
       amount: 0,
       price: 0,
       expired_date: '',
+      dataId: '',
+      url: null,
       headers: [
-        { text: 'ລ/ດ', value: 'index' },
+        { text: 'ຮູບພາບ', value: 'image' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ປະເພດຢາ', value: 'type_name' },
         { text: 'ລາຄາ', value: 'price' },
@@ -301,6 +320,16 @@ export default {
         { text: 'ຫົວໜ່ວຍ', value: 'unit' },
         { text: 'ວັນທີ່', value: 'date' },
         { text: 'Actions', value: 'action' },
+      ],
+      imageRules: [
+        (value) =>
+          !value ||
+          value.size < 2000000 ||
+          'Image size should be less than 2 MB!',
+        (value) =>
+          !value ||
+          ['image/jpeg', 'image/png'].includes(value.type) ||
+          'Only JPEG/PNG images are allowed!',
       ],
     }
   },
@@ -321,16 +350,52 @@ export default {
       return laoCurrency(number).format('LAK S')
     },
     async insertData() {
+      const file = this.file
+      if (file) {
+        const formData = new FormData()
+        formData.append('file', file)
+        try {
+          const response = await this.$axios.post(
+            'http://localhost:7000/upload/image',
+            formData
+          )
+          this.urlImage = response?.data?.url
+        } catch (error) {
+          this.$toast.error('File upload failed', error)
+        }
+      }
       const data = {
         name: this.name,
         medicines_type_id: this.medicines_type_id.id,
         unit: this.unit,
         amount: this.amount,
         price: this.price,
-        expired_date: this.expired_date,
+        image: this.urlImage,
       }
-       await this.$store.dispatch('medicinesType/postMedicines', {...data})
-       this.showAddDialog = false
+      await this.$store.dispatch('medicinesType/postMedicines', { ...data })
+      await this.$store.dispatch('medicinesType/medicinesAllData')
+      this.showAddDialog = false
+    },
+    onFileChange(e) {
+      if (e) {
+        this.url = URL.createObjectURL(e)
+      }
+    },
+
+    upload() {
+      document.getElementById('file').click()
+    },
+    deleteData(id) {
+      this.dataId = id
+      this.showDailog = true
+    },
+    async removedata(id) {
+      if (id) {
+          await this.$store.dispatch('medicinesType/deletdMedicines',id)
+          await this.$store.dispatch('medicinesType/medicinesAllData')
+          this.showDailog = false
+
+      }
     },
   },
 }

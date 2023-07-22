@@ -94,13 +94,15 @@
             </div> -->
             <v-data-table :headers="headers2" :items="billIdData.rows">
               <template #[`item.results`]="{ item }">
-                <v-select
+                <v-textarea
                   v-model="item.results"
-                  label="ເລືອກ"
-                  dense
+                  auto-grow
                   outlined
-                  :items="['positive', 'Negative']"
-                ></v-select>
+                  rows="3"
+                  row-height="25"
+                  label="ປ້ອນຜົນກວດ"
+                  dense
+                ></v-textarea>
               </template>
             </v-data-table>
 
@@ -216,7 +218,7 @@ export default {
         bill_id: this.billIdData.id,
         item: this.billIdData.rows,
       }
-     await console.log(data)
+      await console.log(data)
       await this.$store.dispatch('result/createResult', { ...data })
       this.$router.push('/treat/checked')
     },

@@ -3,7 +3,7 @@ export const state = () => ({
   singleData: [],
   dataId: '',
   status: [],
-  Data:[],
+  Data: [],
 })
 export const mutations = {
   getMedicinesData(state, data) {
@@ -18,9 +18,9 @@ export const mutations = {
   getDataId(state, data) {
     state.dataId = data
   },
-  getMAllData(state,data) {
+  getMAllData(state, data) {
     state.Data = data
-  }
+  },
 }
 
 export const actions = {
@@ -35,7 +35,8 @@ export const actions = {
           iconPack: 'mdi',
           icon: 'check',
         })
-      }).catch(() => {
+      })
+      .catch(() => {
         this.$toast.error('ບັນທືກບໍ່ຂໍ້ມູນສຳເລັດ?', {
           duration: 2000,
           position: 'top-right',
@@ -104,7 +105,8 @@ export const actions = {
           iconPack: 'mdi',
           icon: 'check',
         })
-      }).catch(() => {
+      })
+      .catch(() => {
         this.$toast.error('ບັນທືກບໍ່ຂໍ້ມູນສຳເລັດ?', {
           duration: 2000,
           position: 'top-right',
@@ -113,10 +115,30 @@ export const actions = {
         })
       })
   },
-//   http://localhost:7000/get-medicins
-async medicinesAllData({ commit }) {
+  //   http://localhost:7000/get-medicins
+  async medicinesAllData({ commit }) {
     await this.$axios.get('http://localhost:7000/get-medicins').then((data) => {
       commit('getMAllData', data.data)
     })
+  },
+  async deletdMedicines({ commit }, data) {
+    await this.$axios
+      .delete(`http://localhost:7000/delete-medicines-data/${data}`)
+      .then((data) => {
+        this.$toast.success('ລືບຂໍ້ມູນສຳເລັດ', {
+          duration: 2000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'check',
+        })
+      })
+      .catch(() => {
+        this.$toast.error('ລືບບໍ່ຂໍ້ມູນສຳເລັດ?', {
+          duration: 2000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'close',
+        })
+      })
   },
 }

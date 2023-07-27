@@ -5,7 +5,21 @@
     <v-card class="mt-3 text-center">
       <v-row class="col-12">
         <v-col cols="12" md="12" sm="12">
-          <v-text-field
+          <v-select
+            id="sale"
+            v-model="treatId"
+            :items="billData"
+            item-value="treat_id"
+            item-text="treat_id"
+            name="sale"
+            label="ລະຫັດບາໃບບິນສັ່ງຢາ"
+            prepend-inner-icon="mdi-barcode"
+            outlined
+            dense
+            @change="showDetails"
+          >
+          </v-select>
+          <!-- <v-text-field
             id="sale"
             v-model="treatId"
             name="sale"
@@ -15,15 +29,15 @@
             dense
             @keydown.enter="getPrescrition"
           >
-          </v-text-field>
+          </v-text-field> -->
         </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="prescrition_data">
         <template #[`item.created_at`]="{ item }">
           {{ $moment(item.created_at).format('DD-MM-YYYY h:mm:ss a') }}
         </template>
-        <template #[`item.price`] = "{item}">
-          <span style="color:red">{{toCurrencyString(item.price)}}</span>
+        <template #[`item.price`]="{ item }">
+          <span style="color: red">{{ toCurrencyString(item.price) }}</span>
         </template>
       </v-data-table>
       <v-row class="col-12 mt-3">
@@ -44,6 +58,7 @@ export default {
   data() {
     return {
       treatId: '',
+      billData:[],
       headers: [
         { text: 'ປະເພດຢາ', value: 'type_name' },
         { text: 'ຊື່ຢາ', value: 'name' },
@@ -59,9 +74,17 @@ export default {
       return this.$store.state.sale.prescrition
     },
   },
-  mounted() {},
+  async mounted() {
+    await this.$axios
+      .get(`http://localhost:7000/get-offer-status`)
+      .then((data) => {
+        console.log(data.data)
+        this.billData = data.data
+      })
+  },
   methods: {
     getPrescrition(e) {
+      console.log(e)
       const id = e.target.value
       this.$store.dispatch('sale/getPrescrition', id)
     },
@@ -76,6 +99,9 @@ export default {
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
     },
+    showDetails(e) {
+    this.$store.dispatch('sale/getPrescrition', e)
+    }
   },
 }
 </script>

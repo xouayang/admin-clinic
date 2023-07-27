@@ -61,47 +61,19 @@
                           color="#9155FD"
                           :items="showDiseas.rows"
                           item-text="name"
+                          item-value="id"
                           return-object
                           hide-details="auto"
+                          @change="showMore"
                         />
                         <div style="color: red">*ກະລຸນາເລືອກລາຍການກວດ</div>
                       </v-col>
                     </v-row>
-                    <!-- <v-row class="mt-16 col-12">
-                      <div class="font-weight-bold">ນັດໝາຍກວດຄັ້ງຕໍ່ໄປ</div>
-                      <v-col cols="12" md="12" sm="12">
-                        <v-text-field
-                          v-model="appointMentData.treat_id"
-                          outlined
-                          dense
-                          label="ລະຫັດ"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" md="12" sm="12">
-                        <v-text-field
-                          v-model="appointMentData.name"
-                          outlined
-                          dense
-                          label="ຊື່"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" md="12" sm="12">
-                        <v-text-field
-                          v-model="appointMentData.tel"
-                          outlined
-                          dense
-                          label="ເບີໂທລະສັບ"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" md="12" sm="12">
-                        <DataPicker1 v-model="appointMentData.date" />
-                      </v-col>
-                    </v-row> -->
                   </div>
                 </v-list>
+                <div class="container" v-for="data in standareData" :key="data.id">
+                    <v-checkbox :label="data.name"/>
+                </div>
               </v-col>
               <v-divider vertical></v-divider>
               <v-col cols="12" md="6" sm="12">
@@ -286,9 +258,7 @@
                 </div>
               </div>
               <div v-else>
-                <h4  class="text-center pt-16 pb-16">
-                  ບໍ່ມີປະຫວັດປີ່ນປົວ !
-                </h4>
+                <h4 class="text-center pt-16 pb-16">ບໍ່ມີປະຫວັດປີ່ນປົວ !</h4>
               </div>
             </v-card>
           </v-dialog>
@@ -309,6 +279,7 @@ export default {
       historyDialog: false,
       notifications: false,
       dialogNoData: false,
+      standareData:null,
       sound: true,
       widgets: false,
       selectedDiseases: [],
@@ -360,6 +331,18 @@ export default {
     // await this.$store.dispatch('')
   },
   methods: {
+    async showMore(e) {
+      const id = e[0]?.disease_id
+      if (id === null || id === '') {
+        console.log('not found')
+      } else {
+        await this.$axios
+          .get(`http://localhost:7000/get-standare/${id}`)
+          .then((data) => {
+            this.standareData = data.data
+          })
+      }
+    },
     route() {
       this.$router.push('/treat/pay')
       // console.log( this.firstcheckid)

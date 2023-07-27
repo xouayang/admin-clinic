@@ -6,6 +6,18 @@
       <v-row class="d-flex justify-end col-12">
         <v-col cols="12" md="6" sm="12">
           <v-card-title>
+            <!-- <v-select
+              id="sale"
+              v-model="bill_number"
+              item-value="treat_id"
+              item-text="treat_id"
+              name="sale"
+              label="ລະຫັດບາໃບບິນຈັດຊື້ຢາ"
+              prepend-inner-icon="mdi-barcode"
+              outlined
+              dense
+            >
+            </v-select> -->
             <v-text-field
               v-model="billId"
               prepend-inner-icon="mdi-barcode"
@@ -147,6 +159,7 @@ export default {
   data() {
     return {
       billId: '',
+      bill_number:'',
       importData: [],
       expired_date: '',
       token: this.$cookies.get('token'),
@@ -177,13 +190,10 @@ export default {
       },
     }
   },
-  computed: {
-  
-
-  },
+  computed: {},
   methods: {
-    validateNumber(e){
-    if (e.key === '-' ) {
+    validateNumber(e) {
+      if (e.key === '-') {
         e.preventDefault()
       }
     },
@@ -252,5 +262,4 @@ export default {
 .font {
   font-family: 'Noto Serif Lao', serif;
 }
-
 </style>

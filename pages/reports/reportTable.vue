@@ -5,8 +5,8 @@
       <v-col cols="12" md="3" sm="12">
         <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/reportIncome_summary">
           <div class="d-flex justify-space-around align-center">
-            <v-card-subtitle>ລາຍງານສະຫຼຸບລາຍຮັບ</v-card-subtitle>
-            <v-btn fab small color="success">
+            <v-card-subtitle>ລາຍງານສະຫຼຸບລາຍຈ່າຍ</v-card-subtitle>
+            <v-btn fab small color="error">
               <v-icon>mdi-currency-usd</v-icon>
             </v-btn>
           </div>
@@ -43,10 +43,10 @@
         </v-card>
       </v-col>
             <v-col cols="12" md="3" sm="12">
-        <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/reportIncome_summary">
+        <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/outcome">
           <div class="d-flex justify-space-around align-center">
-            <v-card-subtitle>ລາຍງານສະຫຼຸບລາຍຈ່າຍ</v-card-subtitle>
-            <v-btn fab small color="error">
+            <v-card-subtitle>ລາຍງານສະຫຼຸບລາຍຮັບ</v-card-subtitle>
+            <v-btn fab small color="success">
               <v-icon>mdi-currency-usd</v-icon>
             </v-btn>
           </div>

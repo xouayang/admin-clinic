@@ -15,18 +15,19 @@
             outlined
             dense
           >
-            <!-- <template #[`item.createdAt`]="{ item }">
-              {{ $moment(item.createdAt).format('DD-MM-YYY') }}
-            </template> -->
           </v-text-field>
         </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="history" :search="search">
+        <template #[`item.price`]="{ item }">
+          {{ toCurrencyString(parseInt(item.price)) }}
+        </template>
       </v-data-table>
     </v-card>
   </div>
 </template>
 <script>
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'History_Imports',
   data() {
@@ -51,6 +52,11 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('user/getImportHistory')
+  },
+  methods: {
+    toCurrencyString(number) {
+      return laoCurrency(number).format('LAK S')
+    },
   },
 }
 </script>

@@ -82,7 +82,7 @@
           </div>
           <div class="d-flex align-center justify-space-around text-center">
             <v-card-text class="mb-2"
-              >ວັນທີ່ ເດືອນ ປີ ນັດມາຍ : <br />
+              >ວັນທີ່ ເດືອນ ປີ: <br />
               {{ $moment(showDeleteData.date).format('DD-MM-YYYY') }}
             </v-card-text>
           </div>

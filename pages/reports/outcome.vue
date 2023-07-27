@@ -7,7 +7,7 @@
       >
     </div>
     <v-card>
-      <div class="pa-2 ml-1">ລາຍງານສະຫຼຸບລາຍຈ່າຍ</div>
+      <div class="pa-2 ml-1">ລາຍງານສະຫຼຸບລາຍຮັບ</div>
       <v-row class="col-12 d-flex align-center justify-center">
         <v-col cols="12" sm="12" md="5">
           <DataPicker v-model="startDate" />
@@ -23,8 +23,8 @@
         </v-col>
       </v-row>
       <v-data-table :headers="headers" :items="allData.rows">
-        <template #[`item.create_at`]="{ item }">
-          {{ $moment(item.create_at).format('DD-MM-YYYY') }}
+        <template #[`item.createdAt`]="{ item }">
+          {{ $moment(item.createdAt).format('DD-MM-YYYY') }}
         </template>
         <template #[`item.price`]="{ item }">
           {{ toCurrencyString(item.price) }}
@@ -32,7 +32,7 @@
       </v-data-table>
       <div class="container">
         <span style="color: red; border-bottom: 3px solid #9155fd"
-          >ລາຍຈ່າຍທັງໝົດ :
+          >ລາຍຮັບທັງໝົດ :
           {{
             allData?.sum
               ? toCurrencyString(parseInt(allData?.sum))
@@ -54,11 +54,10 @@ export default {
       endDate: '',
       allData: [],
       headers: [
-        { text: 'ປະເພດຢາ', value: 'type_name' },
         { text: 'ຊື່ຢາ', value: 'name' },
         { text: 'ຈຳນວນ', value: 'amount' },
         { text: 'ລາຄາ', value: 'price' },
-        { text: 'ວັນທີ່ ເດືອນ ປີ', value: 'create_at' },
+        { text: 'ວັນທີ່ ເດືອນ ປີ', value: 'createdAt' },
       ],
     }
   },
@@ -67,7 +66,7 @@ export default {
       const start = this.startDate
       const end = this.endDate
       await this.$axios
-        .get(`http://localhost:7000/get-outcome?start='${start}'&end='${end}'`)
+        .get(`http://localhost:7000/get-income?start='${start}'&end='${end}'`)
         .then((data) => {
           this.allData = data.data
         })

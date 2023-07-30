@@ -250,7 +250,7 @@ export default {
         { text: 'ເພດ', value: 'gender' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ທີ່ຢູ່', value: 'address' },
-        { text: 'ສະຖານະ', value: 'status' },
+        // { text: 'ສະຖານະ', value: 'status' },
         { text: 'ຕຳເເໜ່ງ', value: 'position' }
       ],
     }

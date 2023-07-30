@@ -1,15 +1,21 @@
 <template>
   <div class="mt-3">
-    <div class="d-flex justify-end">
+    <div class="d-flex justify-space-between align-center">
+      <v-breadcrumbs :items="items">
+        <template v-slot:item="{ item }">
+          <v-breadcrumbs-item :href="item.href" :disabled="item.disabled">
+            <h2>{{ item.text.toUpperCase() }}</h2>
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
       <v-btn color="#9155FD" @click="back"
-        ><v-icon color="white">mdi-keyboard-backspace</v-icon
-        ><span style="color:white">ກັບຄືນ</span></v-btn
+        ><v-icon color="white">mdi-chevron-left</v-icon
+        ><span style="color: white">ກັບຄືນ</span></v-btn
       >
     </div>
     <v-card>
-      <div class="d-flex align-center mt-3">
-        <v-col class="pa-2 ml-1 mb-2">ລາຍງານຂໍ້ມູນການປີ່ນປົວ</v-col>
-        <v-col>
+      <div class="d-flex justify-end mt-3">
+        <v-col md="6">
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -37,9 +43,18 @@
         }}</template>
       </v-data-table>
     </v-card>
+    <div class="d-flex justify-end container mb-5">
+      <v-btn color="success" @click="generateAndPrintBill">
+        <span style="color: white">ພິມ</span>
+        <v-icon color="white">mdi-printer-outline</v-icon>
+      </v-btn>
+    </div>
   </div>
 </template>
 <script>
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+pdfMake.vfs = pdfFonts.pdfMake.vfs
 export default {
   name: 'ReportsTreatment',
   data() {
@@ -54,8 +69,18 @@ export default {
         { text: 'ອາການເບື້ອງ', value: 'details' },
         { text: 'ນໍ້າໜັກ', value: 'weight' },
         { text: 'ລວງສູງ', value: 'height' },
-        // { text: 'ຊິບພະຈອນ', value: 'chip_life' },
         { text: 'ວັນທີ່ ເດືອນ ປີ', value: 'create_at' },
+      ],
+      items: [
+        {
+          text: 'ລາຍງານ',
+          disabled: false,
+          href: '/reports/reportTable',
+        },
+        {
+          text: 'ລາຍງານຂໍ້ມູນການປີ່ນປົວ',
+          disabled: false,
+        },
       ],
     }
   },
@@ -70,7 +95,89 @@ export default {
   methods: {
     back() {
       this.$router.push('/reports/reportTable')
-    }
+    },
+    generateAndPrintBill() {
+      const rows = this.patient.rows
+      const printWindow = window.open('', '', 'height=500,width=800')
+      printWindow.document.write('<html><head><title>Printable Table</title>')
+      printWindow.document.write(`
+        <style>
+        *{
+        font-family: 'phetsarath ot', serif;
+        }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            word-break: break-all; /* To wrap long text within cells */
+          }
+          th {
+            background-color: #f2f2f2; /* Header background color */
+          }
+          .item-create-at,
+          .item-price {
+            min-width: 100px; /* Set a minimum width for date and price columns */
+            width: 20%; /* Set a fixed width for date and price columns */
+          }
+          .text{
+            text-align:center
+          }
+          .image{
+            width:60px
+          }
+        </style>
+      `)
+      printWindow.document.write('</head><body >')
+      printWindow.document.write(` 
+    <div class="shop-info">
+      <div class="shop-details">
+        <h2 class="text">ລາຍງານຂໍ້ມູນປີ່ນປົວ</h2>
+      </div>
+    </div>
+  `)
+      const tableHeader = `
+        <tr>
+          <th>ລ/ດ</th>
+          <th>ຊື່</th>
+          <th>ທີ່ຢູ່</th>
+          <th>ເບີໂທລະສັບ</th>
+          <th>ອາການເບື້ອງ</th>
+          <th>ນໍ້າໜັກ Kg </th>
+          <th>ລວງສູງ Cm</th>
+          <th>ວັນທີ່ ເດືອນ ປີ</th>
+        </tr>
+      `
+
+      printWindow.document.write('<table>')
+      printWindow.document.write(tableHeader)
+      let index = 1
+      for (const row of rows) {
+        const rowContent = `
+          <tr>
+              <td>${index}</td>
+              <td>${row.name}</td>
+              <td>${row.address}</td>
+              <td>${row.tel}</td>
+              <td>${row.details}</td>
+              <td>${row.weight}</td>
+              <td>${row.height}</td>
+               <td> ${this.$moment(row.create_at).format('DD-MM-YYYY')}</td>
+          </tr>
+        `
+
+        printWindow.document.write(rowContent)
+        index++
+      }
+
+      printWindow.document.write('</table>')
+      printWindow.document.write('</body></html>')
+      printWindow.document.close()
+      printWindow.print()
+    },
   },
 }
 </script>

@@ -43,7 +43,7 @@
         </v-card>
       </v-col>
             <v-col cols="12" md="3" sm="12">
-        <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/outcome">
+        <v-card rounded="lg" style="cursor:pointer" class="pa-3" to="/reports/allIncome">
           <div class="d-flex justify-space-around align-center">
             <v-card-subtitle>ລາຍງານສະຫຼຸບລາຍຮັບ</v-card-subtitle>
             <v-btn fab small color="success">

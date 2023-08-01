@@ -12,7 +12,7 @@
         <v-col cols="12" md="6" sm="12">
           <v-row class="col-12">
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
+              <v-card height="100" class="pt-3 pl-3"
                 >ລາຍຮັບ
                 <v-row align="center">
                   <v-col class="d-flex align-center justify-space-between">
@@ -31,9 +31,7 @@
               </v-card>
               <v-card
                 height="100"
-                rounded="xl"
                 class="mt-5 pt-3 pl-3"
-                elevation="0"
               >
                 ລາຍຈ່າຍ
                 <v-row align="center">
@@ -51,7 +49,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
+              <v-card height="100"  class="pt-3 pl-3"
                 >ລາຍການປີ່ນປົວໃໝ່
 
                 <v-row align="center">
@@ -77,9 +75,7 @@
               </v-card>
               <v-card
                 height="100"
-                rounded="xl"
                 class="mt-5 pt-3 pl-3"
-                elevation="0"
                 >ລາຍການປີ່ນປົວທັງໝົດ
                 <v-row align="center">
                   <v-col
@@ -102,7 +98,7 @@
         <v-col cols="12" md="6" sm="12">
           <v-row class="col-12">
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0">
+              <v-card height="100"  class="pt-3 pl-3">
                 ພະນັກງານ (ຊາຍ)
                 <v-row align="center">
                   <v-col
@@ -119,9 +115,7 @@
               </v-card>
               <v-card
                 height="100"
-                rounded="xl"
                 class="mt-5 pt-3 pl-3"
-                elevation="0"
                 >ພະນັກງານ (ຍິງ)
                 <v-row align="center">
                   <v-col
@@ -140,7 +134,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100" rounded="xl" class="pt-3 pl-3" elevation="0"
+              <v-card height="100"  class="pt-3 pl-3"
                 >ລາຍການນັດໝາຍໃໝ່
 
                 <v-row align="center">
@@ -163,9 +157,7 @@
               </v-card>
               <v-card
                 height="100"
-                rounded="xl"
                 class="mt-5 pt-3 pl-3"
-                elevation="0"
               >
                 ປະເພດ (ອຸປະກອນ ເເລະ ຢາ)
                 <v-row align="center">
@@ -187,7 +179,7 @@
       </v-row>
       <div class="mb-2">
         <v-row class="col-12">
-          <v-col cols="12" md="6" sm="12">
+          <!-- <v-col cols="12" md="6" sm="12">
             <v-card class="container" rounded="lg">
               <div class="container">ລາຍການນັດໝາຍຄົນເຈັບ</div>
               <v-text-field
@@ -209,10 +201,10 @@
                 </template>
               </v-data-table>
             </v-card>
-          </v-col>
-          <v-col cols="12" md="6" sm="12">
+          </v-col> -->
+          <v-col cols="12" md="12" sm="12">
             <v-card class="container" rounded="lg">
-              <div class="container">ປະຫວັດປີ່ນປົວຄົນເຈັບ</div>
+              <div class="container">ປະຫວັດປີ່ນປົວຄົນເຈັບລ່າສຸດ</div>
               <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
@@ -297,7 +289,9 @@ export default {
       dialog: false,
       value: 0,
       headers: [
+        { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
         { text: 'ຊື່', value: 'name' },
+        { text: 'ອາການເບື້ອງຕົ້ນ', value: 'details' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ວັນທີ່', value: 'created_at' },
         { text: 'ລາຍລະອຽດ', value: 'more' },

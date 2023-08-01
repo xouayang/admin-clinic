@@ -1,5 +1,5 @@
 <template >
-  <div>
+  <div class="mb-6">
     <div class="mt-5 mb-3 pb-2 ml-2 font-weight-bold">ຕັ້ງຄ່າລະບົບ</div>
     <v-card>
       <!-- search button------------------------------- -->
@@ -188,7 +188,7 @@
               hide-details="auto"
               label="ສິດທິ"
               color="#9155FD"
-              :items="['staff', 'doctor', 'admin']"
+              :items="['statff_medicines','staff', 'doctor', 'admin','financial']"
             />
             <div style="color: red">*ກະລຸນາກຳນົດສິດທິ</div>
           </v-col>
@@ -297,7 +297,7 @@
               hide-details="auto"
               label="ສິດທິ"
               color="#9155FD"
-              :items="['staff', 'doctor', 'admin']"
+              :items="['statff_medicines','staff', 'doctor', 'admin','financial']"
             />
             <div style="color: red">*ກະລຸນາກຳນົດສິດທິ</div>
           </v-col>

@@ -8,8 +8,8 @@
       app
       width="290"
     >
-      <v-list v-if="dataCheck">
-        <v-list-item
+      <!-- <v-list v-if="dataCheck"> -->
+      <!-- <v-list-item
           v-for="(item, i) in items"
           :key="'A' + i"
           :to="item.to"
@@ -23,9 +23,9 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
-        <!-- drop down menu -->
-        <v-list-group
+        </v-list-item> -->
+      <!-- drop down menu -->
+      <!-- <v-list-group
           v-for="(group, index) in menuItems"
           :key="'B' + index"
           :value="group.active"
@@ -82,9 +82,9 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-        </v-list-group>
+        </v-list-group> -->
 
-        <v-list-item
+      <!-- <v-list-item
           v-for="(item, i) in pay"
           :key="'Z' + i"
           :to="item.to"
@@ -187,11 +187,211 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-        </v-list-group>
+        </v-list-group> -->
 
-        <!-- ************************ setting *********************************** -->
+      <!-- ************************ setting *********************************** -->
+      <!-- </v-list> -->
+      <!--  staff medcines -->
+      <v-list v-if="medicines">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="'AA' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-group
+          v-for="(group, index) in menuList1"
+          :key="'DD' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title>{{ group.title }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList1"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+          v-for="(group, index) in menuList2"
+          :key="'EE' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList2"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+        <v-list-group
+          v-for="(group, index) in menuList3"
+          :key="'FF' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList3"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
-      <v-list v-else>
+      <!-- doctor -->
+      <v-list v-if="doctorData">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="'AA' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-group
+          v-for="(group, index) in menuLists"
+          :key="'C' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
+      <!-- staff -->
+      <v-list v-if="staffData">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="'AA' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-group
+          v-for="(group, index) in menuList"
+          :key="'C' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
+      <!-- admin -->
+      <v-list v-if="admin">
         <v-list-item
           v-for="(item, i) in items"
           :key="'A' + i"
@@ -239,7 +439,7 @@
         </v-list-group>
 
         <v-list-group
-          v-for="(group, index) in menuList"
+          v-for="(group, index) in menuLists"
           :key="'C' + index"
           :value="group.active"
           :prepend-icon="group.icon"
@@ -284,7 +484,6 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
         <v-list-group
           v-for="(group, index) in menuList1"
           :key="'D' + index"
@@ -388,6 +587,52 @@
             <v-list-item-title>{{ iconCog.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+      </v-list>
+      <v-list v-if="financial">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="'AA' + i"
+          :to="item.to"
+          router
+          exact
+          color="#9155FD"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-group
+          v-for="(group, index) in menuList9"
+          :key="'C' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
+          color="#9155FD"
+          class="pt-3"
+        >
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList9"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app elevation="1">
@@ -523,34 +768,43 @@ export default {
       dataCheck: '',
       staffData: '',
       doctorData: '',
+      medicines: '',
+      financial: '',
+      admin: '',
       menuList: [
         {
           icon: 'mdi-doctor',
           title: 'ກວດພະຍາດ',
           nestList: [
             { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
-            // {
-            //   title: 'ລາຍການບັນທຶກຂໍ້ມູນຄົນເຈັບ',
-            //   to: '/treat/Check_appointment',
-            // },
+            // { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
+            // { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
+            // { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
+            // { title: 'ປະຫວັດລາຍການກວດທັງໝົດ', to: '/treat/history_checked' },
+          ],
+        },
+      ],
+      // doctor data
+      menuLists: [
+        {
+          icon: 'mdi-doctor',
+          title: 'ກວດພະຍາດ',
+          nestList: [
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
             { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
             { title: 'ປະຫວັດລາຍການກວດທັງໝົດ', to: '/treat/history_checked' },
           ],
-          // list1: [
-          //   { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
-          // ],
         },
       ],
       menuList1: [
         {
           icon: 'mdi-medical-cotton-swab',
           // title: "ຈ່າຍຢາ",
-          title: 'ຂາຍຢາ',
+          title: 'ຈ່າຍຢາ',
           nestList1: [
             { title: 'ກວດສອບໃບສັ່ງຢາ', to: '/prescription/check_prescription' },
-            { title: "ລາຍການໃບສັ່ງຢາ", to: '/prescription/list_prescription' },
+            { title: 'ລາຍການໃບສັ່ງຢາ', to: '/prescription/list_prescription' },
           ],
         },
       ],
@@ -636,6 +890,16 @@ export default {
           to: '/setting',
         },
       ],
+      menuList9: [
+        {
+          icon: 'mdi-currency-usd',
+          title: 'ຊຳລະເງິນ',
+          nestList9: [
+            { title: 'ລາຍການຢາ', to: '/import' },
+            { title: 'ລາຍການກວດ', to: '/treat/pay' },
+          ],
+        },
+      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
@@ -644,9 +908,34 @@ export default {
   },
   mounted() {
     const check = this.$cookies.get('role')
-    if (check === 'doctor' || check === 'staff') {
-      this.dataCheck = check
+    console.log('>>>>>>>>>>', check)
+    if (check != null) {
+      if (check === 'financial') {
+        this.financial = check
+      } else if (check === 'statff_medicines') {
+        this.medicines = check
+      } else if (check === 'doctor') {
+        this.doctorData = check
+      } else if (check === 'staff') {
+        this.staffData = check
+      } else {
+        this.admin = check
+      }
     }
+    // if (check === 'statff_medicines') {
+    //   this.staff_medicines = check
+    // }
+    // if (check === 'staff') {
+    //   this.staffData = check
+    // }
+    // if (check === 'doctor') {
+    //   this.doctorData = check
+    // }
+    // if (check === '	financial') {
+    //   this.financial = check
+    //   console.log(this.financial)
+    // }
+
     // if (check === 'staff' || check === 'admin') {
     //   this.staffData = check
     // }

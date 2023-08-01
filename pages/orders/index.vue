@@ -152,6 +152,9 @@ export default {
       if (e.key === '-') {
         e.preventDefault()
       }
+      if (e.key === '0') {
+        e.preventDefault()
+      }
     },
     async order() {
       const data = {

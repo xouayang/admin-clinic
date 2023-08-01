@@ -57,7 +57,11 @@
             ຜົນກວດກວດພະຍາດ :
             <div v-for="data in resultData" :key="data.id">
               <ul>
-                <li>{{data.result_details}}</li> > {{data.result}}
+                <li>{{ data.result_details }}</li>
+                >
+                {{
+                  data.result
+                }}
               </ul>
             </div>
           </div>
@@ -69,7 +73,7 @@
         <v-row>
           <v-col v-for="data in medicines" :key="data.id" cols="12" md="3">
             <v-card @click="showMedicines(data)">
-              <v-img :src="data.image"/>
+              <v-img :src="data.image" />
               <div class="pa-1">ຊື່ຢາ: {{ data.name }}</div>
               <div class="pa-1">ປະເພດຢາ: {{ data.type_name }}</div>
               <div class="pa-1">ຫົວໜ່ວຍ: {{ data.unit }}</div>
@@ -85,9 +89,13 @@
         </v-row>
       </v-card-text>
     </v-card>
-    <v-row class="mt-2 mb-2">
-      <v-col class="mt-8 d-flex justify-end">
-        <v-btn color="#9155FD" @click="saveData">
+    <v-row class="mb-2">
+      <v-col class="mt-4 d-flex justify-end">
+        <v-btn color="#9155FD">
+          <span style="color: white">ພິມໃບບິນ</span>
+          <v-icon color="white"> mdi-printer-outline </v-icon>
+        </v-btn>
+        <v-btn color="success" @click="saveData" class="ml-9">
           <span style="color: white">ບັນທຶກ</span>
           <v-icon color="white"> mdi-content-save-check-outline </v-icon>
         </v-btn>
@@ -112,9 +120,13 @@
           ຈຳນວນ:
           <v-text-field
             v-model="qty"
+            type="number"
             outlined
             dense
+            min="1"
             placeholder="ຈຳນວນ"
+            hide-spin-buttons
+            @keydown="handleKeyDown"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
@@ -140,7 +152,7 @@ export default {
       dialog: false,
       dataMedisinesOne: {},
       allData: [],
-      resultData:[],
+      resultData: [],
     }
   },
   computed: {
@@ -197,11 +209,22 @@ export default {
       this.dialog = true
     },
     selectMedicines(e) {
-      console.log("ID>>>>>>>>>>>",this.dataMedisinesOne.medicines_id)
+      console.log('ID>>>>>>>>>>>', this.dataMedisinesOne.medicines_id)
       this.$store.dispatch('treat/getMedicinesAllById', e)
     },
     toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
+    },
+    handleKeyDown(event) {
+      if (
+        event.key === '0' ||
+        event.key === '-' ||
+        event.key === '+' ||
+        event.key === '*' ||
+        event.key === '/'
+      ) {
+        event.preventDefault()
+      }
     },
   },
 }

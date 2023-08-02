@@ -29,7 +29,7 @@
           <span style="color: red">{{ toCurrencyString(item.price) }}</span>
         </template>
         <template #[`item.actions`] = "{item}">
-          <div v-if="item.status === 1">
+          <div v-if="item.status === 2">
             <v-btn rounded color="error">
               <v-icon>mdi-dots-horizontal</v-icon>
               <span> ລໍຖ້າບັນທຶກຈ່າຍຢາ</span>

@@ -71,8 +71,12 @@
                     </v-row>
                   </div>
                 </v-list>
-                <div class="container" v-for="data in standareData" :key="data.id">
-                    <v-checkbox :label="data.name"/>
+                <div
+                  class="container"
+                  v-for="data in standareData"
+                  :key="data.id"
+                >
+                  <v-checkbox :label="data.name" />
                 </div>
               </v-col>
               <v-divider vertical></v-divider>
@@ -122,13 +126,15 @@
                       <v-col md="6">
                         <div>
                           ລາຍການທີ່ເລືອກກວດ :
-
-                          <div v-for="data in diseaseId" :key="data.id">
-                            <ul>
-                              <li>
-                                {{ data.name }}
-                              </li>
-                            </ul>
+                          <div>
+                            <div v-for="data in diseaseId" :key="data.id">
+                              <ul>
+                                <li>
+                                  {{ data.name }} :
+                                  {{ toCurrencyString(parseInt(data.price)) }}
+                                </li>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </v-col>
@@ -159,46 +165,83 @@
         <v-dialog
           v-model="dialogBill"
           persistent
-          max-width="900px"
+          max-width="750px"
           transition="dialog-transition"
         >
           <v-card class="pa-5">
-            <div class="text-center font-weight-bold" style="font-size: 20px">
-              ໃບບິນ
+            <div class="text-center mt-3 mb-16" style="font-size: 16px">
+              <span>ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</span><br />
+              <span>ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດທະນາຖາວອນ</span>
             </div>
             <!-- <v-row>
               <v-col md="6">asdf</v-col>
               <v-col md="6">ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</v-col>
             </v-row> -->
             <v-row class="d-flex justify-space-between">
-              <v-col md="6">ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</v-col>
-              <v-col md="6" class="text-end"
+              <div class="d-flex align-center col-7">
+                <v-col md="3">
+                  <v-img
+                    width="60"
+                    class="images mx-auto"
+                    :src="require(`../../assets/logo.svg`)"
+                    alt="logo_clinic"
+                  />
+                  <!-- <div>ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</div> -->
+                </v-col>
+                <v-col md="9">
+                  <div>ຄີຣນິກ ດຣ ມົວວ່າງ ເຊຍປາວ</div>
+                  <div>ບ້ານ:ພູຫົວຊ້າງ,ເມືອງ: ອະນຸວົງ,ແຂວງ: ໄຊສົມບູນ</div>
+                  <div>
+                    ເບີໂທລະສັບ : 020 54116066,<br />
+                    020 77975212
+                  </div>
+                </v-col>
+              </div>
+              <v-col md="5" class="text-end"
                 >ລະຫັດໃບບີນ : {{ bill.billNumber }}
               </v-col>
             </v-row>
-            <v-divider class="mb-8 mt-2" style="color: red"></v-divider>
-            <v-card-text class="col-12 d-flex justify-space-between">
-              <div class="col-md-6">
-                <p class="font-weight-bold">ຊື່: {{ bill.name }}</p>
-                <p class="font-weight-bold">ທີ່ຢຸູ: {{ bill.address }}</p>
-                <p class="font-weight-bold">
+            <div
+              class="text-center font-weight-bold mt-16"
+              style="font-size: 20px"
+            >
+              ໃບບິນລາຍການກວດ
+            </div>
+            <v-row class="d-flex container">
+              <v-col>
+                <div>
+                  <span>ຊື່: {{ bill.name }}</span
+                  >,
+                  <span>ທີ່ຢຸູ: {{ bill.address }}</span>
+                </div>
+                <div>
                   ລາຄາລວມ:
                   <span style="color: red">{{
                     toCurrencyString(parseInt(bill.total_price))
                   }}</span>
-                </p>
-              </div>
-              <div class="col-md-6 font-weight-bold">
-                ລາຍການກວດພະຍາດ:
-                <div v-for="data in bill.rows" :key="data.id">
-                  <ul>
-                    <li>
-                      {{ data.details }}
-                    </li>
-                  </ul>
                 </div>
-              </div>
-            </v-card-text>
+              </v-col>
+            </v-row>
+            <div class="col-md-12 font-weight-bold mb-5">
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">ລ/ດ</th>
+                      <th class="text-left">ລາຍການກວດພະຍາດ</th>
+                      <th class="text-left">ລາຄາ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(data, index) in bill.rows" :key="data.id">
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ data.details }}</td>
+                      <td>{{ toCurrencyString(parseInt(data.price)) }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </div>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="red" dark @click="dialogBill = false"
@@ -267,8 +310,6 @@
     </template>
   </div>
 </template>
-  </div>
-</template>
 <script>
 import laoCurrency from '@lailao10x/lao-currency'
 export default {
@@ -279,7 +320,7 @@ export default {
       historyDialog: false,
       notifications: false,
       dialogNoData: false,
-      standareData:null,
+      standareData: null,
       sound: true,
       widgets: false,
       selectedDiseases: [],
@@ -344,11 +385,89 @@ export default {
       }
     },
     route() {
-      this.$router.push('/treat/pay')
-      // console.log( this.firstcheckid)
-      // this.$router.push(
-      //   `/treat/data?bill=${data.id}&treat_id=${this.firstcheckid}`
+      // const rows = this.allData.rows
+      const printWindow = window.open('', '', 'height=500,width=800')
+      printWindow.document.write('<html><head><title>Printable Table</title>')
+      printWindow.document.write(`
+        <style>
+        *{
+        font-family: 'phetsarath ot', serif;
+        }
+          table {
+            border-collapse: collapse;
+            width: 100%;
+          }
+          th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            word-break: break-all; /* To wrap long text within cells */
+          }
+          th {
+            background-color: #f2f2f2; /* Header background color */
+          }
+          .item-create-at,
+          .item-price {
+            min-width: 100px; /* Set a minimum width for date and price columns */
+            width: 20%; /* Set a fixed width for date and price columns */
+          }
+          .text{
+            text-align:center
+          }
+        </style>
+      `)
+      printWindow.document.write('</head><body >')
+      printWindow.document.write(` 
+    <div class="shop-info">
+      <div class="shop-details">
+        <span>ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</span><br />
+        <span>ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດທະນາຖາວອນ</span>
+      </div>
+    </div>
+  `)
+      // printWindow.document.write(
+      //   `<p class="bill-date">ວັນທີ່ : ${this.startDate} ຫາ ${this.endDate}</p>`
       // )
+      // printWindow.document.write(
+      //   `<p class="bill-date">ລາຄາທັງໝົດ: ${this.toCurrencyString(
+      //     parseInt(this.allData.total_price)
+      //   )}</p>`
+      // )
+      const tableHeader = `
+        <tr>
+          <th>ຊື່</th>
+          <th>ລາຍການກວດ</th>
+          <th>ທີ່ຢູ່</th>
+          <th>ລາຄາ</th>
+          <th>ເບີໂທລະສັບ</th>
+          <th>ວັນ ເດືອນ ປີ ກວດ</th>
+        </tr>
+      `
+
+      printWindow.document.write('<table>')
+      printWindow.document.write(tableHeader)
+
+      // for (const row of rows) {
+      //   const rowContent = `
+      //     <tr>
+      //       <td>${row.name}</td>
+      //         <td>${row.disase_name}</td>
+      //          <td>${row.address}</td>
+      //       <td class="item-price">${this.toCurrencyString(
+      //         parseInt(row.price)
+      //       )}</td>
+      //       <td>${row.tel}</td>
+      //       <td> ${this.$moment(row.create_at).format('DD-MM-YYYY')}</td>
+      //     </tr>
+      //   `
+
+      //   printWindow.document.write(rowContent)
+      // }
+
+      printWindow.document.write('</table>')
+      printWindow.document.write('</body></html>')
+      printWindow.document.close()
+      printWindow.print()
     },
     showDetails(data) {
       console.log(data)

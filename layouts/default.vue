@@ -468,22 +468,35 @@
           </v-list-item>
         </v-list-group>
         <!-- pay price -->
-        <v-list-item
-          v-for="(item, i) in pay"
-          :key="'Z' + i"
-          :to="item.to"
-          router
-          exact
+        <v-list-group
+          v-for="(group, index) in menuList9"
+          :key="'C' + index"
+          :value="group.active"
+          :prepend-icon="group.icon"
+          no-action
           color="#9155FD"
-          class="mt-2"
+          class="pt-3"
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          <template #activator>
+            <v-list-item-content>
+              <v-list-item-title class="pt-1">{{
+                group.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item
+            v-for="(item, i) in group.nestList9"
+            :key="i"
+            :to="item.to"
+            router
+            exact
+            class="rounded-xl"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
         <v-list-group
           v-for="(group, index) in menuList1"
           :key="'D' + index"
@@ -790,6 +803,7 @@ export default {
           icon: 'mdi-doctor',
           title: 'ກວດພະຍາດ',
           nestList: [
+            { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
             { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
@@ -895,8 +909,10 @@ export default {
           icon: 'mdi-currency-usd',
           title: 'ຊຳລະເງິນ',
           nestList9: [
-            { title: 'ລາຍການຢາ', to: '/import' },
-            { title: 'ລາຍການກວດ', to: '/treat/pay' },
+            { 
+              title: 'ຊຳລະເງິນລາຍການຢາ', to: '/treat/list_medicines_order' 
+              },
+            { title: 'ຊຳລະເງິນລາຍການກວດ', to: '/treat/pay' },
           ],
         },
       ],

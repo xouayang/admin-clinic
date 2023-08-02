@@ -4,6 +4,7 @@ export const state = () => ({
   dataId: '',
   status: [],
   Data: [],
+  dataMedicinesStatus: [],
 })
 export const mutations = {
   getMedicinesData(state, data) {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   getMAllData(state, data) {
     state.Data = data
+  },
+  getMedicinesStatus(state, data) {
+    state.dataMedicinesStatus = data
   },
 }
 
@@ -135,6 +139,33 @@ export const actions = {
       .catch(() => {
         this.$toast.error('ລືບບໍ່ຂໍ້ມູນສຳເລັດ?', {
           duration: 2000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'close',
+        })
+      })
+  },
+  async medicinesOfferStatus({ commit }) {
+    await this.$axios
+      .get('http://localhost:7000/get-offer-status1')
+      .then((data) => {
+        console.log(data.data)
+        commit('getMedicinesStatus', data.data)
+      })
+  },
+  async updateOfferStatus({ commit }, id) {
+    await this.$axios
+      .put(`http://localhost:7000/update-medicines-status/${id}`)
+      .then((data) => {
+        this.$toast.success('ສຳເລັດ', {
+          duration: 3000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'check',
+        })
+      }).catch(() => {
+        this.$toast.error('ບໍ່ສຳເລັດ', {
+          duration: 3000,
           position: 'top-right',
           iconPack: 'mdi',
           icon: 'close',

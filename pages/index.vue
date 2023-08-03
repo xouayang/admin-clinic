@@ -1,10 +1,12 @@
 <template>
+<div>
   <div>
     <v-row class="col-12 d-flex align-center">
-      <v-col cols="12" md="6" sm="6"
-        ><div class="pl-5 font-weight-bold" style="color:#9155FD" >
+      <v-col cols="12" md="6" sm="6">
+        <div class="pl-5 font-weight-bold" style="color: #9155fd">
           ໜ້າຫຼັກ
-        </div></v-col
+        </div>
+        </v-col
       >
     </v-row>
     <div>
@@ -29,10 +31,7 @@
                   </v-col>
                 </v-row>
               </v-card>
-              <v-card
-                height="100"
-                class="mt-5 pt-3 pl-3"
-              >
+              <v-card height="100" class="mt-5 pt-3 pl-3">
                 ລາຍຈ່າຍ
                 <v-row align="center">
                   <v-col
@@ -49,20 +48,20 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100"  class="pt-3 pl-3"
+              <v-card height="100" class="pt-3 pl-3" to="/patients/Patient"
                 >ລາຍການປີ່ນປົວໃໝ່
 
                 <v-row align="center">
                   <v-col
                     ><div class="mt-3 text-h4">
-                      {{ showPatiented?.count }}
+                      {{ showPatiented?.length }}
                     </div></v-col
                   >
                   <v-col class="mt-2">
                     <v-btn text small fab color="#9155FD">
                       <v-badge
                         :content="
-                          showPatiented?.count ? showPatiented?.count : '0'
+                          showPatiented?.length ? showPatiented?.length : '0'
                         "
                         color="error"
                       >
@@ -76,6 +75,7 @@
               <v-card
                 height="100"
                 class="mt-5 pt-3 pl-3"
+                to="/patients/allPatient"
                 >ລາຍການປີ່ນປົວທັງໝົດ
                 <v-row align="center">
                   <v-col
@@ -84,10 +84,13 @@
                     </div></v-col
                   >
                   <v-col>
-                    <v-btn style="background-color: #9155fd" rounded
-                      ><span style="color: white"
-                        >{{ resultData?.length }}++</span
-                      ></v-btn
+                    <v-btn text small fab rounded color="#9155FD"
+                      ><v-badge
+                        :content="resultData?.length ? resultData?.length : '0'"
+                        color="error"
+                      >
+                        <v-icon>mdi-bell-plus-outline</v-icon>
+                      </v-badge></v-btn
                     >
                   </v-col>
                 </v-row>
@@ -98,7 +101,7 @@
         <v-col cols="12" md="6" sm="12">
           <v-row class="col-12">
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100"  class="pt-3 pl-3">
+              <v-card height="100" class="pt-3 pl-3" to="/staff/male">
                 ພະນັກງານ (ຊາຍ)
                 <v-row align="center">
                   <v-col
@@ -113,9 +116,7 @@
                   </v-col>
                 </v-row>
               </v-card>
-              <v-card
-                height="100"
-                class="mt-5 pt-3 pl-3"
+              <v-card height="100" class="mt-5 pt-3 pl-3" to="/staff/female"
                 >ພະນັກງານ (ຍິງ)
                 <v-row align="center">
                   <v-col
@@ -134,7 +135,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" md="6" sm="12">
-              <v-card height="100"  class="pt-3 pl-3"
+              <v-card height="100" class="pt-3 pl-3" to="/appointment/history"
                 >ລາຍການນັດໝາຍໃໝ່
 
                 <v-row align="center">
@@ -155,11 +156,8 @@
                   </v-col>
                 </v-row>
               </v-card>
-              <v-card
-                height="100"
-                class="mt-5 pt-3 pl-3"
-              >
-                ປະເພດ (ອຸປະກອນ ເເລະ ຢາ)
+              <v-card height="100" class="mt-5 pt-3 pl-3" to="/medicines_type">
+                ປະເພດຢາ
                 <v-row align="center">
                   <v-col
                     ><div class="mt-3 text-h4">
@@ -179,29 +177,6 @@
       </v-row>
       <div class="mb-2">
         <v-row class="col-12">
-          <!-- <v-col cols="12" md="6" sm="12">
-            <v-card class="container" rounded="lg">
-              <div class="container">ລາຍການນັດໝາຍຄົນເຈັບ</div>
-              <v-text-field
-                v-model="search1"
-                append-icon="mdi-magnify"
-                label="ຄົ້ນຫາ"
-                outlined
-                hide-details
-                dense
-                color="#9155FD"
-              />
-              <v-data-table
-                :headers="headers2"
-                :items="dataAppoint.rows"
-                :search="search1"
-              >
-                <template #[`item.date`]="{ item }">
-                  {{ $moment(item.date).format('DD-MM-YYYY') }}
-                </template>
-              </v-data-table>
-            </v-card>
-          </v-col> -->
           <v-col cols="12" md="12" sm="12">
             <v-card class="container" rounded="lg">
               <div class="container">ປະຫວັດປີ່ນປົວຄົນເຈັບລ່າສຸດ</div>
@@ -216,7 +191,7 @@
               />
               <v-data-table
                 :headers="headers"
-                :items="resultData"
+                :items="historyPatientLimit"
                 :search="search"
               >
                 <template #[`item.more`]="{ item }">
@@ -275,6 +250,7 @@
       </v-dialog>
     </div>
   </div>
+</div>
 </template>
 <script>
 import laoCurrency from '@lailao10x/lao-currency'
@@ -288,6 +264,7 @@ export default {
       search1: '',
       dialog: false,
       value: 0,
+      financialRole:'',
       headers: [
         { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
         { text: 'ຊື່', value: 'name' },
@@ -324,13 +301,16 @@ export default {
       return this.$store.state.user.Patients
     },
     showPatiented() {
-      return this.$store.state.user.Patiented
+      return this.$store.state.result.history1
     },
     resultData() {
-      return this.$store.state.result.dataHistory
+      return this.$store.state.result.history
     },
     historyPatient() {
       return this.$store.state.user.dataById
+    },
+    historyPatientLimit() {
+      return this.$store.state.result.dataHistory
     },
     dataAppoint() {
       return this.$store.state.appointment.appointmentData
@@ -358,6 +338,13 @@ export default {
     await this.$store.dispatch('appointment/getAll')
     await this.$store.dispatch('user/allIncome')
     await this.$store.dispatch('user/allOutcome')
+    await this.$store.dispatch('result/getHistory2')
+    await this.$store.dispatch('result/getHistory1')
+    // check role
+    const check = this.$cookies.get('role')
+    if(check === 'financial') {
+      console.log(check)
+    }
   },
   methods: {
     toCurrencyString(number) {

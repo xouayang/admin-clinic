@@ -385,46 +385,47 @@ export default {
       }
     },
     route() {
-      // const rows = this.allData.rows
-      const printWindow = window.open('', '', 'height=500,width=800')
-      printWindow.document.write('<html><head><title>Printable Table</title>')
-      printWindow.document.write(`
-        <style>
-        *{
-        font-family: 'phetsarath ot', serif;
-        }
-          table {
-            border-collapse: collapse;
-            width: 100%;
-          }
-          th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-            word-break: break-all; /* To wrap long text within cells */
-          }
-          th {
-            background-color: #f2f2f2; /* Header background color */
-          }
-          .item-create-at,
-          .item-price {
-            min-width: 100px; /* Set a minimum width for date and price columns */
-            width: 20%; /* Set a fixed width for date and price columns */
-          }
-          .text{
-            text-align:center
-          }
-        </style>
-      `)
-      printWindow.document.write('</head><body >')
-      printWindow.document.write(` 
-    <div class="shop-info">
-      <div class="shop-details">
-        <span>ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</span><br />
-        <span>ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດທະນາຖາວອນ</span>
-      </div>
-    </div>
-  `)
+      this.$router.push('/treat/pay')
+  //     // const rows = this.allData.rows
+  //     const printWindow = window.open('', '', 'height=500,width=800')
+  //     printWindow.document.write('<html><head><title>Printable Table</title>')
+  //     printWindow.document.write(`
+  //       <style>
+  //       *{
+  //       font-family: 'phetsarath ot', serif;
+  //       }
+  //         table {
+  //           border-collapse: collapse;
+  //           width: 100%;
+  //         }
+  //         th, td {
+  //           border: 1px solid black;
+  //           padding: 8px;
+  //           text-align: left;
+  //           word-break: break-all; /* To wrap long text within cells */
+  //         }
+  //         th {
+  //           background-color: #f2f2f2; /* Header background color */
+  //         }
+  //         .item-create-at,
+  //         .item-price {
+  //           min-width: 100px; /* Set a minimum width for date and price columns */
+  //           width: 20%; /* Set a fixed width for date and price columns */
+  //         }
+  //         .text{
+  //           text-align:center
+  //         }
+  //       </style>
+  //     `)
+  //     printWindow.document.write('</head><body >')
+  //     printWindow.document.write(` 
+  //   <div class="shop-info">
+  //     <div class="shop-details">
+  //       <span>ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</span><br />
+  //       <span>ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດທະນາຖາວອນ</span>
+  //     </div>
+  //   </div>
+  // `)
       // printWindow.document.write(
       //   `<p class="bill-date">ວັນທີ່ : ${this.startDate} ຫາ ${this.endDate}</p>`
       // )
@@ -433,19 +434,19 @@ export default {
       //     parseInt(this.allData.total_price)
       //   )}</p>`
       // )
-      const tableHeader = `
-        <tr>
-          <th>ຊື່</th>
-          <th>ລາຍການກວດ</th>
-          <th>ທີ່ຢູ່</th>
-          <th>ລາຄາ</th>
-          <th>ເບີໂທລະສັບ</th>
-          <th>ວັນ ເດືອນ ປີ ກວດ</th>
-        </tr>
-      `
+      // const tableHeader = `
+      //   <tr>
+      //     <th>ຊື່</th>
+      //     <th>ລາຍການກວດ</th>
+      //     <th>ທີ່ຢູ່</th>
+      //     <th>ລາຄາ</th>
+      //     <th>ເບີໂທລະສັບ</th>
+      //     <th>ວັນ ເດືອນ ປີ ກວດ</th>
+      //   </tr>
+      // `
 
-      printWindow.document.write('<table>')
-      printWindow.document.write(tableHeader)
+      // printWindow.document.write('<table>')
+      // printWindow.document.write(tableHeader)
 
       // for (const row of rows) {
       //   const rowContent = `
@@ -464,10 +465,10 @@ export default {
       //   printWindow.document.write(rowContent)
       // }
 
-      printWindow.document.write('</table>')
-      printWindow.document.write('</body></html>')
-      printWindow.document.close()
-      printWindow.print()
+      // printWindow.document.write('</table>')
+      // printWindow.document.write('</body></html>')
+      // printWindow.document.close()
+      // printWindow.print()
     },
     showDetails(data) {
       console.log(data)
@@ -494,18 +495,12 @@ export default {
         item: testData,
         total_price: this.diseaseId.reduce((sum, res) => res.price + sum, 0),
       }
-      // console.log(data)
       await this.$store.dispatch('treat/createTreat', { ...data })
-      // console.log('appointmentDAta :   ', this.appointMentData)
-      // await this.$store.dispatch('appointment/postAppointment', {
-      //   ...this.appointMentData,
-      // })
       this.dialog = false
-      this.dialogBill = true
+      this.$router.push('/treat/pay')
     },
     async getHistoryPatient() {
       const tel = this.storeData.tel
-      // const tel = '02054116066'
       this.historyDialog = true
       await this.$store.dispatch('treat/getHistoryOfPatient', tel)
     },

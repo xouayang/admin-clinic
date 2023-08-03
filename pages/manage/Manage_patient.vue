@@ -73,29 +73,7 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-        <v-divider></v-divider>
-        <div class="mt-2 col-12">
-          <div class="d-flex align-center justify-space-around text-center">
-            <v-card-text class="mb-2"
-              >ຊື່<br />
-              {{ data.name }}
-            </v-card-text>
-            <v-card-text class="mb-2"
-              >ທີ່ຢູ່ <br />
-              {{ data.address }}</v-card-text
-            >
-          </div>
-          <div class="d-flex align-center justify-space-around text-center">
-            <v-card-text class="mb-2"
-              >ເບີໂທລະສັບ<br />
-              {{ data.tel }}
-            </v-card-text>
-            <v-card-text class="mb-2"
-              >ວັນ ເດືອນ ປີ ເກີດ <br />
-              {{ data.birtday }}
-            </v-card-text>
-          </div>
-        </div>
+        <div class="text-center mt-10 mb-3">ທ່ານຕ້ອງການລຶບຂໍ້ມູນບໍ ? </div>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="error" width="100" @click="deletePatient(data.id)">
@@ -134,7 +112,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="storePatients.address"
-              :value="data1.address"
+
               outlined
               dense
               hide-details
@@ -145,11 +123,50 @@
           <v-col cols="12">
             <v-text-field
               v-model="storePatients.tel"
-              :value="data1.tel"
               outlined
               dense
               hide-details
               label="ເບີໂທລະສັບ"
+              color="#9155FD"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="storePatients.weight"
+              outlined
+              dense
+              hide-details
+              label="ນໍ້າໜັກ"
+              color="#9155FD"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="storePatients.height"
+              outlined
+              dense
+              hide-details
+              label="ລວງສູງ"
+              color="#9155FD"
+            />
+          </v-col>
+           <v-col cols="12">
+            <v-text-field
+              v-model="storePatients.details"
+              outlined
+              dense
+              hide-details
+              label="ອາການເບື້ອງ"
+              color="#9155FD"
+            />
+          </v-col>
+           <v-col cols="12">
+            <v-text-field
+              v-model="storePatients.chip_life"
+              outlined
+              dense
+              hide-details
+              label="ຊິບພະຈອນ"
               color="#9155FD"
             />
           </v-col>
@@ -242,7 +259,10 @@ export default {
         name: '',
         address: '',
         tel: '',
-        birtday: '',
+        height: '',
+        weight: '',
+        details:'',
+        chip_life:''
       },
       headers: [
         { text: 'ລຳດັບ', value: 'index' },
@@ -273,6 +293,7 @@ export default {
     showPatient(data) {
       this.data = data
       this.showDailog = true
+
     },
     showEdit(data1) {
       this.data1 = data1
@@ -280,20 +301,23 @@ export default {
         this.storePatients.name = this.data1.name
         this.storePatients.address = this.data1.address
         this.storePatients.tel = this.data1.tel
-        this.storePatients.birtday = this.data1.birtday
+        this.storePatients.height = this.data1.height
+        this.storePatients.weight = this.data1.weight
+        this.storePatients.details = this.data1.details
+        this.storePatients.chip_life = this.data1.chip_life
       }
       this.dialog = true
     },
     async updateData(id) {
       const data = this.storePatients
-      await this.$store.dispatch('patient/updateData', { data, id })
-      await this.$store.dispatch('patient/patientInfo')
+      await this.$store.dispatch('firstcheck/updateData', { data, id })
       this.dialog = false
+      await this.$store.dispatch('patient/patientStatus')
     },
     async deletePatient(id) {
-      await this.$store.dispatch('patient/deleteData', id)
+      await this.$store.dispatch('firstcheck/deleteData', id)
       this.showDailog = false
-      this.$store.dispatch('patient/patientInfo')
+      await this.$store.dispatch('patient/patientStatus')
     },
   },
 }

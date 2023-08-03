@@ -72,7 +72,11 @@
       <v-card-text>
         <v-row>
           <v-col v-for="data in medicines" :key="data.id" cols="12" md="3">
-            <v-card @click="showMedicines(data)">
+            <v-card
+              title
+              :disabled="data?.amount === 0"
+              @click="showMedicines(data)"
+            >
               <v-img :src="data.image" />
               <div class="pa-1">ຊື່ຢາ: {{ data.name }}</div>
               <div class="pa-1">ປະເພດຢາ: {{ data.type_name }}</div>
@@ -84,6 +88,18 @@
                 }}</span>
               </div>
               <div class="pa-1">ຈຳນວນໃນ(stock): {{ data.amount }}</div>
+              <v-fab-transition v-if="data.amount === 0">
+                <v-btn
+                  text
+                  color="#9155fd"
+                  dark
+                  absolute
+                  top
+                  left
+                >
+                 <h1>ໝົດ</h1>
+                </v-btn>
+              </v-fab-transition>
             </v-card>
           </v-col>
         </v-row>
@@ -91,10 +107,6 @@
     </v-card>
     <v-row class="mb-2">
       <v-col class="mt-4 d-flex justify-end">
-        <v-btn color="#9155FD">
-          <span style="color: white">ພິມໃບບິນ</span>
-          <v-icon color="white"> mdi-printer-outline </v-icon>
-        </v-btn>
         <v-btn color="success" @click="saveData" class="ml-9">
           <span style="color: white">ບັນທຶກ</span>
           <v-icon color="white"> mdi-content-save-check-outline </v-icon>

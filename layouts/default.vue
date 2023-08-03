@@ -439,7 +439,7 @@
         </v-list-group>
 
         <v-list-group
-          v-for="(group, index) in menuLists"
+          v-for="(group, index) in menuListsAdmin"
           :key="'C' + index"
           :value="group.active"
           :prepend-icon="group.icon"
@@ -602,21 +602,6 @@
         </v-list-item>
       </v-list>
       <v-list v-if="financial">
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="'AA' + i"
-          :to="item.to"
-          router
-          exact
-          color="#9155FD"
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-group
           v-for="(group, index) in menuList9"
           :key="'C' + index"
@@ -803,6 +788,19 @@ export default {
           icon: 'mdi-doctor',
           title: 'ກວດພະຍາດ',
           nestList: [
+            { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
+            { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
+            { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
+            { title: 'ປະຫວັດລາຍການກວດທັງໝົດ', to: '/treat/history_checked' },
+          ],
+        },
+      ],
+      // admin status
+      menuListsAdmin: [
+        {
+          icon: 'mdi-doctor',
+          title: 'ກວດພະຍາດ',
+          nestList: [
             { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
@@ -909,10 +907,11 @@ export default {
           icon: 'mdi-currency-usd',
           title: 'ຊຳລະເງິນ',
           nestList9: [
-            { 
-              title: 'ຊຳລະເງິນລາຍການຢາ', to: '/treat/list_medicines_order' 
-              },
             { title: 'ຊຳລະເງິນລາຍການກວດ', to: '/treat/pay' },
+            {
+              title: 'ຊຳລະເງິນລາຍການຢາ',
+              to: '/treat/list_medicines_order',
+            },
           ],
         },
       ],

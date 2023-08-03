@@ -103,6 +103,7 @@
 <script>
 import laoCurrency from '@lailao10x/lao-currency'
 export default {
+  // middleware: 'onlogin',
   data() {
     return {
       search: '',

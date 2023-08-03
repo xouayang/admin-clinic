@@ -50,7 +50,7 @@
           <v-tooltip top color="#9155FD">
             <template #activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon color="#9155FD" @click="dialog = !dialog"
+                <v-icon color="#9155FD" @click="showEdit(item)"
                   >mdi-pencil-outline</v-icon
                 >
               </v-btn>
@@ -101,7 +101,7 @@
       >
         <v-card>
           <v-toolbar dark color="#9155FD">
-            <div>ແກ້ໄຂຂໍ້ມູນຄົນເຈັບ</div>
+            <div>ແກ້ໄຂຂໍ້ມູນຢາ</div>
             <v-spacer></v-spacer>
             <v-btn icon dark @click="dialog = false">
               <v-icon>mdi-close</v-icon>
@@ -110,7 +110,7 @@
           <v-divider></v-divider>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="infoUpdate.name"
               outlined
               dense
               hide-details="auto"
@@ -120,7 +120,7 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="infoUpdate.price"
               outlined
               dense
               hide-details
@@ -130,21 +130,11 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              placeholder="XOUAYANG"
+              v-model="infoUpdate.amount"
               outlined
               dense
               hide-details
-              label="ເບີໂທລະສັບ"
-              color="#9155FD"
-            />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              placeholder="XOUAYANG"
-              outlined
-              dense
-              hide-details
-              label="ວັນ ເດືອນ ປີ ເກີດ "
+              label="ຈຳນວນ"
               color="#9155FD"
             />
           </v-col>
@@ -154,7 +144,7 @@
               color="#9155FD"
               width="100"
               class="white--text"
-              @click="dialog = false"
+              @click="updateData(showEditData.medicines_id)"
               >ບັນທືກ</v-btn
             >
           </div>
@@ -310,7 +300,13 @@ export default {
       price: 0,
       expired_date: '',
       dataId: '',
+      showEditData: {},
       url: null,
+      infoUpdate: {
+        name: '',
+        amount: '',
+        price: '',
+      },
       headers: [
         { text: 'ຮູບພາບ', value: 'image' },
         { text: 'ຊື່', value: 'name' },
@@ -391,11 +387,44 @@ export default {
     },
     async removedata(id) {
       if (id) {
-          await this.$store.dispatch('medicinesType/deletdMedicines',id)
-          await this.$store.dispatch('medicinesType/medicinesAllData')
-          this.showDailog = false
-
+        await this.$store.dispatch('medicinesType/deletdMedicines', id)
+        await this.$store.dispatch('medicinesType/medicinesAllData')
+        this.showDailog = false
       }
+    },
+    showEdit(dataEdit) {
+      this.showEditData = dataEdit
+      this.dialog = true
+      if (this.showEditData) {
+        this.infoUpdate.name = this.showEditData.name
+        this.infoUpdate.price = this.showEditData.price
+        this.infoUpdate.amount = this.showEditData.amount
+      }
+      console.log(this.showEditData)
+    },
+    async updateData(id) {
+      const ids = id
+      const data = this.infoUpdate
+      await this.$axios
+        .put(`http://localhost:7000/update-medicins/${ids}`, data)
+        .then(() => {
+          this.dialog = false
+          this.$store.dispatch('medicinesType/medicinesAllData')
+          this.$toast.success('ແກ້ໄຂຂໍ້ມູນສຳເລັດ', {
+            duration: 2000,
+            position: 'top-right',
+            iconPack: 'mdi',
+            icon: 'check',
+          })
+        })
+        .catch(() => {
+          this.$toast.error('ແກ້ໄຂຂໍ້ມູນບໍ່ສຳເລັດ', {
+            duration: 2000,
+            position: 'top-right',
+            iconPack: 'mdi',
+            icon: 'close',
+          })
+        })
     },
   },
 }

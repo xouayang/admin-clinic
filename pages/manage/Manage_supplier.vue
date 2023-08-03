@@ -267,8 +267,7 @@ export default {
       this.dialog = true
       if (this.supplierInfo) {
         this.supplierUpdate.supplier_name = this.showEditData.supplier_name
-        this.supplierUpdate.supplier_address =
-          this.showEditData.supplier_address
+        this.supplierUpdate.supplier_address =this.showEditData.supplier_address
         this.supplierUpdate.supplier_tel = this.showEditData.supplier_tel
       }
     },

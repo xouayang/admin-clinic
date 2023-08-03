@@ -75,7 +75,7 @@ export const actions = {
     const data1 = dataPatients.data
     const id = dataPatients.id
     await this.$axios
-      .put(`http://localhost:7000/update-patients/${id}`, data1)
+      .put(`http://localhost:7000/update-firstCheck/${id}`, data1)
       .then(() => {
         this.$toast.success('ເເກ້ໄຂຂໍ້ມູນສຳເລັດ', {
           duration: 3000,

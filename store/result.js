@@ -3,7 +3,9 @@ export const state = () => ({
   dataId: '',
   dataHistory: [],
   idData: [],
-  resultData:[]
+  resultData:[],
+  history:[],
+  history1:[]
 })
 
 export const mutations = {
@@ -21,7 +23,14 @@ export const mutations = {
   },
   setDataDetails(state,data) {
     state.resultData = data
-  }
+  },
+  setHistory1(state,data) {
+    state.history = data
+  },
+  setHistory2(state,data) {
+    state.history1 = data
+  },
+
 }
 
 export const actions = {
@@ -70,6 +79,30 @@ export const actions = {
         .get('http://localhost:7000/history-result')
         .then((data) => {
           commit('setHistory', data.data)
+          // console.log("resultData",data.data)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getHistory1({ commit }) {
+    try {
+      await this.$axios
+        .get('http://localhost:7000/all-history-result')
+        .then((data) => {
+          commit('setHistory1', data.data)
+          // console.log("resultData",data.data)
+        })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getHistory2({ commit }) {
+    try {
+      await this.$axios
+        .get('http://localhost:7000/get-only-today')
+        .then((data) => {
+          commit('setHistory2', data.data)
           // console.log("resultData",data.data)
         })
     } catch (error) {

@@ -1,0 +1,77 @@
+<template>
+  <div>
+    <div class="d-flex justify-space-between align-center mb-2">
+      <div class="mt-5 mb-3 pb-2 ml-2 font-weight-bold">ພະນັກງານ (ເພດຍິງ)</div>
+      <div>
+        <v-btn color="#9155FD" @click="back">
+          <v-icon color="white">mdi-chevron-left</v-icon>
+          <span style="color: white">ກັບຄືນ</span>
+        </v-btn>
+      </div>
+    </div>
+    <v-card>
+      <!-- search button------------------------------- -->
+      <v-row class="d-flex align-center col-12">
+        <v-col cols="12" md="12" sm="12">
+          <v-card-title>
+            <v-text-field
+              v-model="searchTerm"
+              prepend-inner-icon="mdi-magnify"
+              label="ຄົ້ນຫາ"
+              outlined
+              hide-details
+              dense
+              small
+              color="#9155FD"
+            />
+          </v-card-title>
+        </v-col>
+      </v-row>
+
+      <v-data-table
+        :headers="headers2"
+        :items="dataMale.rows"
+        :items-per-page="5"
+        color="#9155FD"
+        :search="searchTerm"
+      >
+        <template #[`item.created_at`]="{ item }">
+          {{ $moment(item.created_at).format('DD-MM-YYYY') }}
+        </template>
+      </v-data-table>
+    </v-card>
+  </div>
+</template>
+<script>
+export default {
+  name: 'ManageType',
+  data() {
+    return {
+      showDeleteData: '',
+      showEditData: '',
+      searchTerm: '',
+      headers2: [
+        { text: 'ລະຫັດພະນັກງານ', value: 'employee_id' },
+        { text: 'ຊື່', value: 'name' },
+        { text: 'ເພດ', value: 'gender' },
+        { text: 'ທີ່ຢຸູ', value: 'address' },
+        { text: 'ເບີໂທລະສັບ', value: 'tel' },
+        { text: 'ຕຳເເໜ່ງ', value: 'position' },
+      ],
+    }
+  },
+  computed: {
+    dataMale() {
+      return this.$store.state.user.femaleData
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('user/female')
+  },
+  methods: {
+    back() {
+        this.$router.push('/')
+    }
+  },
+}
+</script>

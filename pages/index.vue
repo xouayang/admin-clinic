@@ -136,7 +136,7 @@
             </v-col>
             <v-col cols="12" md="6" sm="12">
               <v-card height="100" class="pt-3 pl-3" to="/appointment/history"
-                >ລາຍການນັດໝາຍໃໝ່
+                >ລາຍການນັດໝາຍທັງໝົດ
 
                 <v-row align="center">
                   <v-col

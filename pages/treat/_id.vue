@@ -91,7 +91,7 @@
               <v-fab-transition v-if="data.amount === 0">
                 <v-btn
                   text
-                  color="#9155fd"
+                  color="red"
                   dark
                   absolute
                   top

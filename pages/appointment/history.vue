@@ -38,6 +38,12 @@
         <template #[`item.createdAt`]="{ item }">
           {{ $moment(item.createdAt).format('DD-MM-YYYY') }}
         </template>
+        <template #[`item.sendData`]="{ item }">
+          <v-btn color="success" @click="sendData(item)">
+            <v-icon>mdi-check-outline</v-icon>
+            <span>ກວດ</span>
+          </v-btn>
+        </template>
       </v-data-table>
     </v-card>
   </div>
@@ -55,6 +61,7 @@ export default {
         { text: 'ຊື່', value: 'name' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ວັນທີ່ ເດືອນ ປີ ນັດມາຍ', value: 'createdAt' },
+        { text: 'ບັນທຶກ', value: 'sendData' },
       ],
     }
   },
@@ -68,8 +75,12 @@ export default {
   },
   methods: {
     back() {
-        this.$router.push('/')
-    }
+      this.$router.push('/')
+    },
+    sendData(data) {
+      this.$store.commit('appointment/getDataId', data)
+      this.$router.push('/appointment/form_check')
+    },
   },
 }
 </script>

@@ -42,7 +42,7 @@
               <v-btn icon dark @click="dialog = false">
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-toolbar-title>ປີ່ນປົວ</v-toolbar-title>
+              <v-toolbar-title>ກວດພະຍາດ</v-toolbar-title>
             </v-toolbar>
             <!-- {{showDiseas.rows}} -->
             <v-row class="mt-2">

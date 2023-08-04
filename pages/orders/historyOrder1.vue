@@ -2,7 +2,7 @@
   <div class="mt-2 ml-2">
     <!-- {{prescrition}} -->
     <div style="font-size: 20px; color: #9155fd" class="mb-7 ml-4">
-      ລາຍການຈັດຊື້ຢາທີ່ອະນຸມັດແລ້ວ
+      ລາຍການລໍຖ້າອະນຸມັດຈັດຊື້ຢາຈັດຊື້ຢາ
     </div>
     <v-card class="mt-3 text-center mb-10">
       <v-row class="col-12">
@@ -24,16 +24,10 @@
         </template>
         <template #[`item.actions`]="{ item }">
           <div class="d-flex">
-            <div v-if="item.status == 2">
-              <v-btn text rounded color="error">
+            <div v-if="item.status == 1">
+              <v-btn rounded color="error" @click="accept(item)">
                 <v-icon>mdi-dots-horizontal</v-icon>
-                <span>ລໍຖ້ານໍາເຂົ້າ</span>
-              </v-btn>
-            </div>
-            <div v-if="item.status == 2">
-              <v-btn text rounded color="success">
-                <v-icon>mdi-check</v-icon>
-                <span>ອະນຸມັດແລ້ວ</span>
+                <span>ລໍຖ້ານໍາອະນຸມັດ</span>
               </v-btn>
             </div>
             <div>
@@ -89,6 +83,35 @@
           </v-card>
         </v-dialog>
       </v-row>
+      <v-row>
+        <v-dialog
+          v-model="acceptDialog"
+          width="600"
+          transition="dialog-bottom-transition"
+          persistent
+        >
+          <v-card>
+            <v-toolbar dark color="#9155FD">
+              <div>ອະນຸມັດສັ່ງຊື້້ຢາ</div>
+              <v-spacer></v-spacer>
+              <v-btn icon dark @click="acceptDialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <div class="container">
+              <div class="mt-6 mb-6 container">ລະຫັດ : {{ bill.id }}</div>
+              <div class="mt-6 mb-6 container">
+                ລະຫັດໃບບິນ : {{ bill.bill_number }}
+              </div>
+            </div>
+            <div class="container d-flex justify-end">
+              <v-btn color="#9155FD" @click="acceptedAll(bill.id)">
+                <span style="color: white">ຢືນຢັນ</span>
+              </v-btn>
+            </div>
+          </v-card>
+        </v-dialog>
+      </v-row>
     </v-card>
   </div>
 </template>
@@ -104,7 +127,10 @@ export default {
       search: '',
       allData: [],
       dialog: false,
+      acceptDialog: false,
+      bill: '',
       headers: [
+        { text: 'ລະຫັດ', value: 'id' },
         { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
         { text: 'ຊື່ພະນັກງານ', value: 'staff_name' },
         { text: 'ຜູ້ສະໜອງ', value: 'supplier_name' },
@@ -122,11 +148,11 @@ export default {
   },
   computed: {
     history() {
-      return this.$store.state.user.historyData
+      return this.$store.state.user.historyData1
     },
   },
   async mounted() {
-    await this.$store.dispatch('user/getHistory')
+    await this.$store.dispatch('user/getHistory1')
   },
   methods: {
     toCurrencyString(number) {
@@ -139,6 +165,18 @@ export default {
         .get(`http://localhost:7000/get-by-bill/${number}`)
         .then((data) => {
           this.allData = data.data
+        })
+    },
+    accept(data) {
+      this.bill = data
+      this.acceptDialog = true
+    },
+    async acceptedAll(id) {
+      await this.$axios
+        .put(`http://localhost:7000/update-prescriptions/${id}`)
+        .then(() => {
+          this.acceptDialog = false
+          this.$store.dispatch('user/getHistory1')
         })
     },
     generateAndPrintBill1(callback) {
@@ -300,7 +338,9 @@ export default {
         `<p class="bill-date">ຊື້ຈາກຜູ້ສະໜອງ: ${this.allData.supplier_name}</p>`
       )
       printWindow.document.write(
-        `<p class="bill-date">ລາຄາທັງໝົດ: ${this.toCurrencyString(parseInt(this.allData.sum))}</p>`
+        `<p class="bill-date">ລາຄາທັງໝົດ: ${this.toCurrencyString(
+          parseInt(this.allData.sum)
+        )}</p>`
       )
 
       const tableHeader = `

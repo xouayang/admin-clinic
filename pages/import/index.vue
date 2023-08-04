@@ -18,17 +18,28 @@
               dense
             >
             </v-select> -->
-            <v-text-field
+            <v-select
+              id="sale"
               v-model="billId"
+              :items="billData"
+              item-value="bill_number"
+              item-text="bill_number"
+              name="bill_number"
+              label="ລະຫັດໃບບິນສັ່ງຢາ"
+              prepend-inner-icon="mdi-barcode"
+              outlined
+              dense
+              @change="searchData"
+            />
+            <!-- v-model="billId"
               prepend-inner-icon="mdi-barcode"
               label="ກວດສອບ"
               outlined
               hide-details
               dense
               small
-              color="#9155FD"
-              @keydown.enter="searchData"
-            />
+              color="#9155FD" -->
+            <!-- @change="searchData" -->
           </v-card-title>
         </v-col>
       </v-row>
@@ -159,7 +170,7 @@ export default {
   data() {
     return {
       billId: '',
-      bill_number:'',
+      bill_number: '',
       importData: [],
       expired_date: '',
       token: this.$cookies.get('token'),
@@ -170,6 +181,7 @@ export default {
       dialog: false,
       showAddDialog: false,
       search: '',
+      billData: [],
       data: [],
       headers: [
         { text: 'ລະຫັດນຳເຂົ້າ ', value: 'bill_number' },
@@ -191,6 +203,14 @@ export default {
     }
   },
   computed: {},
+  async mounted() {
+    await this.$axios
+      .get(`http://localhost:7000/get-prescriptions`)
+      .then((data) => {
+        console.log(data.data)
+        this.billData = data.data
+      })
+  },
   methods: {
     validateNumber(e) {
       if (e.key === '-') {
@@ -241,8 +261,9 @@ export default {
         })
     },
     searchData(e) {
+      console.log(e)
       this.$axios
-        .get(`http://localhost:7000/getPriscriptions/${e.target.value}`, {
+        .get(`http://localhost:7000/getPriscriptions/${e}`, {
           headers: {
             Authorization: `CLINIC ${this.token}`,
           },

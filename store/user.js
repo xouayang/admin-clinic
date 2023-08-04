@@ -9,6 +9,7 @@ export const state = () => ({
   Patients: [],
   Patiented: [],
   historyData: [],
+  historyData1:[],
   importHistory: [],
   billData: [],
   dataById: [],
@@ -64,6 +65,9 @@ export const mutations = {
   },
   setOutcome(state,data){
     state.Outcome = data
+  },
+  setHistory1(state,data){
+    state.historyData1 = data
   }
 }
 
@@ -118,6 +122,14 @@ export const actions = {
       .get('http://localhost:7000/get-prescriptions')
       .then((data) => {
         commit('setHistory', data.data)
+        //  console.log(data.data)
+      })
+  },
+  async getHistory1({ commit }) {
+    await this.$axios
+      .get('http://localhost:7000/prescription_status')
+      .then((data) => {
+        commit('setHistory1', data.data)
         //  console.log(data.data)
       })
   },

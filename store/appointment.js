@@ -1,6 +1,7 @@
 export const state = () => ({
   // dataDisase: [],
   appointmentData: [],
+  dataId:'',
 })
 export const mutations = {
   // getDiseas(state, data) {
@@ -8,6 +9,9 @@ export const mutations = {
   // },
   setAppoint(state, data) {
     state.appointmentData = data
+  },
+  getDataId(state, data) {
+    state.dataId = data
   },
 }
 

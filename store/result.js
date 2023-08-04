@@ -1,6 +1,7 @@
 export const state = () => ({
   setDataResult: [],
   dataId: '',
+  historyDataId :'',
   dataHistory: [],
   idData: [],
   resultData:[],
@@ -14,6 +15,9 @@ export const mutations = {
   },
   getDataId(state, data) {
     state.dataId = data
+  },
+  getHistoryDataId(state, data) {
+    state.historyDataId = data
   },
   setHistory(state, data) {
     state.dataHistory = data
@@ -30,6 +34,7 @@ export const mutations = {
   setHistory2(state,data) {
     state.history1 = data
   },
+  
 
 }
 

@@ -238,7 +238,7 @@
           </v-list-item>
         </v-list-group>
         <v-list-group
-          v-for="(group, index) in menuList2"
+          v-for="(group, index) in medicines_staff"
           :key="'EE' + index"
           :value="group.active"
           :prepend-icon="group.icon"
@@ -825,8 +825,28 @@ export default {
           icon: 'mdi-cart-percent',
           title: 'ຈັດຊື້',
           nestList2: [
-            { title: 'ກວດສອບຂໍ້ມູນຢາ-ອຸປະກອນ', to: '/orders' },
-            { title: 'ປະຫວັດຈັດຊື້ຢາ-ອຸປະກອນ', to: '/orders/historyOrder' },
+            { title: 'ກວດສອບຂໍ້ມູນຢາ', to: '/orders' },
+            {
+              title: 'ລາຍການລໍຖ້າອະນຸມັດຈັດຊື້ຢາ',
+              to: '/orders/historyOrder1',
+            },
+            {
+              title: 'ລາຍການຈັດຊື້ຢາທີ່ອະນຸມັດແລ້ວ',
+              to: '/orders/historyOrder',
+            },
+          ],
+        },
+      ],
+      medicines_staff: [
+        {
+          icon: 'mdi-cart-percent',
+          title: 'ຈັດຊື້',
+          nestList2: [
+            { title: 'ກວດສອບຂໍ້ມູນຢາ', to: '/orders' },
+            {
+              title: 'ລາຍການຈັດຊື້ຢາທີ່ອະນຸມັດແລ້ວ',
+              to: '/orders/historyOrder',
+            },
           ],
         },
       ],

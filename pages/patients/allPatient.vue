@@ -50,6 +50,13 @@
             <span>ລາຍລະອຽດ</span>
           </v-tooltip>
         </template>
+
+        <template #[`item.sendData`]="{ item }">
+          <v-btn color="success" @click="sendData(item)">
+            <v-icon>mdi-check-outline</v-icon>
+            <span>ກວດ</span>
+          </v-btn>
+        </template>
       </v-data-table>
     </v-card>
     <v-dialog v-model="dialog" width="640" activator="parent" persistent>
@@ -86,7 +93,7 @@
   </div>
 </template>
 <script>
- import laoCurrency from '@lailao10x/lao-currency'
+import laoCurrency from '@lailao10x/lao-currency'
 export default {
   name: 'AllPatients',
   data() {
@@ -98,10 +105,12 @@ export default {
       headers: [
         { text: 'ລະຫັດໃບບິນ', value: 'bill_number' },
         { text: 'ຊື່', value: 'name' },
+        { text: 'ທີ່ຢູ່', value: 'address' },
         { text: 'ອາການເບື້ອງຕົ້ນ', value: 'details' },
         { text: 'ເບີໂທລະສັບ', value: 'tel' },
         { text: 'ວັນທີ່', value: 'created_at' },
         { text: 'ລາຍລະອຽດ', value: 'more' },
+        { text: 'ບັນທຶກ', value: 'sendData' },
       ],
       headers1: [
         { text: 'ລາຍການກວດ', value: 'details' },
@@ -129,8 +138,12 @@ export default {
       await this.$store.dispatch('user/getById', id)
       this.dialog = true
     },
-        toCurrencyString(number) {
+    toCurrencyString(number) {
       return laoCurrency(number).format('LAK S')
+    },
+    sendData(data) {
+      this.$store.commit('result/getHistoryDataId', data)
+      this.$router.push('/treat/history_basic_record')
     },
   },
 }

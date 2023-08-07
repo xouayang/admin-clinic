@@ -157,6 +157,7 @@ export const actions = {
     await this.$axios
       .put(`http://localhost:7000/update-medicines-status/${id}`)
       .then((data) => {
+        console.log(data)
         this.$toast.success('ສຳເລັດ', {
           duration: 3000,
           position: 'top-right',

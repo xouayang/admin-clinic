@@ -169,7 +169,7 @@ export default {
           },
         })
         .then((res) => {
-          this.$router.push('/orders/historyOrder')
+          this.$router.push('/orders/historyOrder1')
           this.$toast.success('ສັ່ງຊື້ສຳເລັດ', {
             duration: 2000,
             position: 'top-right',

@@ -162,7 +162,7 @@
       >
         <v-card>
           <v-toolbar dark color="#9155FD">
-            <div>ເພີ່ມຂໍ້ມູນຄົນເຈັບ</div>
+            <div>ເພີ່ມຂໍ້ມູນຜູ້ສະໜອງ</div>
             <v-spacer></v-spacer>
             <v-btn icon dark @click="showAddDialog = !showAddDialog">
               <v-icon>mdi-close</v-icon>

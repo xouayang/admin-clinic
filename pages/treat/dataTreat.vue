@@ -64,7 +64,6 @@
                           item-value="id"
                           return-object
                           hide-details="auto"
-                          @change="showMore"
                         />
                         <div style="color: red">*ກະລຸນາເລືອກລາຍການກວດ</div>
                       </v-col>
@@ -342,7 +341,7 @@ export default {
         { text: 'ລາຍລະອຽດ', value: 'details' },
         { text: 'ນໍ້າໜັກ', value: 'weight' },
         { text: 'ລວງສູງ', value: 'height' },
-        { text: 'ຊິບພະຈອນ', value: 'chip_life' },
+        { text: 'ຄວາມດັນ', value: 'chip_life' },
         { text: 'action', value: 'action' },
       ],
       headers1: [

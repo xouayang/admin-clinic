@@ -257,11 +257,9 @@ export default {
             iconPack: 'mdi',
             icon: 'check',
           })
-          this.$router.push('/Import/historyImport')
         })
     },
     searchData(e) {
-      console.log(e)
       this.$axios
         .get(`http://localhost:7000/getPriscriptions/${e}`, {
           headers: {

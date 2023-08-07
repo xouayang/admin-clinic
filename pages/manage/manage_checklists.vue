@@ -228,7 +228,7 @@ export default {
       },
 
       headers: [
-        { text: 'ລ/ດ', value: 'index' },
+        { text: 'ລະຫັດ', value: 'disease_id' },
         { text: 'ຊື່', value: 'name' },
         { text: 'ລາຄາ', value: 'price' },
         { text: 'Actions', value: 'action' },

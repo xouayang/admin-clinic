@@ -2,7 +2,7 @@
   <div class="mt-2 ml-2">
     <!-- {{prescrition}} -->
     <div style="font-size: 20px; color: #9155fd" class="mb-7 ml-4">
-      ລາຍການລໍຖ້າອະນຸມັດຈັດຊື້ຢາຈັດຊື້ຢາ
+      ລາຍການສັ່ງຊື້ຢາ
     </div>
     <v-card class="mt-3 text-center mb-10">
       <v-row class="col-12">

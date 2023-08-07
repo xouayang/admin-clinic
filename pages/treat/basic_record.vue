@@ -86,7 +86,7 @@
           <v-col md="12" sm="12">
             <v-text-field
               v-model="firstCheck.chip_life"
-              label="ຊິບພະຈອນ"
+              label="ຄວາມດັນ"
               outlined
               dense
               color="#9155FD"

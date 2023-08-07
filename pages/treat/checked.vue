@@ -1,7 +1,7 @@
 <template>
   <div class="mt-2 ml-2">
     <div style="font-size: 20px; color: #9155fd" class="mb-7 ml-4">
-      ລາຍການຜົນກວດພະຍາດ
+      ອອກໃບສັ່ງຢາ
     </div>
     <v-card class="mt-3 text-center">
       <v-row class="col-12">

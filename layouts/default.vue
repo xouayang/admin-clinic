@@ -791,7 +791,6 @@ export default {
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
             { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
-            { title: 'ປະຫວັດລາຍການກວດທັງໝົດ', to: '/treat/history_checked' },
           ],
         },
       ],
@@ -801,11 +800,11 @@ export default {
           icon: 'mdi-doctor',
           title: 'ກວດພະຍາດ',
           nestList: [
-            { title: 'ບັນທຶກຂໍ້ມູນພື້ນຖານ', to: '/treat/basic_record' },
+            { title: 'ກວດສອບການນັດໝາຍ', to: '/appointment/history' },
+            { title: 'ກວດເບື້ອງຕົ້ນ', to: '/treat/basic_record' },
             { title: 'ລາຍການບັນທຶກຂໍ້ມູນປີ່ນປົວ', to: '/treat/dataTreat' },
             { title: 'ລາຍການກວດທີ່ຊຳລະເງິນເເລ້ວ', to: '/treat/payed' },
-            { title: 'ລາຍການຜົນກວດ', to: '/treat/checked' },
-            { title: 'ປະຫວັດລາຍການກວດທັງໝົດ', to: '/treat/history_checked' },
+            { title: 'ອອກໃບສັ່ງຢາ', to: '/treat/checked' },
           ],
         },
       ],
@@ -816,7 +815,7 @@ export default {
           title: 'ຈ່າຍຢາ',
           nestList1: [
             { title: 'ກວດສອບໃບສັ່ງຢາ', to: '/prescription/check_prescription' },
-            { title: 'ລາຍການໃບສັ່ງຢາ', to: '/prescription/list_prescription' },
+            // { title: 'ລາຍການໃບສັ່ງຢາ', to: '/prescription/list_prescription' },
           ],
         },
       ],
@@ -827,13 +826,13 @@ export default {
           nestList2: [
             { title: 'ກວດສອບຂໍ້ມູນຢາ', to: '/orders' },
             {
-              title: 'ລາຍການລໍຖ້າອະນຸມັດຈັດຊື້ຢາ',
+              title: 'ກວດສອບສັ່ງຊື້ຢາ',
               to: '/orders/historyOrder1',
             },
-            {
-              title: 'ລາຍການຈັດຊື້ຢາທີ່ອະນຸມັດແລ້ວ',
-              to: '/orders/historyOrder',
-            },
+            // {
+            //   title: 'ລາຍການຈັດຊື້ຢາທີ່ອະນຸມັດແລ້ວ',
+            //   to: '/orders/historyOrder',
+            // },
           ],
         },
       ],

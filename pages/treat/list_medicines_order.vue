@@ -193,7 +193,7 @@
           <span> ລະຫັດໃບບິນ:{{ dataUpdateStatus[0]?.treat_id }}</span>
         </div>
         <div class="d-flex justify-end container mt-10">
-          <v-btn color="#9155FD" @click="edit(dataUpdateStatus)">
+          <v-btn color="#9155FD" @click="editData(dataUpdateStatus)">
             <v-icon color="white">mdi-content-save-check-outline</v-icon>
             <span style="color: white">ຢືນຢັນ</span>
           </v-btn>
@@ -338,11 +338,26 @@ export default {
       this.showUpdateStatus = true
       this.dataUpdateStatus.push(id)
     },
-    async edit(data) {
-      const offerId = data[0]?.treat_id
-      await this.$store.dispatch('medicinesType/updateOfferStatus', offerId)
-      this.showUpdateStatus = false
-      //   await this.$store.dispatch('medicinesType/medicinesOfferStatus')
+     editData(data) {
+      try {
+        const id = data[0]?.treat_id
+        this.showUpdateStatus = false
+        this.$axios.put(`http://localhost:7000/update-medicines-status/${id}`)
+      .then((data) => {
+        // console.log(data)
+        this.$toast.success('ສຳເລັດ', {
+          duration: 3000,
+          position: 'top-right',
+          iconPack: 'mdi',
+          icon: 'check',
+        })
+      })
+       
+    
+        this.$store.dispatch('medicinesType/medicinesOfferStatus')
+      } catch (error) {
+        console.log(error)
+      }
     },
 
     // bill order medicines
@@ -431,7 +446,9 @@ export default {
             </div>
       </div>
       <div class="text-right">ລາຄາທັງໝົດ: 
-      <span class="text-red">${this.toCurrencyString(parseInt(this.dataDetails.total_price))}</span>
+      <span class="text-red">${this.toCurrencyString(
+        parseInt(this.dataDetails.total_price)
+      )}</span>
       </div>
   `)
       const tableHeader = `
